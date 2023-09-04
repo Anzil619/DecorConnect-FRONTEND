@@ -1,0 +1,16 @@
+
+*{
+    padding: 0;
+    margin: 0;
+    
+}
+.maindiv{
+    background-color: #fffcf2;
+    background-image: url('../../assets/gray-sofa-white-living-room-interior-with-copy-space-3d-rendering.jpg');
+  
+    background-size: cover;
+}
+.outward-shadow {
+    border: 2px solid transparent; /* Set the border to be transparent */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25); /* Apply the outward shadow */
+  }
