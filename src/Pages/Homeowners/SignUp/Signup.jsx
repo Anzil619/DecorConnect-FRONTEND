@@ -80,6 +80,9 @@ function SignupPage() {
 
   // form submission
 
+ 
+
+
   const FormHandlerSignup = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -91,9 +94,9 @@ function SignupPage() {
         );
         
         toast.success(response.data.msg);
-        alert()
+        
         console.log(response.data);
-        // navigate("/login/");
+      
         setHomeowner({
           name: "",
           email: "",

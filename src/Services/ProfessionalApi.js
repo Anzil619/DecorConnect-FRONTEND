@@ -12,4 +12,11 @@ const ProfessionalGoogleSignup = (value) => {
     return ProfessionalAxiosInstant.post("/googleprofessional/", values ,{withCredentials:true})
 }
 
-export {ProfessionalGoogleSignup}
+const ProfileCompletion = (value) =>{
+    
+    return ProfessionalAxiosInstant.post("/profilecompletion/", value , {withCredentials : true})
+    .catch((error) => error.response);
+
+} 
+
+export {ProfessionalGoogleSignup,ProfileCompletion}

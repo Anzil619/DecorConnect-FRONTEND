@@ -7,6 +7,10 @@ import PrivateRoute from '../ProtectedRoutes/PrivateRoute'
 import ProfessionalSignup from '../Pages/Professionals/Signup/ProfessionalSignup'
 import ProfessionalHomePage from '../Pages/Professionals/ProfessionalHomePage'
 import ProfessionalProtected from '../ProtectedRoutes/ProfessionalProtected'
+import BasicInfo from '../Pages/Professionals/ProfileCompletion/BasicInfo'
+import BusinessDetails from '../Pages/Professionals/ProfileCompletion/BusinessDetails'
+import FirmVerification from '../Pages/Professionals/ProfileCompletion/FirmVerification'
+
 
 function ProfessionalRoutes() {
   return (
@@ -18,6 +22,10 @@ function ProfessionalRoutes() {
 
         <Route exact element = {<ProfessionalProtected/>}>
             <Route path='/professionalhomepage/' element = {<ProfessionalHomePage/>}/>
+            <Route path='/basicinfo/' element = {<BasicInfo/>}/>
+            <Route path='/businessdetails/' element = {<BusinessDetails/>}/>
+            <Route path='/firmverification/' element = {<FirmVerification/>}/>
+            
         </Route>
     </Routes>
   )

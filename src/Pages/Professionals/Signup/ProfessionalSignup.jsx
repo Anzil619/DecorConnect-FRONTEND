@@ -214,6 +214,7 @@ function ProfessionalSignup() {
           <Input
             value={professional.password}
             name="password"
+            type="password"
             onChange={(e) => {
               setProfessional({ ...professional, [e.target.name]: e.target.value });
             }}
@@ -227,6 +228,7 @@ function ProfessionalSignup() {
               setPass({ ...pass, [e.target.name]: e.target.value });
             }}
             variant="standard"
+            type="password"
             label="Confirm Password"
           />
           <button  className="w-11/12 bg-red-900 text-white mx-4 my-6 px-4 py-2 rounded-full hover:bg-red-600">

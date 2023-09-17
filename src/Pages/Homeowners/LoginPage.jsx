@@ -6,17 +6,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { HomeownerGoogleSignin, HomeownerSignin } from "../../Services/HomeownerApi";
+import { GetUserInfo, HomeownerGoogleSignin, HomeownerSignin } from "../../Services/HomeownerApi";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../../Redux/ProfessionalSlice";
 
 
 function LoginPage() {
   const navigate = useNavigate();
   const [homeowner, setHomeowner] = useState({ email: "", password: "" });
-
   const emailInputRef = useRef(null);
   const passInputRef = useRef(null);
+  const dispatch = useDispatch()
 
    useEffect(() => {
     emailInputRef.current.focus();
@@ -36,6 +38,7 @@ function LoginPage() {
       return false;
     } else if (homeowner.password.trim() === "") {
       toast.error("password should not be empty");
+      
       return false;
     }
 
@@ -47,17 +50,41 @@ function LoginPage() {
     return Regex.test(email);
   }
 
+  const FetchUserInfo = async (token) =>{
+    try {
+    const id = token.id
+    const res = await GetUserInfo(id)
+    console.log(res,'anzil');
+    const data ={
+      id : res.data.id,
+      name : res.data.name,
+      email : res.data.email,
+      role : res.data.role,
+      is_active : res.data.is_active,
+      is_google : res.data.is_google,
+      is_completed : res.data.is_google
+    }
+    dispatch(setUserInfo({
+      userinfo : data
+  }))}
+  catch{
+    toast.error("something error")  
+  }
+  }
 
   // form submission
 
   const FormHandlerLogin = async (e) => {
     e.preventDefault();
     if (validation()) {
+
       HomeownerSignin(homeowner).then((res) => {
         // console.log(res.status)
         if (res.status === 200) {
           const token = JSON.stringify(res.data);
           const decoded = jwtDecode(token);
+
+          FetchUserInfo(decoded)
           localStorage.setItem('token',token)
           if (decoded.role === "homeowner") {
             if (decoded.is_active) {
@@ -68,7 +95,10 @@ function LoginPage() {
             }
           }else if (decoded.role === 'professional'){
             if (decoded.is_active){
-              navigate("/professionalhomepage/")
+              if(decoded.is_completed){
+                navigate("/professional/professionalhomepage/")
+              }
+            navigate("/professional/basicinfo/")
             }else{
               toast.error("your account is inactive , please try again later")
               navigate("/login/");
@@ -78,7 +108,6 @@ function LoginPage() {
           toast.error(
             "invalid login credentials please verify your email and password "
           );  
-          
         }
       });
     }
@@ -178,7 +207,7 @@ function LoginPage() {
             label="Password"
           />
           <div className="flex justify-end">
-            <a href="#" className="text-gray-400 hover:text-gray-600 text-sm">
+            <a href="#" className="text-gray-400 hover:text-gray-600 text-sm" onClick={()=>navigate("/forgotpassword")}>
               Forgot password?
             </a>
           </div>
@@ -186,8 +215,7 @@ function LoginPage() {
             Login
           </button>
           <div className="flex justify-center items-center space-x-2">
-            {" "}
-            {/* Center the "or" text */}
+          
             <hr className="flex-grow border-t border-gray-300" />
             <span className="text-blue-gray-700">or</span>
             <hr className="flex-grow border-t border-gray-300" />
@@ -197,10 +225,10 @@ function LoginPage() {
           </button>
           <div className="text-center">
             <p className="text-gray-400 text-sm">
-              Don't have an account?{" "}
-              <a onClick={()=>navigate("/roleselection/")} href="" className="text-blue-600 hover:text-blue-800">
+              Don't have an account?
+              <a onClick={()=>navigate("/roleselection/")} className="text-blue-600 hover:text-blue-800">
                 Sign up
-              </a>
+              </a>  
             </p>
           </div>
         </form>

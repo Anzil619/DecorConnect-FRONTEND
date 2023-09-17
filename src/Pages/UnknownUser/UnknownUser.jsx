@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavBar } from '../../Components/NavBar/NavBar'
 import Logo from "../../assets/logos/dc-black-transparent.png"
-
+import image from "../../assets/pxfuel.jpg"
 
 
 function UnknownUser() {
@@ -11,13 +11,14 @@ function UnknownUser() {
       <img src={Logo} className="w-20" alt="" />
     </div>
     
+
     <div className="absolute w-full">
       <NavBar />
     </div>
 
+
     <div className="h-screen pt-16 ">
-      <img src='' alt="" />
-      
+      <img src={image} alt="" />
     </div>
   </div>
   )

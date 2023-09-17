@@ -17,7 +17,6 @@ export default function HomeownerRoutes() {
         <Route exact element = {<PrivateRoute/>}>
             <Route path='/login/' element={<LoginPage/>}/> 
             <Route path='/signup/' element={<SignupPage/>}/> 
-
         </Route>
         <Route exact element = {<HomeownerProtected/>}>
             <Route path='/homeownerhomepage/' element = {<HomeownerHomepage/>}/>

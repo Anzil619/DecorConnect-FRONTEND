@@ -11,6 +11,14 @@ import HomeownerRoutes from "./Routes/HomeownerRoutes";
 import ProfessionalRoutes from "./Routes/ProfessionalRoutes";
 import AdminRoutes from "./Routes/AdminRoutes";
 import RoleSelection from "./Pages/RoleSelection";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
+import BasicInfo from "./Pages/Professionals/ProfileCompletion/BasicInfo";
+import BusinessDetails from "./Pages/Professionals/ProfileCompletion/BusinessDetails";
+import FirmVerification from "./Pages/Professionals/ProfileCompletion/FirmVerification";
+import AddProject from "./Pages/Professionals/ProfileCompletion/AddProject";
+import FindProfessionals from "./Pages/Homeowners/FindProfessionals/FindProfessionals";
+import Explore from "./Pages/Homeowners/Explore/Explore";
 
 function App() {
   return (
@@ -20,10 +28,14 @@ function App() {
 
           
           <Route element={<PrivateRoute />}>
-            <Route path="/" exact element={<UnknownUser />} />
+            
+            <Route path="/" exact element={<UnknownUser/>} />
             <Route path="/login/" exact element={<LoginPage />} />
             <Route path="/signup/" exact element={<Signup/>} />
             <Route path="/roleselection/" exact element={<RoleSelection/>} />
+            <Route path="/forgotpassword/" exact element={<ForgotPassword/>} />
+            <Route path="/resetpassword/" exact element={<ResetPassword/>} />
+            
           </Route>
 
           <Route path="/homeowner/*" element={<HomeownerRoutes/>}/>
