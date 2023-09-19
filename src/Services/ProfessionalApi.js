@@ -12,11 +12,32 @@ const ProfessionalGoogleSignup = (value) => {
     return ProfessionalAxiosInstant.post("/googleprofessional/", values ,{withCredentials:true})
 }
 
-const ProfileCompletion = (value) =>{
+const ProfileCompletion = (id,value) =>{
+    console.log(value,"aaaaaaaaaaaa");
     
-    return ProfessionalAxiosInstant.post("/profilecompletion/", value , {withCredentials : true})
+    return ProfessionalAxiosInstant.patch("/firmcompletion/" +id+ "/", value , {withCredentials : true})
     .catch((error) => error.response);
 
 } 
 
-export {ProfessionalGoogleSignup,ProfileCompletion}
+
+const GetFirmInfo = (id) =>{
+    return ProfessionalAxiosInstant.get("/fetchfirminfo/" +id+ "/", {withCredentials : true})
+    .catch((error) => error.response);
+}
+
+const FirmVerificationUpdate = (id,value) =>{
+    return ProfessionalAxiosInstant.put("/firmverificationupdate/" +id+ "/",value, {withCredentials:true})
+    .catch((error) => error.response);
+}
+
+
+const CreateProject = (value) =>{
+    return ProfessionalAxiosInstant.post("/createproject/" , value, {withCredentials:true})
+    .catch((error) => error.response);
+    
+
+}
+
+
+export {ProfessionalGoogleSignup,ProfileCompletion,GetFirmInfo,FirmVerificationUpdate,CreateProject}

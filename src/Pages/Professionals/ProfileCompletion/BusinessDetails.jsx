@@ -7,19 +7,18 @@ import { Progress, Textarea } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFirmInfo } from "../../../Redux/ProfessionalSlice";
 import { useNavigate } from "react-router-dom";
+import { ProfileCompletion } from "../../../Services/ProfessionalApi";
 
 function BusinessDetails() {
   const { FirmInfo } = useSelector((state) => state.professional);
   
 
   const [forms, setForms] = useState({
-    firm_name : FirmInfo.firm_name,
+    firm_name : "",
     website: "",
     about: "",
-    coverphotoBase64: null,
     awards: "",
     firm_description: "",
-    logoBase64: null,
   });
   
 
@@ -34,7 +33,7 @@ function BusinessDetails() {
     });
   }, []);
   
-  const [images, setImage] = useState({ logo: null, coverphoto: null });
+  const [images, setImage] = useState({ coverphoto: null });
 
  
   const dispatch = useDispatch();
@@ -85,26 +84,30 @@ function BusinessDetails() {
     e.preventDefault();
      const formData = new FormData();
     if (validation()) {
-      forms.firm_name = FirmInfo.firm_name;
-      forms.logoBase64 = images.logo
-        ? await imageToBase64(images.logo)
-        : FirmInfo.logoBase64
-        ? FirmInfo.logoBase64
-        : null;
+      
+      try{
+        
+        const formData = new FormData();
+        formData.append('firm_name', forms.firm_name);
+        formData.append('website', forms.website);
+        formData.append('about', forms.about);
+        formData.append('cover_photo', images.coverphoto);
+        formData.append('firm_description', forms.firm_description);
+        formData.append('awards', forms.awards);
+        
+        const firm_id =FirmInfo.id
+        const res = await ProfileCompletion(firm_id,formData )
+        console.log(res);
 
-      forms.coverphotoBase64 = images.coverphoto
-        ? await imageToBase64(images.coverphoto)
-        : FirmInfo.coverphotoBase64
-        ? FirmInfo.coverphotoBase64
-        : null;
+      }catch(error){
+        console.log(error);
+      }
+      
      
      
 
-      dispatch(   
-        setFirmInfo({
-          firminfo: forms,
-        })
-      );
+      
+      
       navigate("/professional/firmverification/");
     }
   };
@@ -116,7 +119,7 @@ function BusinessDetails() {
         <img src={Logo} className="w-20" alt="" />
       </div>
       <Progress
-        value={50}
+        value={66}
         size="lg"
         className="border border-gray-900/10 bg-gray-900/5 p-1 my-12"
       />
@@ -144,15 +147,14 @@ function BusinessDetails() {
             className="w-96"
           />
           <Input
-            name="logo"
+            value={forms.firm_name}
+            name="firm_name"
             onChange={(e) => {
-              setImage({ ...images, [e.target.name]: e.target.files[0] });
-             
+              setForms({ ...forms, [e.target.name]: e.target.value });
             }}
             color="teal"
-            label="Logo"
+            label="Logo (optional)"
             className="w-96"
-            type="file"
           />
           <Input
             name="coverphoto"

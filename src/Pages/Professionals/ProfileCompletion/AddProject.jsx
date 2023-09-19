@@ -1,43 +1,179 @@
-import React from 'react'
-import Logo from "../../../assets/logos/dc-black-transparent.png"
+import React, { useState } from "react";
+import Logo from "../../../assets/logos/dc-black-transparent.png";
 import { Input } from "@material-tailwind/react";
 import { Progress, Textarea } from "@material-tailwind/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { CreateProject } from "../../../Services/ProfessionalApi";
+import { useSelector } from "react-redux";
 
 function AddProject() {
-    
+  const { FirmInfo } = useSelector((state) => state.professional);
+
+  const [form, setForm] = useState({
+    project_name: "",
+    year: "",
+    project_address: "",
+    project_description: "",
+    cost: "",
+    firm_id : FirmInfo.id
+  });
+
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [imageFormData, setImageFormData] = useState(new FormData());
+
+  const handleFileInputChange = (event) => {
+    const files = event.target.files;
+    const imageArray = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const objectURL = URL.createObjectURL(file);
+      imageArray.push(objectURL);
+      // Append each selected image file to FormData
+      imageFormData.append("images", file);
+    }
+    setSelectedImages(imageArray);
+    console.log(imageFormData);
+  };
+
+  const validation = () =>{
+    if (!form.project_name || form.project_name.trim() === ""){
+      toast.error("project name should not be empty")
+      return false;
+    }else if (!form.year || form.year.trim() === ""){
+      toast.error("year should not be empty")
+      return false;
+    }else if (!form.project_address || form.project_address.trim() === ""){
+      toast.error("address should not be empty")
+      return false;
+    }else if(!form.project_description || form.project_description.trim() === ""){
+      toast.error("description should not be empty ")
+      return false;
+    }else if (!form.cost || form.cost.trim() === ""){
+      toast.error("project cost should not be empty ")
+      return false;
+    }
+    else if (selectedImages.length === 0){
+      toast.error("image field should not be empty")
+      return false;
+    }
+    return true;
+  }
+
+  const FormSubmission = async(e) =>{
+    e.preventDefault()
+    if (validation()){
+
+      try{
+
+
+        
+        const res = await CreateProject(form)
+        console.log(res);
+        toast.success("wowow")
+
+      }catch(error){
+        console.log(error);
+        toast.error("oombi")
+      }
+     
+
+      
+
+
+    }
+  }
 
   return (
-    <div className=''>
-    <div className='flex justify-center my-12'>
-        <img src={Logo} className='w-20' alt="" />
+    <div className="">
+      <ToastContainer/>
+      <div className="flex justify-center my-12">
+        <img src={Logo} className="w-20" alt="" />
+      </div>
+      <Progress
+        value={50}
+        size="lg"
+        className="border border-gray-900/10 bg-gray-900/5 p-1 my-12"
+      />
+
+      <div className="flex justify-center my-20">
+        <h1 className="text-2xl font-bold text-blue-gray-400">
+          COMPLETE YOUR PROFILE
+        </h1>
+      </div>
+
+      <div className="flex justify-center">
+        <form onSubmit={FormSubmission} action="" className="grid grid-cols-2 gap-x-20 gap-y-8">
+          <Input 
+          name="project_name"
+          value={form.project_name}
+          onChange={(e)=>{
+            console.log(form);
+            setForm({...form, [e.target.name] : e.target.value})
+          }}    
+          color="teal"
+          label="Project Name"
+          className="w-96"/>
+          
+          <Input
+          name="year"
+          value={form.year}
+          onChange={(e)=>{
+            console.log(form);
+            setForm({...form, [e.target.name] : e.target.value})
+          }}
+            color="teal"
+            label="Project Year"
+            className="w-96 border-gray-300"
+            type="number"
+          />
+          <Textarea
+            name="project_address"
+            value={form.project_address}
+            onChange={(e)=>{
+            console.log(form);
+            setForm({...form, [e.target.name] : e.target.value})
+          }}
+           color="teal"
+            label="Project Address" />
+          <Textarea 
+          name="project_description"
+          value={form.project_description}
+          onChange={(e)=>{
+            console.log(form);
+            setForm({...form, [e.target.name] : e.target.value})
+          }}
+          color="teal"
+           label="Project Description" />
+          <Input
+          name="cost"
+          value={form.cost}
+          onChange={(e)=>{
+            console.log(form);
+            setForm({...form, [e.target.name] : e.target.value})
+          }}
+            color="teal"
+            label="Project Cost"
+            className="w-96 border-gray-300"
+            type="number"
+          />
+          <Input
+            color="teal"
+            accept="image/*"
+            label="Project Image"
+            className="w-96 border-gray-300"
+            onChange={handleFileInputChange}
+            type="file"
+            multiple
+          />
+          <button className="col-span-2 bg-teal-500 text-white px-4 py-2 w-28 rounded-2xl hover:bg-blue-600 ml-auto">
+            Continue
+          </button>
+        </form>
+      </div>
     </div>
-    <Progress
-  value={50}
-  size="lg"
-  className="border border-gray-900/10 bg-gray-900/5 p-1 my-12"
-/>
-
-<div className='flex justify-center my-20'>
-    <h1 className='text-2xl font-bold text-blue-gray-400'>COMPLETE YOUR PROFILE</h1>
-</div>
-
-<div className='flex justify-center'>
-<form action="" className="grid grid-cols-2 gap-x-20 gap-y-8">
-<Input color="teal" label="Project Name" className='w-96 '/>
-<Input color="teal" label="Project Year" className='w-96 border-gray-300'/>
-<Textarea color="teal" label="Project Address"/>
-<Input color="teal" label="Project Cost" className='w-96 border-gray-300'/>
-<Input color="teal" label="Project Image" className='w-96 border-gray-300' type='file'/>
-<button className="col-span-2 bg-teal-500 text-white px-4 py-2 w-28 rounded-2xl hover:bg-blue-600 ml-auto">
-  Continue
-</button>
-
-</form>
-</div>
-
-
-</div>
-  )
+  );
 }
 
-export default AddProject
+export default AddProject;

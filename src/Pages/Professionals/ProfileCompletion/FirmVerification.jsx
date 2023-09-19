@@ -5,26 +5,25 @@ import { Progress, Textarea } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ProfileCompletion } from "../../../Services/ProfessionalApi";
+import { FirmVerificationUpdate, ProfileCompletion } from "../../../Services/ProfessionalApi";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 
 function FirmVerification() {
   const { FirmInfo } = useSelector((state) => state.professional);
   const { address } = useSelector((state) => state.professional);
   const { userinfo } = useSelector((state) => state.professional);
 
+  const navigate = useNavigate()
+
   const [form, setForm] = useState({
-    owner_name: "",
     owner_pan: null,
     firm_liscense: null,
     gst_certificate: null,
     insurance: null,
   });
 
-
-
-  
+  const [name , setName] = useState({owner_name : ""})
 
   const validation = () => {
     if (form.owner_name === "") {
@@ -46,86 +45,37 @@ function FirmVerification() {
     return true;
   };
 
-
-  
-
-  
-  
-
   const FormSubmission = async (e) => {
     e.preventDefault();
-    
-      if (validation()) {
+
+    if (validation()) {
 
 
-        const formData = new FormData();
-        const formData1 = new FormData();
-        const formData2 = new FormData();
-        const formData3 = new FormData();
-        const formData4 = new FormData();
-        // Append form data to the FormData object
-        formData.append("owner_name", form.owner_name);
-        formData1.append("owner_pan", form.owner_pan);
-        formData2.append("firm_liscense", form.firm_liscense);
-        formData3.append("gst_certificate", form.gst_certificate);
-        formData4.append("insurance", form.insurance);
-        for (const entry of formData1.entries()) {
-          console.log(entry[0], entry[1]);
+      const formData = new FormData();
+        formData.append('owner_pan_card', form.owner_pan);
+        formData.append('firm_liscense', form.firm_liscense);
+        formData.append('gst_certificate', form.gst_certificate);
+        formData.append('insurance', form.insurance);
+        formData.append('owner_name', name.owner_name);
+        
+
+      try {
+       const data = {
+          "owner_name1" : name.owner_name
         }
-
-
-        const imageBlob = localStorage.getItem('imageBlob');
-
-        console.log(imageBlob,"anzn");
-        const formImage = new FormData();
-
         
-        // Append the image blob to the FormData
-        formImage.append("cover_photo", imageBlob);
-  
+        const firm_id = FirmInfo.id;
+        const res = await ProfileCompletion(firm_id, data);
+        console.log(res,1);
+        console.log(res.data.verification.id),"daxoo";
+        const res1 = await FirmVerificationUpdate(res.data.verification.id,formData );
         
-        const data2 = {
-          owner_name: formData,
-          owner_pan: formData1,
-          firm_liscense: formData2,
-          gst_certificate: formData3,
-          insurance: formData4,
-        };
-        const data = {
-          about: FirmInfo.about,
-          cover_photo: formImage,
-          logo: FirmInfo.logoBase64,
-          address: address,
-          FirmInfo: FirmInfo,
-          verification: data2,
-          user_id: userinfo.id,
-        };
-
-        try {
-          const config = {
-            headers: {
-              'content-type': 'multipart/form-data',
-            },
-          };
-
-
-          const response = await axios.post(
-          import.meta.env.VITE_PROFESSIONAL_URL + "profilecompletion/",
-          data // The data object
-          
-        );
-      
-          if (response.status === 200) {
-              toast.success("nish monu")
-            } else {
-              console.log(response);
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        };
-      
-    
+        console.log(res1,2);
+        navigate("/professional/addproject/")
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -135,7 +85,7 @@ function FirmVerification() {
         <img src={Logo} className="w-20" alt="" />
       </div>
       <Progress
-        value={50}
+        value={99}
         size="lg"
         className="border border-gray-900/10 bg-gray-900/5 p-1 my-12"
       />
@@ -154,9 +104,10 @@ function FirmVerification() {
         >
           <Input
             name="owner_name"
-            value={form.owner_name}
+            value={name.owner_name}
             onChange={(e) => {
-              setForm({ ...form, [e.target.name]: e.target.value });
+              setName({ ...name, [e.target.name]: e.target.value });
+              console.log(name);
             }}
             color="teal"
             label="Owner's Name"
@@ -165,7 +116,12 @@ function FirmVerification() {
           <Input
             name="owner_pan"
             onChange={(e) => {
-              setForm({ ...form, [e.target.name]: e.target.files[0] });
+              if (e.target.files.length > 0 ){
+                setForm({ ...form, [e.target.name]: e.target.files[0] });
+              }else {
+                setForm({ ...form, [e.target.name]: null });
+              }
+              
             }}
             color="teal"
             label="Owner's PAN Card"
@@ -175,7 +131,11 @@ function FirmVerification() {
           <Input
             name="firm_liscense"
             onChange={(e) => {
-              setForm({ ...form, [e.target.name]: e.target.files[0] });
+              if (e.target.files.length > 0 ){
+                setForm({ ...form, [e.target.name]: e.target.files[0] });
+              }else {
+                setForm({ ...form, [e.target.name]: null });
+              }
             }}
             color="teal"
             label="Firm Liscense"
@@ -185,7 +145,11 @@ function FirmVerification() {
           <Input
             name="gst_certificate"
             onChange={(e) => {
-              setForm({ ...form, [e.target.name]: e.target.files[0] });
+              if (e.target.files.length > 0 ){
+                setForm({ ...form, [e.target.name]: e.target.files[0] });
+              }else {
+                setForm({ ...form, [e.target.name]: null });
+              }
             }}
             color="teal"
             label="GST Certificate "
@@ -195,7 +159,11 @@ function FirmVerification() {
           <Input
             name="insurance"
             onChange={(e) => {
-              setForm({ ...form, [e.target.name]: e.target.files[0] });
+              if (e.target.files.length > 0 ){
+                setForm({ ...form, [e.target.name]: e.target.files[0] });
+              }else {
+                setForm({ ...form, [e.target.name]: null });
+              }
             }}
             color="teal"
             label="Insurance Copy"

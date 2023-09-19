@@ -10,7 +10,8 @@ import { GetUserInfo, HomeownerGoogleSignin, HomeownerSignin } from "../../Servi
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "../../Redux/ProfessionalSlice";
+import { setFirmInfo, setUserInfo } from "../../Redux/ProfessionalSlice";
+import { GetFirmInfo } from "../../Services/ProfessionalApi";
 
 
 function LoginPage() {
@@ -54,7 +55,7 @@ function LoginPage() {
     try {
     const id = token.id
     const res = await GetUserInfo(id)
-    console.log(res,'anzil');
+    
     const data ={
       id : res.data.id,
       name : res.data.name,
@@ -71,6 +72,35 @@ function LoginPage() {
     toast.error("something error")  
   }
   }
+
+
+ const FetchFirmInfo = async (token) =>{
+  try{
+    const id = token.id
+    const ress = await GetFirmInfo(id)
+    console.log(ress);
+    console.log(ress.data.id);
+    const data = {
+      id : ress.data.id,
+      firm_name : ress.data.firm_name,
+      website : ress.data.website,
+      about : ress.data.about,
+      firm_description : ress.data.firm_description,
+      awards : ress.data.awards,
+      user : ress.data.user,
+      address : ress.data.address,
+    }
+
+    dispatch(setFirmInfo({
+      firminfo : data
+    }))   
+
+
+    
+  }catch{
+    toast.error("something error")  
+  }
+ }
 
   // form submission
 
@@ -98,6 +128,8 @@ function LoginPage() {
               if(decoded.is_completed){
                 navigate("/professional/professionalhomepage/")
               }
+            FetchFirmInfo(decoded)
+
             navigate("/professional/basicinfo/")
             }else{
               toast.error("your account is inactive , please try again later")

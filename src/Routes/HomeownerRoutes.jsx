@@ -9,6 +9,8 @@ import LoginPage from '../Pages/Homeowners/LoginPage'
 import SignupPage from '../Pages/Homeowners/SignUp/Signup'
 import HomeownerProtected from '../ProtectedRoutes/HomeownerProtected'
 import HomeownerHomepage from '../Pages/Homeowners/Homepage/HomeownerHomepage'
+import FindProfessionals from '../Pages/Homeowners/FindProfessionals/FindProfessionals'
+import Explore from '../Pages/Homeowners/Explore/Explore'
 
 
 export default function HomeownerRoutes() {
@@ -20,6 +22,8 @@ export default function HomeownerRoutes() {
         </Route>
         <Route exact element = {<HomeownerProtected/>}>
             <Route path='/homeownerhomepage/' element = {<HomeownerHomepage/>}/>
+            <Route path='/findprofessionals/' element = {<FindProfessionals/>}/>
+            <Route path='/explore/' element = {<Explore/>}/>
 
         </Route>
     </Routes>

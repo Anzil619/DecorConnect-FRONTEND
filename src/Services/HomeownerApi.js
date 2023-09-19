@@ -41,5 +41,10 @@ const GetUserInfo = (id) =>{
 
 
 
-export {HomeownerSignin,HomeownerSignup,HomeownerGoogleSignup,HomeownerGoogleSignin,GetUserInfo} ;
+const FirmList = () =>{
+    return HomeownerAxiosInstant.get("/homeowners/firmlist/" ,{withCredentials:true})
+
+}
+
+export {HomeownerSignin,HomeownerSignup,HomeownerGoogleSignup,HomeownerGoogleSignin,GetUserInfo,FirmList} ;
 

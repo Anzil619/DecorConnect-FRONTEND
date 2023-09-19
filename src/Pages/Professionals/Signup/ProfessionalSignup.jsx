@@ -86,6 +86,15 @@ function ProfessionalSignup() {
           import.meta.env.VITE_PROFESSIONAL_URL + "register/",
           professional // The data object
         );
+
+
+        const user_id = {'user' : response.data.data.id}
+        console.log(user_id,"anzil");
+        const res = await axios.post(
+          import.meta.env.VITE_PROFESSIONAL_URL + "profilecompletion/",user_id
+        )
+        
+        
         
         toast.success(response.data.msg);
         navigate("/login/");
@@ -97,7 +106,7 @@ function ProfessionalSignup() {
         });
         setPass({ cpassword: "", check: true });
       } catch (error) {
-        console.log(error.response)
+        console.log(error)
         if (error.response && error.response.data) {
           const errorData = error.response.data;
           if (errorData.email) {

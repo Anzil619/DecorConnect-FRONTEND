@@ -70,7 +70,7 @@ export function NavBar() {
         color="blue-gray"
         className="md:p-2 p- font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a onClick={()=>(navigate("/homeowner/homeownerhomepage/"))} href="#" className="flex items-center">
           Home
         </a>
       </Typography>
@@ -90,7 +90,7 @@ export function NavBar() {
         color="blue-gray"
         className="md:p-2 p- font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a onClick={()=>(navigate("/homeowner/explore/"))} href="#" className="flex items-center">
           Explore
         </a>
       </Typography>
@@ -100,7 +100,7 @@ export function NavBar() {
         color="blue-gray"
         className="md:p-2 p- font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a onClick={()=>(navigate("/homeowner/findprofessionals/"))} href="#" className="flex items-center">
           Professionals
         </a>
       </Typography>
