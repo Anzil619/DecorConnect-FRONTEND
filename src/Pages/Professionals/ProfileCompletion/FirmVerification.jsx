@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FirmVerificationUpdate, ProfileCompletion } from "../../../Services/ProfessionalApi";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UpdateUser } from "../../../Services/HomeownerApi";
 
 function FirmVerification() {
   const { FirmInfo } = useSelector((state) => state.professional);
@@ -22,7 +23,7 @@ function FirmVerification() {
     gst_certificate: null,
     insurance: null,
   });
-
+    
   const [name , setName] = useState({owner_name : ""})
 
   const validation = () => {
@@ -69,8 +70,14 @@ function FirmVerification() {
         console.log(res,1);
         console.log(res.data.verification.id),"daxoo";
         const res1 = await FirmVerificationUpdate(res.data.verification.id,formData );
-        
+        const data1= {
+          is_completed : true
+        }
         console.log(res1,2);
+        const res3 = await UpdateUser(userinfo.id, data1)
+        
+        
+        console.log(res3)
         navigate("/professional/addproject/")
       } catch (error) {
         console.log(error);

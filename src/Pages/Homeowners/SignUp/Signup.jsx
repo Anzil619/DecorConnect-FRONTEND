@@ -12,16 +12,24 @@ import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { HomeownerGoogleSignup } from "../../../Services/HomeownerApi";
 import jwtDecode from "jwt-decode";
+import { Loader } from "../../../Components/Loading/Loading";
 
 
 function SignupPage() {
 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
 
+
+
+  
   useEffect(() => {
     FirstInputRef.current.focus();
     
   }, []);
+
+
 
 
 
@@ -86,14 +94,12 @@ function SignupPage() {
   const FormHandlerSignup = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+       handleLoading();
       try {
         const response = await axios.post(
           import.meta.env.VITE_HOMEOWNER_URL + "homeowners/register/",
           homeowner // The data object
-          
         );
-        
-        toast.success(response.data.msg);
         
         console.log(response.data);
       
@@ -104,7 +110,10 @@ function SignupPage() {
           password: "",
         });
         setPass({ cpassword: "", check: true });
+        handleLoading();
+        toast.success(response.data.msg);
       } catch (error) {
+        handleLoading();
         
         if (error.response && error.response.data) {
           const errorData = error.response.data;
@@ -186,7 +195,10 @@ function SignupPage() {
 
 
   return (
+    
     <div className="maindiv h-screen w-full flex justify-center items-center">
+      {loading && <Loader/>}
+      
       <ToastContainer />
       <div className="sm:outward-shadow sm:h-5/6 sm:w-1/3 bg-black bg-opacity-70 flex justify-center items-center">
         <div className="flex flex-col items-center">

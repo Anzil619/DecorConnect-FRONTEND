@@ -39,10 +39,8 @@ function LoginPage() {
       return false;
     } else if (homeowner.password.trim() === "") {
       toast.error("password should not be empty");
-      
       return false;
     }
-
     return true;
   };
 
@@ -127,10 +125,11 @@ function LoginPage() {
             if (decoded.is_active){
               if(decoded.is_completed){
                 navigate("/professional/professionalhomepage/")
+              }else{
+                FetchFirmInfo(decoded)
+                navigate("/professional/basicinfo/")
               }
-            FetchFirmInfo(decoded)
 
-            navigate("/professional/basicinfo/")
             }else{
               toast.error("your account is inactive , please try again later")
               navigate("/login/");

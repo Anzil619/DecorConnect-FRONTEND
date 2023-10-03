@@ -16,7 +16,7 @@ function RoleSelection() {
           <div className="flex flex-col items-center justify-center h-1/3">
             <h1 className="text-white text-3xl font-bold mb-6">
               Choose Your Role
-            </h1>
+            </h1> 
             <div className="flex space-x-4">
               <NotificationModal
                 buttonText="Homeowner"

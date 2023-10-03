@@ -47,6 +47,7 @@ function AdminHomePage() {
 
   useEffect(() => {
     FetchUserInfo();
+
   }, []);
 
   const FetchUserInfo = async (e) => {
@@ -183,30 +184,35 @@ function AdminHomePage() {
                       <td className={classes}>
                         <Tooltip content="Block User">
                           <IconButton variant="text">
-                            {homeowner.is_active ? <NotificationModal
-                              buttonText="Block"
-                              modalTitle="Confirmation"
-                              modalHeading="Do you want to block this user ?"
-                              buttonColor="red"
-                              modalContent="Note : User will not be able to access this account"
-                              onOkClick={()=>{
-                                const data = {is_active : false}
-                                BlockUser(homeowner.id , data)
-                                
-                              }}
-                            /> : <NotificationModal
-                            buttonText="Unblock"
-                            modalTitle="Confirmation"
-                            modalHeading="Do you want to Unblock this user ?"
-                            buttonColor="red"
-                            modalContent="Note : User will be able to access this account"
-                            onOkClick={()=>{
-                              const data = {is_active : true}
-                              BlockUser(homeowner.id , data)
-                             
-                            }}
-                          /> }
-                            
+                            {homeowner.is_active ? (
+                              <NotificationModal
+                                buttonText="Block"
+                                modalTitle="Confirmation"
+                                modalHeading="Do you want to block this user ?"
+                                buttonColor="red"
+                                modalContent="Note : User will not be able to access this account"
+                                onOkClick={async () => {
+                                  const data = { is_active: false };
+                                  await BlockUser(homeowner.id, data);
+                                  await FetchUserInfo()
+
+                                }}
+                              />
+                            ) : (
+                              <NotificationModal
+                                buttonText="Unblock"
+                                modalTitle="Confirmation"
+                                modalHeading="Do you want to Unblock this user ?"
+                                buttonColor="red"
+                                modalContent="Note : User will be able to access this account"
+                                onOkClick={async () => {
+                                  const data = { is_active: true };
+                                  await BlockUser(homeowner.id, data);
+                                  await FetchUserInfo()
+
+                                }}
+                              />
+                            )}
                           </IconButton>
                         </Tooltip>
                       </td>

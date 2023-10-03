@@ -17,12 +17,12 @@ function AddProject() {
 
   const [form, setForm] = useState({
     project_name: "",
-    year: "",
+    year: "", 
     project_address: "",
     project_description: "",
     cost: "",
     firm_id: FirmInfo.id,
-  });
+  }); 
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [imageFormData, setImageFormData] = useState(new FormData());
@@ -42,11 +42,7 @@ function AddProject() {
     console.log(imageFormData);
   };
 
-  const handleFileChange = (files) => {
-    const selectedImages = Array.from(files);
-    // Store the selected images in your component's state or a FormData object
-    // Example: setFormData(selectedImages);
-  };
+
 
   const validation = () => {
     if (!form.project_name || form.project_name.trim() === "") {
@@ -117,6 +113,7 @@ function AddProject() {
           action=""
           className="grid grid-cols-2 gap-x-20 gap-y-8"
         >
+
           <Input
             name="project_name"
             value={form.project_name}
@@ -187,23 +184,10 @@ function AddProject() {
             multiple
           />
 
-          <div className="flex items-center col-span-2 justify-end">
-            {/* Skip Button */}
-            <button
-              onClick={() => navigate("/professional/professionalhomepage/")}
-              className="bg-black text-white px-4 py-2 w-28 mr-2 rounded-2xl hover:bg-blue-gray-900"
-            >
-              Skip
-            </button>
+          <button className="col-span-2 bg-teal-500 text-white px-4 py-2 w-28 rounded-2xl hover:bg-blue-600 ml-auto">
+            Continue
+          </button>
 
-            {/* Continue Button */}
-            <button
-              type="submit"
-              className="bg-teal-500 text-white px-4 py-2 w-28 rounded-2xl hover:bg-gray-500"
-            >
-              Continue
-            </button>
-          </div>
         </form>
       </div>
     </div>

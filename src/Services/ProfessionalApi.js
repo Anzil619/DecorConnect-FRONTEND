@@ -39,5 +39,11 @@ const CreateProject = (value) =>{
 
 }
 
+const CreateProjectImages = (value) =>{
+    return ProfessionalAxiosInstant.post("/createprojectimages/" , value, {withCredentials:true})
+    .catch((error)=> error.response);
+}
 
-export {ProfessionalGoogleSignup,ProfileCompletion,GetFirmInfo,FirmVerificationUpdate,CreateProject}
+
+
+export {ProfessionalGoogleSignup,ProfileCompletion,GetFirmInfo,FirmVerificationUpdate,CreateProject,CreateProjectImages}

@@ -12,11 +12,11 @@ import "../../../Components/NavBar/NavBar.css";
 
 function HomeownerHomepage() {
   return (
+    
     <div>
       <div className="flex justify-center my-4">
         <img src={Logo} className="w-20" alt="" />
       </div>
-
       <div
         className="w-full sticky top-0 z-50
        transition-all duration-300 ease-in-out"

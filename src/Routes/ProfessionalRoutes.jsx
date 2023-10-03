@@ -11,6 +11,7 @@ import BasicInfo from '../Pages/Professionals/ProfileCompletion/BasicInfo'
 import BusinessDetails from '../Pages/Professionals/ProfileCompletion/BusinessDetails'
 import FirmVerification from '../Pages/Professionals/ProfileCompletion/FirmVerification'
 import AddProject from '../Pages/Professionals/ProfileCompletion/AddProject'
+import Explore from '../Pages/Homeowners/Explore/Explore'
 
 
 function ProfessionalRoutes() {
@@ -23,6 +24,7 @@ function ProfessionalRoutes() {
 
         <Route exact element = {<ProfessionalProtected/>}>
             <Route path='/professionalhomepage/' element = {<ProfessionalHomePage/>}/>
+            <Route path='/explore/' element = {<Explore/>}/>
             <Route path='/basicinfo/' element = {<BasicInfo/>}/>
             <Route path='/businessdetails/' element = {<BusinessDetails/>}/>
             <Route path='/firmverification/' element = {<FirmVerification/>}/>

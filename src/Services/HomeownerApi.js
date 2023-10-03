@@ -39,12 +39,25 @@ const GetUserInfo = (id) =>{
     return HomeownerAxiosInstant.get("/homeowners/userinfo/" +id+ "/", {withCredentials : true})
 }
 
-
-
 const FirmList = () =>{
     return HomeownerAxiosInstant.get("/homeowners/firmlist/" ,{withCredentials:true})
 
 }
 
-export {HomeownerSignin,HomeownerSignup,HomeownerGoogleSignup,HomeownerGoogleSignin,GetUserInfo,FirmList} ;
+const UpdateUser = (id ,value) =>{
+    return HomeownerAxiosInstant.patch("/homeowners/updateuser/" +id+ "/", value, {withCredentials:true} )
+
+}
+
+const SearchFirms = (keyword) =>{
+    return HomeownerAxiosInstant.get(`/homeowners/firmlist/?search=${keyword}`, {withCredentials:true});
+}
+
+const SingleFirmInfo = (id) =>{
+    return HomeownerAxiosInstant.get('homeowners/singlefirminfo/' +id+ '/' , {withCredentials:true})
+}
+
+
+
+export {HomeownerSignin,HomeownerSignup,HomeownerGoogleSignup,HomeownerGoogleSignin,GetUserInfo,FirmList,UpdateUser,SingleFirmInfo,SearchFirms} ;
 
