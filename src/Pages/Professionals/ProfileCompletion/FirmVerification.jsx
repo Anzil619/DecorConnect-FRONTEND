@@ -134,6 +134,7 @@ function FirmVerification() {
             label="Owner's PAN Card"
             className="w-96"
             type="file"
+            accept="application/pdf"
           />
           <Input
             name="firm_liscense"
@@ -148,6 +149,7 @@ function FirmVerification() {
             label="Firm Liscense"
             className="w-96 border-gray-300"
             type="file"
+            accept="application/pdf"
           />
           <Input
             name="gst_certificate"
@@ -162,6 +164,7 @@ function FirmVerification() {
             label="GST Certificate "
             className="w-96 border-gray-300"
             type="file"
+            accept="application/pdf"
           />
           <Input
             name="insurance"
@@ -176,6 +179,7 @@ function FirmVerification() {
             label="Insurance Copy"
             className="border-gray-300 w-96"
             type="file"
+            accept="application/pdf"
           />
           <button className="col-span-2 bg-teal-500 text-white px-4 py-2 w-28 rounded-2xl hover:bg-blue-600 ml-auto">
             Next

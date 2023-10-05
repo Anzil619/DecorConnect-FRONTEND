@@ -76,65 +76,111 @@ export function NavBar() {
           href="#"
           className="flex items-center"
         >
-          {decoded.role === "Admin" ? "Dashboard" : "Home"}
+          {decoded.role === "admin" ? "Dashboard" : "Home"}
         </a>
       </Typography>
+
       <Typography
         as="li"
         variant="small"
         color="blue-gray"
         className="md:p-2 p- font-normal"
       >
-        <a href="#" className="flex items-center">
-          {decoded.role === "admin" ? "Users" : "About"}
-        </a>
+        {decoded.role === "admin" ? (
+          <a
+            href="#"
+            className="flex items-center"
+            onClick={() => navigate("/admin/adminhomepage/")}
+          >
+            {decoded.role === "admin" ? "Users" : "About"}
+          </a>
+        ) : decoded.role === "professional" ? (
+          <a href="#" className="flex items-center" onClick="">
+            {decoded.role === "admin" ? "Users" : "About"}
+          </a>
+        ) : (
+          <a href="#" className="flex items-center" onClick="">
+            {decoded.role === "admin" ? "Users" : "About"}
+          </a>
+        )}
       </Typography>
+
       <Typography
         as="li"
         variant="small"
         color="blue-gray"
         className="md:p-2 p- font-normal"
       >
-        <a
-          onClick={() => navigate("/homeowner/explore/")}
-          href="#"
-          className="flex items-center"
+        {decoded.role === "admin" ? (
+          <a
+            onClick={() => navigate("/admin/listprofessionals/")}
+            href="#"
+            className="flex items-center"
+          >
+            Professionals
+          </a>
+        ) : decoded.role === "professional" ? (
+          <a
+            onClick={() => navigate("/professional/explore/")}
+            href="#"
+            className="flex items-center"
+          >
+            Booking
+          </a>
+        ) : (
+          <a
+            onClick={() => navigate("/homeowner/explore/")}
+            href="#"
+            className="flex items-center"
+          >
+            Explore
+          </a>
+        )}
+      </Typography>
+
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="md:p-2 p- font-normal"
+      >
+        {decoded.role === "homeowner" ? (
+          <a
+            onClick={() => navigate("/homeowner/findprofessionals/")}
+            href="#"
+            className="flex items-center"
+          >
+            Find Professionals
+          </a>
+        ) : decoded.role === "professional" ? (
+          <a onClick="" href="#" className="flex items-center">
+            Booking
+          </a>
+        ) : (
+          <a
+            onClick={() => navigate("/admin/listfirms/")}
+            href="#"
+            className="flex items-center"
+          >
+            Firms
+          </a>
+        )}
+      </Typography>
+      {decoded.role === "admin" ? (
+        ""
+      ) : (
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="md:p-2 p- font-normal"
         >
-          {decoded.role === "admin" ? "Professionals" : "Explore"}
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="md:p-2 p- font-normal"
-      >
-        <a
-          onClick={() => navigate("/homeowner/findprofessionals/")}
-          href="#"
-          className="flex items-center"
-        >
-          {decoded.role === "homeowner"
-            ? "Professionals"
-            : decoded.role === "professional"
-            ? "Booking"
-            : decoded.role === "admin"
-            ? "null"
-            : null}
-          
-        </a>
-      </Typography>
-      {decoded.role === 'admin' ? '' :  <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="md:p-2 p- font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Contact us
-        </a>
-      </Typography> }
-     
+          <a href="#" className="flex items-center">
+            Contact us
+          </a>
+        </Typography>
+      )}
+
       <Typography as="div" className="relative group">
         <Menu>
           <MenuHandler>

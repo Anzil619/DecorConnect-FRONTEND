@@ -18,5 +18,10 @@ const BlockUser = (id,values) =>{
     .catch((error) => error.response);
 }
 
-export {AdminSignIn,ListUser,BlockUser}
+const ApproveFirm= (id,values) =>{
+    return AdminAxiosInstant.patch("/approvefirm/" +id+ "/", values , {withCredentials:true})
+    .catch((error)=> error.response);
+}
+
+export {AdminSignIn,ListUser,BlockUser,ApproveFirm}
 

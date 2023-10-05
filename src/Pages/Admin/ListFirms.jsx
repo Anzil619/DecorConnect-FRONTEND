@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { NavBar } from "../../Components/NavBar/NavBar";
 import Logo from "../../assets/logos/dc-black-transparent.png";
 
-
 import { BlockUser, ListUser } from "../../Services/AdminApi";
 import NotificationModal from "../../Components/Modal/NotificationModal";
 import "../../Components/NavBar/NavBar.css";
+import { Link } from 'react-router-dom';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import {
@@ -23,51 +23,66 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import { FirmList } from "../../Services/HomeownerApi";
 
-function AdminHomePage() {
+function ListFirms() {
   const TABS = [
     {
-      label: "All",
-      value: "all",
+      label: "Approved",
+      value: "approved",
     },
     {
-      label: "Monitored",
-      value: "monitored",
+      label: "Pending",
+      value: "pending",
     },
     {
-      label: "Unmonitored",
-      value: "unmonitored",
+      label: "Rejected",
+      value: "rejected",
     },
   ];
 
-  const TABLE_HEAD = ["Member", "Name", "Email", "Status", ""];
+  const [firm, setFirm] = useState([]);
+  const [selectedTab, setSelectedTab] = useState("approved");
 
-  const [homeowner, setHomeowners] = useState([]);
+  const TABLE_HEAD = ["Id", "Firm Name", "Owner Name", "Status", ""];
 
   useEffect(() => {
-    FetchUserInfo();
-
+    FetchFirmInfo();
   }, []);
 
-  const FetchUserInfo = async (e) => {
+  const FetchFirmInfo = async (e) => {
     try {
-      const res = await ListUser();
+      const res = await FirmList();
       const data = res.data;
-      const homeowner = data.filter((user) => user.role === "homeowner");
-      setHomeowners(homeowner);
-    } catch {
+      console.log(data, "anzil");
+      setFirm(data);
+    } catch (error) {
       console.log("error trying fetch");
     }
   };
+
+  const filteredFirmData = firm.filter((individualFirm) => {
+    if (selectedTab === "approved") {
+      return individualFirm.status === "approved"; // Display all data
+    } else if (selectedTab === "pending") {
+      return individualFirm.status === "pending"; // Adjust this condition based on your data structure
+    } else if (selectedTab === "rejected") {
+      return individualFirm.status === "rejected"; // Adjust this condition based on your data structure
+    }
+    return individualFirm.status === "approved";
+  });
+
+  console.log(filteredFirmData, "amalll");
 
   return (
     <div>
       <div className="flex justify-center my-4">
         <img src={Logo} className="w-20" alt="" />
       </div>
+
       <div
         className="w-full sticky top-0 z-50
-     transition-all duration-300 ease-in-out"
+       transition-all duration-300 ease-in-out"
       >
         <NavBar />
       </div>
@@ -95,10 +110,14 @@ function AdminHomePage() {
               </div>
             </div>
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-              <Tabs value="all" className="w-full md:w-max">
+              <Tabs value="approved" className="w-full md:w-max">
                 <TabsHeader>
                   {TABS.map(({ label, value }) => (
-                    <Tab key={value} value={value}>
+                    <Tab
+                      key={value}
+                      value={value}
+                      onClick={() => setSelectedTab(value)}
+                    >
                       &nbsp;&nbsp;{label}&nbsp;&nbsp;
                     </Tab>
                   ))}
@@ -133,17 +152,17 @@ function AdminHomePage() {
                 </tr>
               </thead>
               <tbody>
-                {homeowner.map((homeowner, index) => {
-                  const isLast = index === homeowner.length - 1;
+                {filteredFirmData.map((individualFirm, index) => {
+                  const isLast = index === individualFirm.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
 
                   return (
-                    <tr key={homeowner.name}>
+                    <tr key={individualFirm.id}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
-                          {homeowner.id}
+                          {individualFirm.id}
                           <div className="flex flex-col"></div>
                         </div>
                       </td>
@@ -154,7 +173,7 @@ function AdminHomePage() {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {homeowner.name}
+                            {individualFirm.firm_name}
                           </Typography>
                         </div>
                       </td>
@@ -165,7 +184,7 @@ function AdminHomePage() {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {homeowner.email}
+                            {individualFirm.verification.owner_name}
                           </Typography>
                         </div>
                       </td>
@@ -174,45 +193,42 @@ function AdminHomePage() {
                           <Chip
                             variant="ghost"
                             size="sm"
-                            value={homeowner.is_active ? "active" : "blocked"}
-                            color={homeowner.is_active ? "green" : "blue-gray"}
+                            value={individualFirm.status}
+                            color={
+                              individualFirm.firm_name ? "green" : "blue-gray"
+                            }
                           />
                         </div>
                       </td>
                       <td className={classes}>
-                        <Tooltip content="Block User">
-                          <IconButton variant="text">
-                            {homeowner.is_active ? (
-                              <NotificationModal
-                                buttonText="Block"
-                                modalTitle="Confirmation"
-                                modalHeading="Do you want to block this user ?"
-                                buttonColor="red"
-                                modalContent="Note : User will not be able to access this account"
-                                onOkClick={async () => {
-                                  const data = { is_active: false };
-                                  await BlockUser(homeowner.id, data);
-                                  await FetchUserInfo()
+                      <Link to={`/admin/adminsinglefirmview/${individualFirm.id}`}>
+  
 
-                                }}
-                              />
-                            ) : (
-                              <NotificationModal
-                                buttonText="Unblock"
-                                modalTitle="Confirmation"
-                                modalHeading="Do you want to Unblock this user ?"
-                                buttonColor="red"
-                                modalContent="Note : User will be able to access this account"
-                                onOkClick={async () => {
-                                  const data = { is_active: true };
-                                  await BlockUser(homeowner.id, data);
-                                  await FetchUserInfo()
-
-                                }}
-                              />
-                            )}
-                          </IconButton>
-                        </Tooltip>
+                          <button
+                            class="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            type="button"
+                            data-ripple-dark="true"
+                            
+                          >
+                            View More
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="2"
+                              stroke="currentColor"
+                              aria-hidden="true"
+                              class="h-5 w-5"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                              ></path>
+                            </svg>
+                          </button>
+                          </Link>
+                        
                       </td>
                     </tr>
                   );
@@ -243,4 +259,4 @@ function AdminHomePage() {
   );
 }
 
-export default AdminHomePage;
+export default ListFirms;

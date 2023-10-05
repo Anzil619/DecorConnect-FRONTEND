@@ -19,7 +19,9 @@ function FindProfessionals() {
   const FetchFirmInfo = async () => {
     try {
       const res = await FirmList();
-      setFirm(res.data);
+      const data = res.data
+      const filtered_data = data.filter((firm)=> firm.status === "approved")
+      setFirm(filtered_data);
     } catch (error) {
       console.log(error);
     }
@@ -28,12 +30,13 @@ function FindProfessionals() {
   const Search = async (keyword) =>{
     try{
       const res = await SearchFirms(keyword)
-      setFirm(res.data)
+      const data = res.data
+      const filtered_data = data.filter((firm)=> firm.status === "approved")
+      setFirm(filtered_data)
       console.log(res.data);
     }catch(error){
       console.log(error);
-
-    }
+    } 
   }
 
   return (
