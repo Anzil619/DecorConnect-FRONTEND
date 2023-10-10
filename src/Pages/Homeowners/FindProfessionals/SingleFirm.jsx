@@ -4,7 +4,6 @@ import { NavBar } from "../../../Components/NavBar/NavBar";
 import studio from "../../../assets/logos/studio3am.jpg";
 import { Rating } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import image from "../../../assets/test/photo.jpg";
 import { useParams } from "react-router-dom";
 
 import {
@@ -20,15 +19,10 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
-  Input,
   Textarea,
 } from "@material-tailwind/react";
 
-import project1 from "../../../assets/test/project1.png";
-import project2 from "../../../assets/test/project2.png";
-import project3 from "../../../assets/test/project3.png";
 import { SingleFirmInfo } from "../../../Services/HomeownerApi";
-import { toast } from "react-toastify";
 import { Loader } from "../../../Components/Loading/Loader";
 
 function StarIcon() {
@@ -50,7 +44,6 @@ function StarIcon() {
 
 function SingleFirm() {
   const { firmId } = useParams();
-  
   const [firminfo, setfirminfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleLoading = () => setLoading((cur) => !cur);

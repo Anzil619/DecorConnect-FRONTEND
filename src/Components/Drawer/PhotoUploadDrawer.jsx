@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Drawer, Typography, IconButton, button }  from '@material-tailwind/react';
 import { useRef } from 'react';
-import { FaPencilAlt } from 'react-icons/fa';
 
 
 function PhotoUploadDrawer({ open, onClose, title, onUpload }) {
@@ -9,7 +8,7 @@ function PhotoUploadDrawer({ open, onClose, title, onUpload }) {
       const [selectedImage, setSelectedImage] = useState(null);
       const [file,setFile] = useState(null)
       const fileInputRef = useRef(null);
-      
+
       const handleButtonClick = () => {
         if (fileInputRef.current) {
           fileInputRef.current.click();
@@ -36,6 +35,7 @@ function PhotoUploadDrawer({ open, onClose, title, onUpload }) {
         if (onUpload) {
           onUpload(file);
         }
+        setSelectedImage(null)
         onClose();
       };
 

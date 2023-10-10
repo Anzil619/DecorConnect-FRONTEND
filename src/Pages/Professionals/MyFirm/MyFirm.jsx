@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/logos/dc-black-transparent.png";
 import { NavBar } from "../../../Components/NavBar/NavBar";
-import studio from "../../../assets/logos/studio3am.jpg";
 import { Rating } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { FaCamera, FaPencilAlt } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import {
   Card,
   CardHeader,
@@ -26,7 +25,9 @@ import { SingleFirmInfo } from "../../../Services/HomeownerApi";
 import { Loader } from "../../../Components/Loading/Loader";
 import { useSelector } from "react-redux";
 import PhotoUploadDrawer from "../../../Components/Drawer/PhotoUploadDrawer";
-import { EditFirmInfo } from "../../../Services/ProfessionalApi";
+import { CreateProject, CreateProjectImages, EditFirmInfo } from "../../../Services/ProfessionalApi";
+import { InputModal } from "../../../Components/Modal/InputModal";
+import { ProjectModal } from "../../../Components/Modal/ProjectModal";
 
 function StarIcon() {
   return (
@@ -53,7 +54,7 @@ function MyFirm() {
   const [open, setOpen] = React.useState(false);
 
   const [openDrawer, setOpenDrawer] = useState(false);
-//   const [openCoverPhotoDrawer, setOpenCoverPhotoDrawer] = useState(false);
+  const [openCoverDrawer, setOpenCoverDrawer] = useState(false);
 
   useEffect(() => {
     FetchFirmInfo();
@@ -75,23 +76,66 @@ function MyFirm() {
   };
 
   const handleOpen = () => setOpen(!open);
+  const handleLogoEdit = async (file) => {
+    try {
+      const id = firminfo.id;
+      const formData = new FormData();
+      formData.append("logo", file);
+      const res = await EditFirmInfo(id, formData);
+      FetchFirmInfo();
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const handleFirmwebsite = async (data) => {
+    try {
+      const id = firminfo.id;
+      const res = await EditFirmInfo(id, data);
+      FetchFirmInfo();
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const handleLogoEdit = async(file) =>{
-
+  const handlefirmcoverphoto = async(file) =>{
     try{
         const id = firminfo.id
         const formData = new FormData();
-        formData.append("logo", file);
+        formData.append('cover_photo', file);
         const res = await EditFirmInfo(id,formData)
         FetchFirmInfo();
         console.log(res.data);
+
     }catch(error){
         console.log(error);
     }
-    
-
   }
+
+  const handleEditAbout = async(data) =>{
+    try{
+    const id = firminfo.id
+    const res = await EditFirmInfo(id,data)
+    console.log(res.data);
+    FetchFirmInfo();
+    }catch(error){
+        console.log(error);
+    }
+}
+
+
+    const handleAddProject = async(data , images) =>{
+        const res = await CreateProject(data)
+        console.log(res.data);
+        const proj_id = res.data.id
+        images.append('project_id',proj_id)
+        const res2 = await CreateProjectImages(images)
+        console.log(res2.data);
+        FetchFirmInfo();
+    }
+
 
   return (
     <div>
@@ -109,25 +153,27 @@ function MyFirm() {
 
       <div className="flex flex-col items-center m-5">
         <div className="flex flex-row ml-6">
-
-          <img className="w-36 h-36 m-5 shadow-2xl " src={firminfo?.logo} alt="" />
+          <img
+            className="w-36 h-36 m-5 shadow-2xl "
+            src={firminfo?.logo}
+            alt=""
+          />
           <Tooltip content="Edit logo" placement="right-end">
-          <IconButton
-            className="w-6 h-6 bg-white"
-            aria-label="Edit"
-            onClick={() => setOpenDrawer(true)}
-          >
-            <FaPencilAlt color="black" size={15} />
-          </IconButton>
+            <IconButton
+              className="w-6 h-6 bg-white"
+              aria-label="Edit"
+              onClick={() => setOpenDrawer(true)}
+            >
+              <FaEdit color="grey" size={15}/>
+            </IconButton>
           </Tooltip>
         </div>
         <PhotoUploadDrawer
-              open={openDrawer}
-              onClose={() => setOpenDrawer(false)}
-              title="Upload Cover Photo"
-              onUpload={handleLogoEdit}
-            />
-
+          open={openDrawer}
+          onClose={() => setOpenDrawer(false)}
+          title="Upload Cover Photo"
+          onUpload={handleLogoEdit}
+        />
 
         <h1 className="text-xl font-bold m-2">{firminfo?.firm_name}</h1>
 
@@ -140,26 +186,82 @@ function MyFirm() {
         <h1 className="text-2xl font-serif text-blue-gray-700 m-2">
           Architecture & Interior Designs
         </h1>
-        <h1 className="m-2">{firminfo?.address.phone} </h1>
-        <a href="" className="text-indigo-800 m-2">
-          {firminfo?.website}
-        </a>
+        <h1 className="m-2">{firminfo?.address.phone}</h1>
+        <div>
+          <a href="" className="text-indigo-800 m-2">
+            {firminfo?.website}
+          </a>
+          <InputModal
+            inputname="website"
+            buttonsize="13"
+            ModalHeader="Update website name"
+            ModalContent="Website"
+            onOkClick={handleFirmwebsite}
+          />
+        </div>
       </div>
-      <div className="m-10 h-1/3">
+
+      <div className="relative m-10 h-1/3">
         <img
           className="w-full object-cover object-center"
           src={firminfo?.cover_photo}
           alt=""
         />
+        <div className="absolute top-0 right-0 m-2 p-2">
+        <Tooltip content="Edit Cover photp" placement="right-end">
+          <IconButton
+          className="bg-white"
+
+            aria-label="Edit"
+            onClick={() => setOpenCoverDrawer(true)}
+          >
+          
+            <FaEdit color="grey" size={24}/>
+          </IconButton>
+          </Tooltip>
+        </div>
+        <PhotoUploadDrawer
+          open={openCoverDrawer}
+          onClose={() => setOpenCoverDrawer(false)}
+          title="Upload Cover Photo"
+          onUpload={handlefirmcoverphoto}
+        />
       </div>
 
       <div className="flex items-center flex-col m-16 ml-44 mr-44">
-        <h1 className="text-3xl font-serif font-bold ">About US</h1>
-        <p className="mt-3 text-center"> {firminfo?.about}</p>
+        <div className="flex flex-row">
+        <h1 className="text-3xl font-serif font-bold ml-6 mr-3">About US</h1>
+        
+        <InputModal
+            inputname="about"
+            buttonsize="17"
+            ModalHeader="Update About Section"
+            ModalContent="About Us"
+            onOkClick={handleEditAbout}
+          />
+          
+        </div>
+        <p className="mt-3 text-center">
+          {" "}
+          {firminfo?.about},{firminfo?.firm_description}
+        </p>
       </div>
 
+        <div className="grid grid-cols-3">
+            <div></div>
       <div className="flex justify-center mb-4">
         <h1 className="text-3xl font-serif font-bold">Projects</h1>
+      </div>
+      <div className="flex justify-center">
+     
+      <ProjectModal
+            
+            ModalHeader="Add Project"
+            onOkClick={handleAddProject}
+          />
+      </div>
+
+
       </div>
 
       <div className="flex justify-center">
@@ -168,7 +270,7 @@ function MyFirm() {
             <Card className="w-80 h-96">
               <CardHeader floated={false} className="h-80">
                 {console.log(project.images[0]?.image)}
-                <Link to={`/homeowner/singleproject/${project.id}`}>
+                <Link to={`/professional/myproject/${project.id}`}>
                   <img
                     className="w-full object-cover object-center h-full"
                     src={`${import.meta.env.VITE_HOMEOWNER_URL}${
@@ -179,9 +281,11 @@ function MyFirm() {
                 </Link>
               </CardHeader>
               <CardBody className="text-center">
+
                 <Typography variant="h4" color="blue-gray" className="mb-2">
                   {project.project_name}
                 </Typography>
+
                 <Typography
                   color="blue-gray"
                   className="font-medium"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Dialog,
@@ -10,14 +10,45 @@ import {
   Typography,
   Card,
 } from "@material-tailwind/react";
+import { FaEdit,FaTrash } from "react-icons/fa";
+import NotificationModal from "./NotificationModal";
+import { DeleteProjectImages, EditProjectImages } from "../../Services/ProfessionalApi";
+import PhotoUploadDrawer from "../Drawer/PhotoUploadDrawer";
+
  
-export function ImageModal({image}) {
+export function ImageModal({image, imageId,fetch}) {
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [isFavorite, setIsFavorite] = React.useState(false);
  
   const handleOpen = () => setOpen((cur) => !cur);
   const handleIsFavorite = () => setIsFavorite((cur) => !cur);
  
+  const handleDeleteImage = async() =>{
+      try{
+
+        const res = await DeleteProjectImages(imageId)
+        fetch();
+        handleOpen();
+        console.log(res.data);
+        
+
+      }catch(error){
+        console.log(error);
+      }
+  }
+
+  const handleEditImage = async(file) =>{
+    try{
+      const formData = new FormData();
+      formData.append("image" , file)
+      const res = await EditProjectImages(imageId,formData)
+      fetch();
+      console.log(res.data);
+    }catch(error){
+      console.log(error);
+    }
+  }
   return (
     <>
       <Card
@@ -31,7 +62,42 @@ export function ImageModal({image}) {
         />
       </Card>
       <Dialog size="xl" open={open} handler={handleOpen}>
-        
+        <DialogHeader className="justify-between">
+          <div className="flex items-center gap-3">
+           
+            <div className="-mt-px flex flex-col">
+              
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div>
+            <IconButton
+              variant="text"
+              size="sm"
+              color={isFavorite ? "red" : "blue-gray"}
+              onClick={() => setOpenDrawer(true)}
+            >
+              <FaEdit size={20}/>
+              
+            </IconButton>
+            </div>
+            <PhotoUploadDrawer
+          open={openDrawer}
+          onClose={() => setOpenDrawer(false)}
+          title="Add Project Images"
+          onUpload={handleEditImage}
+        />
+            
+            <NotificationModal
+            buttonText = {<FaTrash/>}
+            modalTitle = "Delete Image"
+            modalContent = "Are you sure you want to delete the image ?"
+            onOkClick={handleDeleteImage}
+            buttonColor = "red"
+
+            />
+          </div>
+        </DialogHeader>
         <DialogBody divider={true} className="p-0">
           <img
             alt="nature"

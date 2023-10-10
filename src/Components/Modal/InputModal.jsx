@@ -6,11 +6,12 @@ import {
   DialogBody,
   DialogFooter,
   Input,
-  Textarea,
+  Tooltip,
+  IconButton,
 } from "@material-tailwind/react";
-import { FaPencilAlt } from "react-icons/fa"; 
+import { FaEdit } from "react-icons/fa"; 
  
-export function InputModal({ onOkClick, ModalHeader, ModalContent }) {
+export function InputModal({ onOkClick, ModalHeader, ModalContent, inputname, buttonsize }) {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = useState({})
     const handleOpen = () => setOpen(!open);
@@ -23,9 +24,9 @@ export function InputModal({ onOkClick, ModalHeader, ModalContent }) {
     
   return (
     <>
-
-        
-      <button className="hover:opacity-30" onClick={handleOpen}><FaPencilAlt size={24} /></button>
+    <Tooltip content="edit" placement="right-end">
+      <button className=" hover:opacity-30" onClick={handleOpen}><FaEdit color="grey" size={buttonsize}/></button>
+      </Tooltip>
       <Dialog open={open} handler={handleOpen}>
         <div className="flex items-center justify-between">
           <DialogHeader>{ModalHeader}</DialogHeader>
@@ -46,7 +47,7 @@ export function InputModal({ onOkClick, ModalHeader, ModalContent }) {
         <DialogBody divider>
           <div className="grid gap-6">
             <Input
-            name="name"
+            name={inputname}
             onChange={(e)=>{
                 setValue({...value, [e.target.name] : e.target.value })
                 console.log(value);

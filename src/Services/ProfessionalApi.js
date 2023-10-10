@@ -1,3 +1,4 @@
+import { textarea } from "@material-tailwind/react";
 import { ProfessionalAxiosInstant } from "../utils/AxiosUtils";
 
 const ProfessionalGoogleSignup = (value) => {
@@ -51,7 +52,21 @@ const EditFirmInfo = (id, value) => {
   });
 };
 
+const EditProject = (id, value) =>{
+    return ProfessionalAxiosInstant.patch("/editproject/" +id+ "/" , value, {withCredentials:true})
+}
+
+const DeleteProjectImages = (id) =>{
+    return ProfessionalAxiosInstant.delete("/editdeleteprojectimages/" +id+ "/" , {withCredentials:true})
+}
+
+const EditProjectImages = (id , value) =>{
+    return ProfessionalAxiosInstant.patch("/editdeleteprojectimages/" +id+ "/" , value, {withCredentials:true})
+}
+
 export {
+    EditProjectImages,
+    DeleteProjectImages,
   ProfessionalGoogleSignup,
   ProfileCompletion,
   GetFirmInfo,
@@ -59,4 +74,5 @@ export {
   CreateProject,
   CreateProjectImages,
   EditFirmInfo,
+  EditProject,
 };

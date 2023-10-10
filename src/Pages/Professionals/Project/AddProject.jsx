@@ -40,6 +40,7 @@ function AddProject() {
     }
     setSelectedImages(imageArray);
     console.log(imageFormData);
+    
   };
 
 
@@ -175,7 +176,7 @@ function AddProject() {
           />
 
           <Input
-            color="teal"
+            color="teal"  
             accept="image/*"
             label="Project Image"
             className="w-96 border-gray-300"

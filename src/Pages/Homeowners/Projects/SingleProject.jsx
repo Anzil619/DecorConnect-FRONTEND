@@ -61,20 +61,19 @@ function SingleProject() {
       <div className="flex justify-center ">
         <h1 className="text-2xl">Images</h1>
       </div>
+
       <div className="flex justify-center">
         <div className="container grid grid-cols-3 gap-10 p-10 w-full">
           {/* First Image */}
           {project?.images.map((img)=>(
-
             <div className="col-span-1">
             {/* Your Image Component Here */}
             <ImageModal image = {img.image} />
           </div>
-            
-          ))}
-          
 
-          
+          ))}
+
+
         </div>
       </div>
     </div>

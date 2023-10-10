@@ -1,7 +1,7 @@
 import React from "react";
 import { NavBar } from "../../../Components/NavBar/NavBar";
 import Logo from "../../../assets/logos/dc-black-transparent.png";
-import { FaCamera, FaPencilAlt, FaCheck, FaRegCheckCircle } from "react-icons/fa";
+import { FaCamera, FaEdit, FaRegCheckCircle } from "react-icons/fa";
 import PhotoUploadDrawer from "../../../Components/Drawer/PhotoUploadDrawer";
 import {
   Button,
@@ -164,10 +164,12 @@ function ProfessionalProfile() {
             ></span>
             <div className="flex justify-end p-3">
               <IconButton
+              className="bg-white"
                 aria-label="Edit"
                 onClick={() => setOpenCoverPhotoDrawer(true)}
               >
-                <FaPencilAlt size={24} />
+                
+                <FaEdit color="grey" size={24}/>
               </IconButton>
             </div>
 
@@ -259,6 +261,7 @@ function ProfessionalProfile() {
                       {userinfo.name}
                     </h3>
                     <InputModal
+                    buttonsize = "18"
                       ModalHeader="ghk"
                       ModalContent="Name"
                       onOkClick={handleProfilEdit}
@@ -277,7 +280,8 @@ function ProfessionalProfile() {
                         {user_address.country}
                         
                         <button className="hover:opacity-25 ml-2" onClick={handleOpen}>
-                        <FaPencilAlt size={17} />
+                        
+                        <FaEdit color="grey" size={17}/>
                         </button>
                         </div>
                         <Dialog open={open} handler={handleOpen}>

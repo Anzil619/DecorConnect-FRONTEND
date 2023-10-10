@@ -20,6 +20,7 @@ import jwtDecode from "jwt-decode";
 export function NavBar() {
   const token = localStorage.getItem("token");
   const decoded = jwtDecode(token);
+  
 
   const [openNav, setOpenNav] = React.useState(false);
   const [show, setShow] = React.useState(false);
@@ -93,15 +94,15 @@ export function NavBar() {
             className="flex items-center"
             onClick={() => navigate("/admin/adminhomepage/")}
           >
-            {decoded.role === "admin" ? "Users" : "About"}
+            Users
           </a>
         ) : decoded.role === "professional" ? (
           <a href="#" className="flex items-center" onClick="">
-            {decoded.role === "admin" ? "Users" : "About"}
+            About
           </a>
         ) : (
           <a href="#" className="flex items-center" onClick="">
-            {decoded.role === "admin" ? "Users" : "About"}
+            About
           </a>
         )}
       </Typography>
@@ -122,11 +123,11 @@ export function NavBar() {
           </a>
         ) : decoded.role === "professional" ? (
           <a
-            onClick={() => navigate("/professional/explore/")}
+            onClick={() => navigate("/professional/myfirm/")}
             href="#"
             className="flex items-center"
           >
-            Booking
+            My Firm
           </a>
         ) : (
           <a

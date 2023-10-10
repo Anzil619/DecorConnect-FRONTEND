@@ -1,7 +1,7 @@
 import React from "react";
 import { NavBar } from "../../../Components/NavBar/NavBar";
 import Logo from "../../../assets/logos/dc-black-transparent.png";
-import { FaCamera, FaPencilAlt } from "react-icons/fa";
+import { FaCamera, FaEdit } from "react-icons/fa";
 import PhotoUploadDrawer from "../../../Components/Drawer/PhotoUploadDrawer";
 import {
   Button,
@@ -109,7 +109,6 @@ function HomeownerProfile() {
 
   const AddAddress = async () => {
     try {
-      const id = userinfo.id;
       const res = await AddUserAddress(address);
       console.log(res, "anzil");
       dispatch(
@@ -161,14 +160,16 @@ function HomeownerProfile() {
               className="w-full h-full absolute opacity-50 bg-black"
             ></span>
             <div className="flex justify-end p-3">
+
               <IconButton
+              className="bg-white"
                 aria-label="Edit"
                 onClick={() => setOpenCoverPhotoDrawer(true)}
               >
-                <FaPencilAlt size={24} />
+                
+                <FaEdit size={24}/>
               </IconButton>
             </div>
-
             <PhotoUploadDrawer
               open={openCoverPhotoDrawer}
               onClose={() => setOpenCoverPhotoDrawer(false)}
@@ -257,7 +258,9 @@ function HomeownerProfile() {
                       {userinfo.name}
                     </h3>
                     <InputModal
-                      ModalHeader="ghk"
+                    buttonsize = "24"
+                      inputname = "name"
+                      ModalHeader="Update User Name"
                       ModalContent="Name"
                       onOkClick={handleProfilEdit}
                     />
@@ -271,7 +274,7 @@ function HomeownerProfile() {
                         {user_address.country}
                         
                         <button className="hover:opacity-25 ml-2" onClick={handleOpen}>
-                        <FaPencilAlt size={17} />
+                        <FaEdit size={17}/>
                         </button>
                         </div>
                         <Dialog open={open} handler={handleOpen}>
