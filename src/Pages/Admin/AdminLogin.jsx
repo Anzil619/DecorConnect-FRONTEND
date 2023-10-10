@@ -5,10 +5,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AdminSignIn } from "../../Services/AdminApi";
 import jwtDecode from "jwt-decode";
+import { Loader } from "../../Components/Loading/Loader";
 
 function AdminLogin() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
+
 
   function isValidEmail(email) {
     const Regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -37,10 +41,12 @@ function AdminLogin() {
     e.preventDefault();
 
     if (validation()) {
+      handleLoading();
       AdminSignIn(form).then((res) => {
         if (res.status === 200) {
           const token = JSON.stringify(res.data);
           const decoded = jwtDecode(token);
+          handleLoading();
           if (decoded.role === "admin" && decoded.is_admin) {
             localStorage.setItem("token", token);
             navigate("/admin/adminhomepage/");
@@ -48,6 +54,12 @@ function AdminLogin() {
             toast.error("invalid credentials");
             
           }
+        }else{
+          handleLoading();
+          toast.error(
+            "invalid login credentials please verify your email and password "
+          ); 
+
         }
       });
     }
@@ -55,6 +67,7 @@ function AdminLogin() {
 
   return (
     <>
+    {loading && <Loader/>}
       <ToastContainer />
       <div className="h-screen w-full flex justify-center items-center">
         <div className="outward-shadow bg-white w-2/4 h-3/4 sm:w-1/3 flex justify-center items-center">

@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 
+
 function NotificationModal({ buttonText, modalTitle, modalContent, onOkClick,modalHeading,buttonColor }) {
   const [open, setOpen] = useState(false);
 
@@ -29,7 +30,6 @@ function NotificationModal({ buttonText, modalTitle, modalContent, onOkClick,mod
         </DialogHeader>
         <DialogBody divider className="grid place-items-center gap-4">
         
-
           <Typography color="red" variant="h4">
             {modalHeading}
           </Typography>

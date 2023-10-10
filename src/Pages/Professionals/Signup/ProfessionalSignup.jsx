@@ -11,17 +11,77 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { ProfessionalGoogleSignup } from "../../../Services/ProfessionalApi";
+import { Loader } from "../../../Components/Loading/Loader";
+
 
 
 
 function ProfessionalSignup() {
 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
+  const [guser,setGuser] = useState()
+
 
   useEffect(() => {
-    FirstInputRef.current.focus();
     
-  }, []);
+    const GoogleAuth = async () => {
+      try {
+        if (!guser) return;
+       
+        const response = await axios.get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${guser.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${guser.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        const res = await ProfessionalGoogleSignup(response.data);
+        toast.success(res.data.msg);
+        setGuser([]);
+        
+        const token = JSON.stringify(res.data.token)
+        console.log(token,"daxoooo");
+        const decoded = jwtDecode(token)
+        localStorage.setItem('token',token)
+        if (decoded.role === "homeowner") {
+          if (decoded.is_active) {
+            navigate("/homeowner/homeownerhomepage/");
+          } else {
+            toast.error("Your account is not active , Please try again later")
+            navigate("/login/");
+          }
+        }else if (decoded.role === 'professional'){
+          if (decoded.is_active){
+            navigate("/professional/professionalhomepage/")
+          }else{
+            toast.error("your account is inactive , please try again later")
+            navigate("/login/");
+          }
+        } 
+      
+        
+        // navigate("/login/");
+      } catch (error) {
+        
+        
+        if (error.response && error.response.data && error.response.data.email) {
+          toast.error(error.response.data.email[0]);
+        } else {
+          toast.error("An error occurred during registration.");
+        }
+      }
+    };
+
+    if(guser) {
+    GoogleAuth();
+    }
+    
+  }, [guser]);
+
 
   const FirstInputRef = useRef(null);
   const emailInputRef = useRef(null);
@@ -81,6 +141,7 @@ function ProfessionalSignup() {
     e.preventDefault();
 
     if (validateForm()) {
+      handleLoading();
       try {
         const response = await axios.post(
           import.meta.env.VITE_PROFESSIONAL_URL + "register/",
@@ -95,9 +156,8 @@ function ProfessionalSignup() {
         )
         
         
-        
+        handleLoading();
         toast.success(response.data.msg);
-        navigate("/login/");
         setProfessional({
           name: "",
           email: "",
@@ -105,7 +165,9 @@ function ProfessionalSignup() {
           password: "",
         });
         setPass({ cpassword: "", check: true });
+        
       } catch (error) {
+        handleLoading();
         console.log(error)
         if (error.response && error.response.data) {
           const errorData = error.response.data;
@@ -121,69 +183,23 @@ function ProfessionalSignup() {
 
   //google authentication
 
-  const [guser,setGuser] = useState([])
+  
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       setGuser(codeResponse);
-      GoogleAuth();
+      
     },
     onError: (error) => console.log("Login Failed:", error),
   });
-  const GoogleAuth = async () => {
-    try {
-      if (!guser) return;
-     
-      const response = await axios.get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${guser.access_token}`,
-        {
-          headers: {
-            Authorization: `Bearer ${guser.access_token}`,
-            Accept: "application/json",
-          },
-        }
-      );
-      const res = await ProfessionalGoogleSignup(response.data);
-      toast.success(res.data.msg);
-      setGuser([]);
-      
-      const token = JSON.stringify(res.data.token)
-      console.log(token,"daxoooo");
-      const decoded = jwtDecode(token)
-      localStorage.setItem('token',token)
-      if (decoded.role === "homeowner") {
-        if (decoded.is_active) {
-          navigate("/homeowner/homeownerhomepage/");
-        } else {
-          toast.error("Your account is not active , Please try again later")
-          navigate("/login/");
-        }
-      }else if (decoded.role === 'professional'){
-        if (decoded.is_active){
-          navigate("/professional/professionalhomepage/")
-        }else{
-          toast.error("your account is inactive , please try again later")
-          navigate("/login/");
-        }
-      } 
-    
-      
-      // navigate("/login/");
-    } catch (error) {
-      
-      
-      if (error.response && error.response.data && error.response.data.email) {
-        toast.error(error.response.data.email[0]);
-      } else {
-        toast.error("An error occurred during registration.");
-      }
-    }
-  };
+  
 
 
 
   return (
+    
     <div className="maindiv1 h-screen w-full flex justify-center items-center">
+      {loading && <Loader/>}
       <ToastContainer />
       <div className="sm:outward-shadow sm:h-5/6 sm:w-1/3 bg-black bg-opacity-80 flex justify-center items-center">
         <div className="flex flex-col items-center">
@@ -191,7 +207,7 @@ function ProfessionalSignup() {
           <h5 className="text-white my-5 text-lg">Elevate spaces together</h5>
         </div>
       </div>
-  
+      
       <div className="outward-shadow bg-white w-4/5 h-4/5 sm:w-1/3 flex justify-center items-center">
         <form
           className="space-y-8 sm:w-52 lg:w-80 xl:w-96 mb-12 mt-24"
@@ -251,7 +267,7 @@ function ProfessionalSignup() {
             <hr className="flex-grow border-t border-gray-300" />
           </div>
   
-          <button onClick={() => login()} className="w-11/12 bg-white text-black border-2 border-gray-400 mt-4 mx-4 my-6 px-4 py-2 rounded-full hover:bg-opacity-70">
+          <button type="button" onClick={() => login()} className="w-11/12 bg-white text-black border-2 border-gray-400 mt-4 mx-4 my-6 px-4 py-2 rounded-full hover:bg-opacity-70">
             Continue with Google
           </button>
           <div className="text-center">

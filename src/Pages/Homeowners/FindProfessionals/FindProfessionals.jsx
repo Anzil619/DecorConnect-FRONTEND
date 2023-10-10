@@ -6,40 +6,53 @@ import image1 from "../../../assets/homepage/image1.jpg";
 import { Rating } from "@material-tailwind/react";
 import { FirmList, SearchFirms } from "../../../Services/HomeownerApi";
 import { Link, useNavigate } from 'react-router-dom';
+import { Loader } from "../../../Components/Loading/Loader";
+
 
 
 function FindProfessionals() {
+
   const [firms, setFirm] = useState([]);
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
 
   useEffect(() => {
     FetchFirmInfo();
   }, []);
 
   const FetchFirmInfo = async () => {
+    handleLoading();
     try {
       const res = await FirmList();
       const data = res.data
       const filtered_data = data.filter((firm)=> firm.status === "approved")
       setFirm(filtered_data);
+      handleLoading();
     } catch (error) {
+      handleLoading();
       console.log(error);
     }
   };
 
   const Search = async (keyword) =>{
+    
     try{
       const res = await SearchFirms(keyword)
       const data = res.data
       const filtered_data = data.filter((firm)=> firm.status === "approved")
       setFirm(filtered_data)
-      console.log(res.data);
+      
     }catch(error){
+     
       console.log(error);
     } 
   }
 
   return (
+  <>
+  {loading && <Loader/>}
+
     <div>
       <div className="flex justify-center my-4">
         <img src={Logo} className="w-20" alt="" />
@@ -134,6 +147,7 @@ function FindProfessionals() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

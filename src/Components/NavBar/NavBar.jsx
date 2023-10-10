@@ -10,6 +10,7 @@ import {
   MenuItem,
   Button,
   IconButton,
+  Collapse,
 } from "@material-tailwind/react";
 import "./NavBar.css";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
@@ -68,7 +69,7 @@ export function NavBar() {
             decoded.role === "homeowner"
               ? navigate("/homeowner/homeownerhomepage/")
               : decoded.role === "professional"
-              ? navigate("/professsional/professionalhomepage/")
+              ? navigate("/professional/professionalhomepage/")
               : decoded.role === "admin"
               ? navigate("/admin/homepage/")
               : null
@@ -192,7 +193,8 @@ export function NavBar() {
             </Button>
           </MenuHandler>
           <MenuList>
-            <MenuItem>Profile</MenuItem>
+            {}
+            <MenuItem onClick={()=>{decoded.role === "professional" ? navigate("/professional/professionalprofile/") : navigate("/homeowner/homeownerprofile/")}}>Profile</MenuItem>
             <hr className="my-3" />
             <MenuItem onClick={SignOut}>Sign Out</MenuItem>
           </MenuList>
@@ -259,14 +261,14 @@ export function NavBar() {
           )}
         </IconButton>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         <div className="container mx-auto">
           {navList}
           <Button variant="gradient" size="sm" fullWidth className="mb-2">
             <span>Buy Now</span>
           </Button>
         </div>
-      </MobileNav>
+      </Collapse>
     </Navbar>
   );
 }

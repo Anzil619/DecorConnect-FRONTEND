@@ -13,12 +13,8 @@ import AdminRoutes from "./Routes/AdminRoutes";
 import RoleSelection from "./Pages/RoleSelection";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
-import BasicInfo from "./Pages/Professionals/ProfileCompletion/BasicInfo";
-import BusinessDetails from "./Pages/Professionals/ProfileCompletion/BusinessDetails";
-import FirmVerification from "./Pages/Professionals/ProfileCompletion/FirmVerification";
-import AddProject from "./Pages/Professionals/ProfileCompletion/AddProject";
-import FindProfessionals from "./Pages/Homeowners/FindProfessionals/FindProfessionals";
-import Explore from "./Pages/Homeowners/Explore/Explore";
+
+
 
 function App() {
   return (

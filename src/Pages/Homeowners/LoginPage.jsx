@@ -6,25 +6,71 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { GetUserInfo, HomeownerGoogleSignin, HomeownerSignin } from "../../Services/HomeownerApi";
+import { GetUserAddress, GetUserInfo, HomeownerGoogleSignin, HomeownerSignin } from "../../Services/HomeownerApi";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setFirmInfo, setUserInfo } from "../../Redux/ProfessionalSlice";
+import { setFirmInfo, setUserAddress, setUserInfo } from "../../Redux/ProfessionalSlice";
 import { GetFirmInfo } from "../../Services/ProfessionalApi";
+import { Loader } from "../../Components/Loading/Loader";
 
 
 function LoginPage() {
+
   const navigate = useNavigate();
   const [homeowner, setHomeowner] = useState({ email: "", password: "" });
   const emailInputRef = useRef(null);
   const passInputRef = useRef(null);
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
+  const [guser,setGuser] = useState()
 
    useEffect(() => {
-    emailInputRef.current.focus();
+    
     document.title = "Login | DecorConnect";
-  }, []);
+
+    const GoogleAuth = async () => {
+      try {
+        
+        if (!guser) return;
+  
+        const response = await axios.get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${guser.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${guser.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+  
+        const res = await HomeownerGoogleSignin(response.data);
+        const token = JSON.stringify(res.data);
+        const decoded = jwtDecode(token);
+        if (decoded.role === "homeowner") {
+          localStorage.setItem("token", token);
+          navigate("/homeowner/homeownerhomepage/");
+        } else if (decoded.role === "professional") {
+          localStorage.setItem("token", token);
+          navigate("/professional/professionalhomepage/");
+        }
+       
+        
+      } catch (error) {
+        if (error.response) {
+          toast.error(error.response.data.detail);
+        } else {
+          toast.error("An error occurred during signup.");
+        }
+      }
+    };
+
+    if (guser){
+      GoogleAuth();
+    }
+    
+  }, [guser]);
 
   //validations
 
@@ -61,7 +107,9 @@ function LoginPage() {
       role : res.data.role,
       is_active : res.data.is_active,
       is_google : res.data.is_google,
-      is_completed : res.data.is_google
+      is_completed : res.data.is_google,
+      profile_photo : res.data.profile_photo,
+      cover_photo : res.data.cover_photo
     }
     dispatch(setUserInfo({
       userinfo : data
@@ -71,9 +119,23 @@ function LoginPage() {
   }
   }
 
+  const FetchUserAddress = async(token) =>{
+    try{
+      const id = token.id
+      const res = await GetUserAddress(id)
+      dispatch(setUserAddress({
+        user_address : res.data
+      }))
+      console.log(res.data);
+    }catch(error){
+      console.log(error);
+    }
+  }
+
 
  const FetchFirmInfo = async (token) =>{
   try{
+    
     const id = token.id
     const ress = await GetFirmInfo(id)
     console.log(ress);
@@ -93,8 +155,6 @@ function LoginPage() {
       firminfo : data
     }))   
 
-
-    
   }catch{
     toast.error("something error")  
   }
@@ -105,6 +165,8 @@ function LoginPage() {
   const FormHandlerLogin = async (e) => {
     e.preventDefault();
     if (validation()) {
+      handleLoading();
+
 
       HomeownerSignin(homeowner).then((res) => {
         // console.log(res.status)
@@ -113,7 +175,9 @@ function LoginPage() {
           const decoded = jwtDecode(token);
 
           FetchUserInfo(decoded)
+          FetchUserAddress(decoded)
           localStorage.setItem('token',token)
+          handleLoading();
           if (decoded.role === "homeowner") {
             if (decoded.is_active) {
               navigate("/homeowner/homeownerhomepage/");
@@ -124,6 +188,7 @@ function LoginPage() {
           }else if (decoded.role === 'professional'){
             if (decoded.is_active){
               if(decoded.is_completed){
+                FetchFirmInfo(decoded)
                 navigate("/professional/professionalhomepage/")
               }else{
                 FetchFirmInfo(decoded)
@@ -136,6 +201,7 @@ function LoginPage() {
             }
           } 
         }else {
+          handleLoading();
           toast.error(
             "invalid login credentials please verify your email and password "
           );  
@@ -145,56 +211,24 @@ function LoginPage() {
   };
 
   // GOOGLE AUTHENTICATION
-  const [guser,setGuser] = useState([])
+ 
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       setGuser(codeResponse);
-      GoogleAuth();
+      
     },
     onError: (error) => console.log("Login Failed:", error),
   });
-  console.log(guser.access_token);
-  const GoogleAuth = async () => {
-    try {
-      
-      if (!guser) return;
-
-      const response = await axios.get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${guser.access_token}`,
-        {
-          headers: {
-            Authorization: `Bearer ${guser.access_token}`,
-            Accept: "application/json",
-          },
-        }
-      );
-
-      const res = await HomeownerGoogleSignin(response.data);
-      const token = JSON.stringify(res.data);
-      const decoded = jwtDecode(token);
-      if (decoded.role === "homeowner") {
-        localStorage.setItem("token", token);
-        navigate("/homeowner/homeownerhomepage/");
-      } else if (decoded.role === "professional") {
-        localStorage.setItem("token", token);
-        navigate("/professional/professionalhomepage/");
-      }
-     
-      
-    } catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.detail);
-      } else {
-        toast.error("An error occurred during signup.");
-      }
-    }
-  };
+  
+  
 
 
 
   return (
    <>
+   {loading && <Loader/>}
+   
    
     <div className="maindiv h-screen w-full flex justify-center items-center">
       <div className="sm:outward-shadow sm:h-5/6 sm:w-1/3 bg-black bg-opacity-70 flex justify-center items-center">
@@ -251,7 +285,7 @@ function LoginPage() {
             <span className="text-blue-gray-700">or</span>
             <hr className="flex-grow border-t border-gray-300" />
           </div>
-          <button onClick={() => login()} className="w-11/12 bg-white  text-black border-2 border-gray-400 mt-16 mx-4 my-6 px-4 py-2 rounded-full hover:bg-opacity-70">
+          <button type="button" onClick={() => login()} className="w-11/12 bg-white  text-black border-2 border-gray-400 mt-16 mx-4 my-6 px-4 py-2 rounded-full hover:bg-opacity-70">
             Continue with Google
           </button>
           <div className="text-center">

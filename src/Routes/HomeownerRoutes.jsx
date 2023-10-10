@@ -12,6 +12,8 @@ import HomeownerHomepage from '../Pages/Homeowners/Homepage/HomeownerHomepage'
 import FindProfessionals from '../Pages/Homeowners/FindProfessionals/FindProfessionals'
 import Explore from '../Pages/Homeowners/Explore/Explore'
 import SingleFirm from '../Pages/Homeowners/FindProfessionals/SingleFirm'
+import HomeownerProfile from '../Pages/Homeowners/Profile/HomeownerProfile'
+import SingleProject from '../Pages/Homeowners/Projects/SingleProject'
 
 
 export default function HomeownerRoutes() {
@@ -26,6 +28,8 @@ export default function HomeownerRoutes() {
             <Route path='/findprofessionals/' element = {<FindProfessionals/>}/>
             <Route path='/explore/' element = {<Explore/>}/>
             <Route path='/singlefirm/:firmId/' element={<SingleFirm />} />
+            <Route path='/homeownerprofile/' element={<HomeownerProfile />} />
+            <Route path='/singleproject/:projectId/' element={<SingleProject />} />
 
 
         </Route>

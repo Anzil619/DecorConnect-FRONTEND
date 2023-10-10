@@ -8,6 +8,7 @@ const initialState = {
     FirmInfo : {},
     address : {},
     verification : {},
+    user_address : {},
 }
 
 
@@ -28,10 +29,21 @@ const ProfessionalSlice = createSlice({
         setUserInfo : (state, action) =>{
             state.userinfo = action.payload.userinfo
 
-        }
+        },
+        setupdateInfo: (state, action) => {
+            // Merge the updated data into the userinfo object
+            state.userinfo = {
+              ...state.userinfo, // Preserve existing userinfo data
+              ...action.payload.updatedData.userinfo, // Update with new data
+            };
+          },
+        setUserAddress : (state, action) =>{
+            state.user_address = action.payload.user_address;
+        },
+ 
     }
 
 })
 
-export const { setAddress, setFirmInfo, setVerification,setUserInfo} = ProfessionalSlice.actions;
+export const { setAddress, setFirmInfo, setVerification,setUserInfo,setupdateInfo,setUserAddress} = ProfessionalSlice.actions;
 export default ProfessionalSlice.reducer;

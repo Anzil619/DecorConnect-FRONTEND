@@ -39,18 +39,6 @@ function BusinessDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const imageToBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-
-
-
- 
-
   const validation = () => {
     if (hasAtLeast50Words(forms.about)) {
       toast.error("about section should contain atleast 50 words");
@@ -65,28 +53,24 @@ function BusinessDetails() {
     return true;
   };
   const hasAtLeast50Words = (text) => {
-    // Define a regular expression pattern to match words
+
     const wordPattern = /\w+/g;
-    
-    // Use the regular expression to find all words in the text
     const words = text.match(wordPattern);
-  
-    // Check if there are at least 50 words
+
     if (words && words.length >= 50) {
       return true;
     }
-  
     return false;
   };
   
 
   const FormSubmission = async (e) => {
     e.preventDefault();
-     const formData = new FormData();
+
     if (validation()) {
       
       try{
-        
+
         const formData = new FormData();
         formData.append('firm_name', forms.firm_name);
         formData.append('website', forms.website);
@@ -94,7 +78,7 @@ function BusinessDetails() {
         formData.append('cover_photo', images.coverphoto);
         formData.append('firm_description', forms.firm_description);
         formData.append('awards', forms.awards);
-        
+
         const firm_id =FirmInfo.id
         const res = await ProfileCompletion(firm_id,formData )
         console.log(res);
@@ -102,15 +86,11 @@ function BusinessDetails() {
       }catch(error){
         console.log(error);
       }
-      
-     
-     
-
-      
-      
       navigate("/professional/firmverification/");
     }
   };
+
+
 
   return (
     <div className="">
@@ -153,7 +133,7 @@ function BusinessDetails() {
               setForms({ ...forms, [e.target.name]: e.target.value });
             }}
             color="teal"
-            label="Logo (optional)"
+            label="Firm_name"
             className="w-96"
           />
           <Input

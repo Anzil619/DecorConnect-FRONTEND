@@ -46,7 +46,7 @@ function PdfModal({ buttonText, modalTitle, modalContent, onOkClick, modalHeadin
           <Button variant="gradient" onClick={handleOkClick}>
             Ok, Got It
           </Button>
-        </DialogFooter>
+        </DialogFooter> 
       </Dialog>
     </>
   );

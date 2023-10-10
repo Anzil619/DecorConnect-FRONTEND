@@ -3,6 +3,7 @@ import Logo from "../../../assets/logos/dc-black-transparent.png";
 import { NavBar } from "../../../Components/NavBar/NavBar";
 import studio from "../../../assets/logos/studio3am.jpg";
 import { Rating } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 import image from "../../../assets/test/photo.jpg";
 import { useParams } from "react-router-dom";
 
@@ -28,6 +29,7 @@ import project2 from "../../../assets/test/project2.png";
 import project3 from "../../../assets/test/project3.png";
 import { SingleFirmInfo } from "../../../Services/HomeownerApi";
 import { toast } from "react-toastify";
+import { Loader } from "../../../Components/Loading/Loader";
 
 function StarIcon() {
   return (
@@ -50,7 +52,8 @@ function SingleFirm() {
   const { firmId } = useParams();
   
   const [firminfo, setfirminfo] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
   const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
@@ -58,14 +61,17 @@ function SingleFirm() {
   }, []);
 
   const FetchFirmInfo = async (e) => {
+    handleLoading();
     try {
-     
+      
       const res = await SingleFirmInfo(firmId);
       const data = res.data;
       console.log(data);
       setfirminfo(data);
+      handleLoading();
       
     } catch {
+      handleLoading();
       console.log("error trying fetch");
     }
   };
@@ -74,6 +80,7 @@ function SingleFirm() {
 
   return (
     <div>
+      {loading && <Loader/>}
       <div className="flex justify-center my-4">
         <img src={Logo} className="w-20" alt="" />
       </div>
@@ -130,8 +137,9 @@ function SingleFirm() {
                 <Card className="w-80 h-96">
                 <CardHeader floated={false} className="h-80">
                 {console.log(project.images[0]?.image)}
+                <Link to={`/homeowner/singleproject/${project.id}`}>
                 <img className="w-full object-cover object-center h-full" src={`${import.meta.env.VITE_HOMEOWNER_URL}${project.images[0]?.image}`} alt="profile-picture" />
-                
+                </Link>
           
 
                 </CardHeader>
