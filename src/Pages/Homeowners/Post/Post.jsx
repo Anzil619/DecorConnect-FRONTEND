@@ -85,14 +85,20 @@ function Post() {
               <div className="flex justify-center">
               <div className="bg-white m-10 rounded-sm p-4 shadow-md w-3/4">
                 {/* Profile Photo */}
+                
                 <div className="flex items-center gap-4">
+                <Link to={`/homeowner/userprofile/${feed.user.id}`}>
                   <Avatar
                     src={feed.user.profile_photo}
                     alt="avatar"
                     variant="rounded"
                   />
+                  </Link>
+
                   <div>
+                  <Link to={`/homeowner/userprofile/${feed.user.id}`}>
                     <Typography variant="h6">{feed.user.name}</Typography>
+                    </Link>
                     <Typography
                       variant="small"
                       color="gray"

@@ -11,9 +11,7 @@ function CreatePost() {
     const navigate = useNavigate()
   const [newImg, setNewImg] = useState(null); // To track the selected image file
   const [showImage, setShowImage] = useState(null); // To display the selected image
-
   const [form,setForm] = useState({"location" : "" , "caption" : ""})
-
   const { userinfo } = useSelector((state) => state.professional);
 
   const handleImageChange = (e) => {

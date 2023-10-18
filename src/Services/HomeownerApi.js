@@ -102,8 +102,11 @@ const GetUserPosts = (user_id) =>{
   return HomeownerAxiosInstant.get("/homeowners/getuserpost/" +user_id+ "/" ,{withCredentials:true})
 }
 
-
+const GetChatList = (sender_id , search) =>{
+  return HomeownerAxiosInstant.get(`/chat/chatlist/${sender_id}/?search=${search}`, {withCredentials:true})
+}
 export {
+  GetChatList,
   GetUserPosts,
   ListPosts,
   CreatePosts,

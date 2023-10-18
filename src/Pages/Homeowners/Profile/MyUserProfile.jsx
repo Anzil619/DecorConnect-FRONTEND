@@ -1,7 +1,7 @@
 import React from "react";
 import { NavBar } from "../../../Components/NavBar/NavBar";
 import Logo from "../../../assets/logos/dc-black-transparent.png";
-import { FaCamera, FaEdit } from "react-icons/fa";
+import { FaCamera, FaEdit, FaRegCheckCircle } from "react-icons/fa";
 import PhotoUploadDrawer from "../../../Components/Drawer/PhotoUploadDrawer";
 import {
   Button,
@@ -27,9 +27,7 @@ import {
 import { InputModal } from "../../../Components/Modal/InputModal";
 import { PostModal } from "../../../Components/Modal/PostModal";
 
-
-
-function HomeownerProfile() {
+function MyUserProfile() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
   const [openProfilePhotoDrawer, setOpenProfilePhotoDrawer] = useState(false);
@@ -41,7 +39,8 @@ function HomeownerProfile() {
     district: Object.keys(user_address).length > 0 ? user_address.district : "",
     state: Object.keys(user_address).length > 0 ? user_address.state : "",
     country: Object.keys(user_address).length > 0 ? user_address.country : "",
-    address_line: Object.keys(user_address).length > 0 ? user_address.address_line : "",
+    address_line:
+      Object.keys(user_address).length > 0 ? user_address.address_line : "",
     phone: Object.keys(user_address).length > 0 ? user_address.phone : "",
   });
 
@@ -127,20 +126,28 @@ function HomeownerProfile() {
   const EditAddress = async () => {
     try {
       const id = userinfo.id;
-      const res = await EditUserAddress(id,address);
+      const res = await EditUserAddress(id, address);
       dispatch(
         setUserAddress({
           user_address: res.data,
         })
       );
       console.log(res.data);
-
     } catch (error) {
       console.log(error);
     }
   };
 
-  
+  const FetchUserPost = async (token) => {
+    try {
+      const user_id = token.id;
+      const res = await GetUserPosts(user_id);
+
+      console.log(res.data, "Posts");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -165,14 +172,12 @@ function HomeownerProfile() {
               className="w-full h-full absolute opacity-50 bg-black"
             ></span>
             <div className="flex justify-end p-3">
-
               <IconButton
-              className="bg-black"
+                className="bg-white"
                 aria-label="Edit"
                 onClick={() => setOpenCoverPhotoDrawer(true)}
               >
-                
-                <FaEdit size={24}/>
+                <FaEdit color="grey" size={24} />
               </IconButton>
             </div>
             <PhotoUploadDrawer
@@ -263,24 +268,37 @@ function HomeownerProfile() {
                       {userinfo.name}
                     </h3>
                     <InputModal
-                    buttonsize = "24"
-                      inputname = "name"
+                      buttonsize="24"
+                      inputname="name"
                       ModalHeader="Update User Name"
                       ModalContent="Name"
                       onOkClick={handleProfilEdit}
                     />
                   </div>
+
+                  {userinfo.role === "professional" ? (
+                    <div className="flex justify-center">
+                      <h1 className="font-serif text-xs pr-2 text-indigo-500">
+                        PROFESSIONAL
+                      </h1>
+                      <FaRegCheckCircle color="indigo" size={15} />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
                   <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                     <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                     {Object.keys(user_address).length > 0 ? (
                       <>
-                      <div>
-                        {user_address.state},
-                        {user_address.country}
-                        
-                        <button className="hover:opacity-25 ml-2" onClick={handleOpen}>
-                        <FaEdit size={17}/>
-                        </button>
+                        <div>
+                          {user_address.state},{user_address.country}
+                          <button
+                            className="hover:opacity-25 ml-2"
+                            onClick={handleOpen}
+                          >
+                            <FaEdit size={17} />
+                          </button>
                         </div>
                         <Dialog open={open} handler={handleOpen}>
                           <div className="flex items-center justify-between">
@@ -511,25 +529,24 @@ function HomeownerProfile() {
                 <hr />
 
                 <div className="flex justify-center">
-                  
                   <h1 className="font-serif">Posts</h1>
                 </div>
 
                 <div className="grid grid-cols-3 mt-10 mb-10 gap-10">
-                  <div><PostModal/></div>
-                  <div><PostModal/></div>
+                  <div>
+                    <PostModal />
+                  </div>
+                  <div>
+                    <PostModal />
+                  </div>
                 </div>
-
               </div>
             </div>
           </div>
           <footer className="relative bg-blueGray-200 pt-8 pb-6 mt-8">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap items-center md:justify-between justify-center">
-                <div className="w-full md:w-6/12 px-4 mx-auto text-center bg-black">
-                  
-
-                </div>
+                <div className="w-full md:w-6/12 px-4 mx-auto text-center bg-black"></div>
               </div>
             </div>
           </footer>
@@ -539,4 +556,4 @@ function HomeownerProfile() {
   );
 }
 
-export default HomeownerProfile;
+export default MyUserProfile;

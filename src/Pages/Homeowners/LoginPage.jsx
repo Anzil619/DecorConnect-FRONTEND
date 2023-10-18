@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { GetUserAddress, GetUserInfo, GetUserPosts, HomeownerGoogleSignin, HomeownerSignin } from "../../Services/HomeownerApi";
+import { GetUserAddress, GetUserInfo, HomeownerGoogleSignin, HomeownerSignin } from "../../Services/HomeownerApi";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -50,13 +50,13 @@ function LoginPage() {
         const token = JSON.stringify(res.data);
         const decoded = jwtDecode(token);
         if (decoded.role === "homeowner") {
+      
           localStorage.setItem("token", token);
           navigate("/homeowner/homeownerhomepage/");
         } else if (decoded.role === "professional") {
           localStorage.setItem("token", token);
           navigate("/professional/professionalhomepage/");
         }
-       
         
       } catch (error) {
         if (error.response) {
@@ -161,17 +161,6 @@ function LoginPage() {
   }
  }
 
- const FetchUserPost = async(token)=>{
-  try{
-    const user_id = token.id
-    const res = await GetUserPosts(user_id)
-    
-    console.log(res.data,"Posts");
-
-  }catch(error){
-    console.log(error);
-  }
- }
 
   // form submission
 
@@ -189,7 +178,7 @@ function LoginPage() {
 
           FetchUserInfo(decoded)
           FetchUserAddress(decoded)
-          FetchUserPost(decoded)
+          
           localStorage.setItem('token',token)
           handleLoading();
           if (decoded.role === "homeowner") {

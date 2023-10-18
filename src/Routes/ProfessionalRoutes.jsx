@@ -15,6 +15,7 @@ import Explore from '../Pages/Homeowners/Explore/Explore'
 import ProfessionalProfile from '../Pages/Professionals/Profile/ProfessionalProfile'
 import MyFirm from '../Pages/Professionals/MyFirm/MyFirm'
 import MyProject from '../Pages/Professionals/Project/MyProject'
+import HomeownerProfile from '../Pages/Homeowners/Profile/MyUserProfile'
 
 
 function ProfessionalRoutes() {
@@ -33,7 +34,7 @@ function ProfessionalRoutes() {
             <Route path='/businessdetails/' element = {<BusinessDetails/>}/>
             <Route path='/firmverification/' element = {<FirmVerification/>}/>
             <Route path='/addproject/' element = {<AddProject/>}/>
-            <Route path='/professionalprofile/' element = {<ProfessionalProfile/>}/>
+            <Route path='/professionalprofile/' element = {<HomeownerProfile/>}/>
             <Route path='/myfirm/' element = {<MyFirm/>}/>
             <Route path='/myproject/:projectId/' element = {<MyProject/>}/>
             

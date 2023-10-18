@@ -12,11 +12,13 @@ import HomeownerHomepage from '../Pages/Homeowners/Homepage/HomeownerHomepage'
 import FindProfessionals from '../Pages/Homeowners/FindProfessionals/FindProfessionals'
 import Explore from '../Pages/Homeowners/Explore/Explore'
 import SingleFirm from '../Pages/Homeowners/FindProfessionals/SingleFirm'
-import HomeownerProfile from '../Pages/Homeowners/Profile/HomeownerProfile'
+import HomeownerProfile from '../Pages/Homeowners/Profile/MyUserProfile'
 import SingleProject from '../Pages/Homeowners/Projects/SingleProject'
 import Post from '../Pages/Homeowners/Post/Post'
 import Anzil from '../Pages/Homeowners/Post/anzil'
 import CreatePost from '../Pages/Homeowners/Post/CreatePost'
+import HomeownersChat from '../Pages/Homeowners/chat/HomeownersChat'
+import UserProfile from '../Pages/Homeowners/Profile/UserProfile'
 
 
 export default function HomeownerRoutes() {
@@ -37,6 +39,8 @@ export default function HomeownerRoutes() {
             <Route path='/homeownerprofile/' element={<HomeownerProfile />} />
             <Route path='/createpost/' element={<CreatePost/>} />
             <Route path='/anzil/' element={<Anzil/>} />
+            <Route path='/chat/' element={<HomeownersChat/>} />
+            <Route path='/userprofile/:userId/' element={<UserProfile/>} />
             <Route path='/singleproject/:projectId/' element={<SingleProject />} />
         </Route>
     </Routes>

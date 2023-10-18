@@ -4,5 +4,5 @@ export const ProfessionalUrl = import.meta.env.VITE_PROFESSIONAL_URL;
 
 export const AdminUrl = import.meta.env.VITE_ADMIN_URL;
 
-
+export const wsApiUrl = import.meta.env.VITE_Ws_URL;
 

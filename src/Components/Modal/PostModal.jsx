@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 
 
-export function PostModal() {
+export function PostModal({cardImage, profile_photo,name,contentImage}) {
   const [open, setOpen] = React.useState(false);
   const [isFavorite, setIsFavorite] = React.useState(false);
 
@@ -27,7 +27,7 @@ export function PostModal() {
         <img
           alt="nature"
           className="h-full w-full object-cover object-center"
-          src="https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2717&q=80"
+          src={cardImage}
         />
       </Card>
       <Dialog size="xl" open={open} handler={handleOpen}>
@@ -37,7 +37,7 @@ export function PostModal() {
               size="sm"
               variant="circular"
               alt="tania andrew"
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+              src={profile_photo}
             />
             <div className="-mt-px flex flex-col">
               <Typography
@@ -45,7 +45,7 @@ export function PostModal() {
                 color="blue-gray"
                 className="font-medium"
               >
-                Tania Andrew
+               {name}
               </Typography>
               <Typography
                 variant="small"
@@ -85,7 +85,7 @@ export function PostModal() {
             <img
               alt="nature"
               className="h-[41rem] w-full object-cover object-center"
-              src="https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2717&q=80"
+              src={contentImage}
             />
           </DialogBody>
           <div className="w-1/2 p-0">
