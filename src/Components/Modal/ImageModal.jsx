@@ -14,12 +14,16 @@ import { FaEdit,FaTrash } from "react-icons/fa";
 import NotificationModal from "./NotificationModal";
 import { DeleteProjectImages, EditProjectImages } from "../../Services/ProfessionalApi";
 import PhotoUploadDrawer from "../Drawer/PhotoUploadDrawer";
+import jwtDecode from "jwt-decode";
 
  
 export function ImageModal({image, imageId,fetch}) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [isFavorite, setIsFavorite] = React.useState(false);
+  const token = localStorage.getItem("token")
+  const decoded = jwtDecode(token)
+
  
   const handleOpen = () => setOpen((cur) => !cur);
   const handleIsFavorite = () => setIsFavorite((cur) => !cur);
@@ -69,7 +73,7 @@ export function ImageModal({image, imageId,fetch}) {
               
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          {decoded.role === "professional" ?<><div className="flex items-center gap-2">
             <div>
             <IconButton
               variant="text"
@@ -97,7 +101,8 @@ export function ImageModal({image, imageId,fetch}) {
 
             />
           </div>
-        </DialogHeader>
+</> : "" }
+                  </DialogHeader>
         <DialogBody divider={true} className="p-0">
           <img
             alt="nature"

@@ -14,24 +14,30 @@ import Explore from '../Pages/Homeowners/Explore/Explore'
 import SingleFirm from '../Pages/Homeowners/FindProfessionals/SingleFirm'
 import HomeownerProfile from '../Pages/Homeowners/Profile/HomeownerProfile'
 import SingleProject from '../Pages/Homeowners/Projects/SingleProject'
+import Post from '../Pages/Homeowners/Post/Post'
+import Anzil from '../Pages/Homeowners/Post/anzil'
+import CreatePost from '../Pages/Homeowners/Post/CreatePost'
 
 
 export default function HomeownerRoutes() {
   return (
     <Routes>
+      
         <Route exact element = {<PrivateRoute/>}>
             <Route path='/login/' element={<LoginPage/>}/> 
             <Route path='/signup/' element={<SignupPage/>}/> 
         </Route>
+
         <Route exact element = {<HomeownerProtected/>}>
+
             <Route path='/homeownerhomepage/' element = {<HomeownerHomepage/>}/>
             <Route path='/findprofessionals/' element = {<FindProfessionals/>}/>
-            <Route path='/explore/' element = {<Explore/>}/>
+            <Route path='/explore/' element = {<Post/>}/>
             <Route path='/singlefirm/:firmId/' element={<SingleFirm />} />
             <Route path='/homeownerprofile/' element={<HomeownerProfile />} />
+            <Route path='/createpost/' element={<CreatePost/>} />
+            <Route path='/anzil/' element={<Anzil/>} />
             <Route path='/singleproject/:projectId/' element={<SingleProject />} />
-
-
         </Route>
     </Routes>
   )

@@ -85,7 +85,29 @@ const GetProject = (id) =>{
     return HomeownerAxiosInstant.get("/homeowners/getproject/" +id+ "/" , {withCredentials:true})
 }
 
+
+const ListPosts = () =>{
+  return HomeownerAxiosInstant.get("/homeowners/listpost/" ,{withCredentials:true})
+} 
+
+const SuggestionFirm = () =>{
+  return HomeownerAxiosInstant.get("/homeowners/suggestionfirm/" , {withCredentials:true})
+}
+
+const CreatePosts = (value) =>{
+  return HomeownerAxiosInstant.post("/homeowners/createpost/" , value, {withCredentials:true})
+}
+
+const GetUserPosts = (user_id) =>{
+  return HomeownerAxiosInstant.get("/homeowners/getuserpost/" +user_id+ "/" ,{withCredentials:true})
+}
+
+
 export {
+  GetUserPosts,
+  ListPosts,
+  CreatePosts,
+  SuggestionFirm,
   HomeownerSignin,
   HomeownerSignup,
   HomeownerGoogleSignup,

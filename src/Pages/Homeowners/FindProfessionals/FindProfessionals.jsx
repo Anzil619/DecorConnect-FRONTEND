@@ -13,7 +13,8 @@ import { Loader } from "../../../Components/Loading/Loader";
 function FindProfessionals() {
 
   const [firms, setFirm] = useState([]);
-  const navigate = useNavigate()
+
+
   const [loading, setLoading] = useState(false);
   const handleLoading = () => setLoading((cur) => !cur);
 
@@ -27,6 +28,10 @@ function FindProfessionals() {
       const res = await FirmList();
       const data = res.data
       const filtered_data = data.filter((firm)=> firm.status === "approved")
+      console.log(filtered_data,"anzil");
+      
+      
+
       setFirm(filtered_data);
       handleLoading();
     } catch (error) {
@@ -49,6 +54,7 @@ function FindProfessionals() {
     } 
   }
 
+  
   return (
   <>
   {loading && <Loader/>}

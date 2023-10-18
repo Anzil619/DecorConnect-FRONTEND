@@ -127,6 +127,7 @@ function MyFirm() {
 
 
     const handleAddProject = async(data , images) =>{
+      try{
         const res = await CreateProject(data)
         console.log(res.data);
         const proj_id = res.data.id
@@ -134,6 +135,11 @@ function MyFirm() {
         const res2 = await CreateProjectImages(images)
         console.log(res2.data);
         FetchFirmInfo();
+
+      }catch(error){
+        console.log(error);
+      }
+        
     }
 
 

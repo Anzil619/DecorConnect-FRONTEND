@@ -64,7 +64,23 @@ const EditProjectImages = (id , value) =>{
     return ProfessionalAxiosInstant.patch("/editdeleteprojectimages/" +id+ "/" , value, {withCredentials:true})
 }
 
+const AddReview = (value) =>{
+  return ProfessionalAxiosInstant.post("/createreview/" , value, {withCredentials:true})
+
+}
+const DeleteReview = (id) =>{
+  return ProfessionalAxiosInstant.delete("/editreview/" +id+ "/", {withCredentials:true})
+}
+
+const EditReview = (id,value) =>{
+  return ProfessionalAxiosInstant.patch("/editreview/" +id+ "/" , value, {withCredentials:true}) 
+}
+
+
 export {
+  DeleteReview,
+  EditReview,
+  AddReview,
     EditProjectImages,
     DeleteProjectImages,
   ProfessionalGoogleSignup,

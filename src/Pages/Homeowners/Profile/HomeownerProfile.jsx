@@ -25,6 +25,9 @@ import {
   setupdateInfo,
 } from "../../../Redux/ProfessionalSlice";
 import { InputModal } from "../../../Components/Modal/InputModal";
+import { PostModal } from "../../../Components/Modal/PostModal";
+
+
 
 function HomeownerProfile() {
   const [open, setOpen] = React.useState(false);
@@ -137,6 +140,8 @@ function HomeownerProfile() {
     }
   };
 
+  
+
   return (
     <div>
       <div className="flex justify-center my-4">
@@ -162,7 +167,7 @@ function HomeownerProfile() {
             <div className="flex justify-end p-3">
 
               <IconButton
-              className="bg-white"
+              className="bg-black"
                 aria-label="Edit"
                 onClick={() => setOpenCoverPhotoDrawer(true)}
               >
@@ -489,7 +494,7 @@ function HomeownerProfile() {
                   </div>
                 </div>
 
-                <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
+                <div className="mt-10 py-10  text-center">
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-9/12 px-4">
                       <p className="mb-4 text-base leading-relaxed text-blueGray-700">
@@ -503,13 +508,28 @@ function HomeownerProfile() {
                     </div>
                   </div>
                 </div>
+                <hr />
+
+                <div className="flex justify-center">
+                  
+                  <h1 className="font-serif">Posts</h1>
+                </div>
+
+                <div className="grid grid-cols-3 mt-10 mb-10 gap-10">
+                  <div><PostModal/></div>
+                  <div><PostModal/></div>
+                </div>
+
               </div>
             </div>
           </div>
           <footer className="relative bg-blueGray-200 pt-8 pb-6 mt-8">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap items-center md:justify-between justify-center">
-                <div className="w-full md:w-6/12 px-4 mx-auto text-center"></div>
+                <div className="w-full md:w-6/12 px-4 mx-auto text-center bg-black">
+                  
+
+                </div>
               </div>
             </div>
           </footer>

@@ -21,6 +21,7 @@ function NotificationModal({ buttonText, modalTitle, modalContent, onOkClick,mod
 
   return (
     <>
+      
       <Button onClick={handleOpen} color={buttonColor}>{buttonText}</Button>
       <Dialog open={open} handler={handleOpen}>
         <DialogHeader>

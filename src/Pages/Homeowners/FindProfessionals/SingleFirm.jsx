@@ -5,49 +5,37 @@ import studio from "../../../assets/logos/studio3am.jpg";
 import { Rating } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-
+import { FaEdit,FaTrash } from "react-icons/fa";
 import {
   Card,
   CardHeader,
-  Button,
   CardBody,
   CardFooter,
   Typography,
   Tooltip,
   Avatar,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Textarea,
 } from "@material-tailwind/react";
 
 import { SingleFirmInfo } from "../../../Services/HomeownerApi";
 import { Loader } from "../../../Components/Loading/Loader";
+import ReviewModal from "../../../Components/Modal/ReviewModal";
+import { useSelector } from "react-redux";
+import { AddReview, DeleteReview, EditReview } from "../../../Services/ProfessionalApi";
+import { ConfirmationModal } from "../../../Components/Modal/ConfirmationModal";
 
-function StarIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="h-5 w-5 text-yellow-700"
-    >
-      <path
-        fillRule="evenodd"
-        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
+
 
 function SingleFirm() {
   const { firmId } = useParams();
+  const { userinfo } = useSelector((state) => state.professional);
+  const [averageRating, setAverageRating] = useState(0);
+  const [reviews, setReviews] = useState([]);
+  
+
+  
   const [firminfo, setfirminfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleLoading = () => setLoading((cur) => !cur);
-  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     FetchFirmInfo();
@@ -60,6 +48,23 @@ function SingleFirm() {
       const res = await SingleFirmInfo(firmId);
       const data = res.data;
       console.log(data);
+
+      data.reviews.sort((reviewA, reviewB) => {
+        if (reviewA.user.id === userinfo.id) return -1;
+        if (reviewB.user.id === userinfo.id) return 1;
+        return new Date(reviewB.created_at) - new Date(reviewA.created_at);
+      });
+
+      const fetchedReviews = data.reviews;
+      setReviews(fetchedReviews);
+
+      // Calculate the average rating
+      if (fetchedReviews.length > 0) {
+        const sumOfRatings = fetchedReviews.reduce((total, review) => total + review.rating, 0);
+        const avgRating = sumOfRatings / fetchedReviews.length;
+        setAverageRating(avgRating.toFixed(1));
+      }
+      
       setfirminfo(data);
       handleLoading();
       
@@ -69,7 +74,63 @@ function SingleFirm() {
     }
   };
 
-  const handleOpen = () => setOpen(!open);
+  
+
+
+
+
+ 
+
+  const handleAddReview = async(rating, comment) =>{
+
+    try{
+      const data = {
+        "user" : userinfo.id,
+        "firm" : firmId,
+        "rating"  : rating,
+        "comment" : comment
+      }
+      const res = await AddReview(data)
+      FetchFirmInfo();
+      console.log(res.data,"anzilleee");
+  
+    }catch(error){
+      console.log(error);
+    }
+      } 
+
+
+    const handleDeleteReview = async(id)=>{
+      try{
+        const res = await DeleteReview(id)
+        console.log(res.data,"abhi");
+        FetchFirmInfo();
+      }catch(error){
+        console.log(error);
+      }
+    }
+
+    const handleEditReview = async(rating , comment,id) =>{
+
+      try{
+
+        const data = {
+          "rating" : rating,
+          "comment" : comment
+        }
+  
+       
+        const res = await EditReview(id , data)
+        FetchFirmInfo();
+        console.log(res.data);
+
+      }catch(error){
+        console.log(error);
+      }
+
+      
+    }
+ 
 
   return (
     <div>
@@ -90,9 +151,9 @@ function SingleFirm() {
         <h1 className="text-xl font-bold m-2">{firminfo?.firm_name}</h1>
 
         <div className="flex items-center gap-2 m-2">
-          <Rating value={4} />
+          <Rating value={4} readonly />
           <Typography color="blue-gray" className="font-medium">
-            {4}.0 Rated
+            {averageRating} Rated
           </Typography>
         </div>
         <h1 className="text-2xl font-serif text-blue-gray-700 m-2">
@@ -204,51 +265,17 @@ function SingleFirm() {
             {/* Add content for the 2nd column here */}
           </div>
           <div className="grid-cols-3 w-96 ">
-            <Button
-              onClick={handleOpen}
-              className="flex justify-center items-center  m-4 px-4 h-9 py-2"
-            >
-              Add Review
-            </Button>
-            <Dialog open={open} handler={handleOpen}>
-              <div className="flex items-center justify-between">
-                <DialogHeader>Add Your Review</DialogHeader>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="mr-3 h-5 w-5"
-                  onClick={handleOpen}
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <DialogBody divider>
-                <div className="grid gap-6">
-                  <Textarea label="Message" />
-                </div>
-              </DialogBody>
-              <DialogFooter className="space-x-2">
-                <Button variant="outlined" color="red" onClick={handleOpen}>
-                  close
-                </Button>
-                <Button variant="gradient" color="green" onClick={handleOpen}>
-                  add review
-                </Button>
-              </DialogFooter>
-            </Dialog>
-            {/* Add content for the 3rd column here */}
+            <ReviewModal buttonName = "Add Review" onOkclick = {handleAddReview} />
           </div>
         </div>
       </div>
 
       <div className="flex justify-center mt-10">
-        <div className="flex flex-col gap-8">
-          <Card
+        <div className="flex flex-col gap-8 w-2/3">
+ 
+          
+          {firminfo?.reviews.map((review)=>(
+            <Card
             color="transparent"
             shadow={false}
             className="w-full max-w-[61rem]"
@@ -262,79 +289,44 @@ function SingleFirm() {
               <Avatar
                 size="lg"
                 variant="circular"
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-                alt="tania andrew"
+                src={`${import.meta.env.VITE_HOMEOWNER_URL}${review.user.profile_photo}`}
+                alt="Unavailable"
               />
               <div className="flex w-full flex-col gap-0.5">
                 <div className="flex items-center justify-between">
                   <Typography variant="h5" color="blue-gray">
-                    Tania Andrew
+                    {review.user.name}
                   </Typography>
                   <div className="5 flex items-center gap-0">
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
+                  <Rating value={review.rating} readonly />
                   </div>
                 </div>
-                <Typography color="blue-gray">
-                  Frontend Lead @ Google
-                </Typography>
               </div>
-            </CardHeader>
-            <CardBody className="mb-6 p-0">
-              <Typography>
-                &quot;I found solution to all my design needs from Creative Tim.
-                I use them as a freelancer in my hobby projects for fun! And its
-                really affordable, very humble guys !!!&quot;
-              </Typography>
-            </CardBody>
-          </Card>
-
-          <Card
-            color="transparent"
-            shadow={false}
-            className="w-full max-w-[61rem]"
-          >
-            <CardHeader
-              color="transparent"
-              floated={false}
-              shadow={false}
-              className="mx-0 flex items-center gap-4 pt-0 pb-8"
-            >
-              <Avatar
-                size="lg"
-                variant="circular"
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-                alt="tania andrew"
+              {review.user.id === userinfo.id ? <><ReviewModal buttonName = {<FaEdit/>} onOkclick = {handleEditReview} id = {review.id} />
+              <ConfirmationModal buttonName = {<FaTrash/>} 
+               modalHeader = 'Delete Comment'
+                modalContent = 'Are you sure you want to delete your review'
+                onOkclick = {handleDeleteReview}
+                id = {review.id}
+              
               />
-              <div className="flex w-full flex-col gap-0.5">
-                <div className="flex items-center justify-between">
-                  <Typography variant="h5" color="blue-gray">
-                    Tania Andrew
-                  </Typography>
-                  <div className="5 flex items-center gap-0">
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                  </div>
-                </div>
-                <Typography color="blue-gray">
-                  Frontend Lead @ Google
-                </Typography>
-              </div>
+              
+              </> : ""}
+              
             </CardHeader>
-            <CardBody className="mb-6 p-0">
-              <Typography>
-                &quot;I found solution to all my design needs from Creative Tim.
-                I use them as a freelancer in my hobby projects for fun! And its
-                really affordable, very humble guys !!!&quot;
+            <div className="flex justify-center">
+            <CardBody className="mb-6 p-0 w-11/12">
+              <Typography style={{ wordWrap: "break-word" }}>
+                {review.comment}
               </Typography>
             </CardBody>
+            </div>
+            <hr />
           </Card>
+            
+          ))}
+          
+          
         </div>
       </div>
 
