@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavBar } from '../../Components/NavBar/NavBar'
-import { Footer } from '../../Components/Footer/footer'
+// import { Footer } from '../../Components/Footer/footer'
 import Logo from "../../assets/logos/dc-black-transparent.png"
 import homepage from "../../assets/homepage/homepage.jpg";
 import aboutImg from "../../assets/homepage/image2.jpeg";
