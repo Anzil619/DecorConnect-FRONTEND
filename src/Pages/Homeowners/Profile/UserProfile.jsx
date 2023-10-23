@@ -5,79 +5,70 @@ import { FaRegCheckCircle } from "react-icons/fa";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  AddUserAddress,
-  UpdateUser,
-  EditUserAddress,
-  GetUserInfo,
-  GetUserPosts,
-} from "../../../Services/HomeownerApi";
-import {
-  setUserAddress,
-  setupdateInfo,
-} from "../../../Redux/ProfessionalSlice";
+import { GetUserInfo, GetUserPosts } from "../../../Services/HomeownerApi";
+
 import { PostModal } from "../../../Components/Modal/PostModal";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { FetchProfessionalFirm } from "../../../Services/ProfessionalApi";
 
 function UserProfile() {
-
-    const { userId } = useParams();
-  
+  const { userId } = useParams();
 
   const { userinfo } = useSelector((state) => state.professional);
   const { user_address } = useSelector((state) => state.professional);
 
-    const [user,setUser] = useState(null) 
-    const [post,setPost] = useState(null) 
+  const [user, setUser] = useState(null);
+  const [post, setPost] = useState(null);
+  const [firm, setFirm] = useState(null)
 
-  const [address, setAddress] = useState({
-    user: userinfo.id,
-    district: Object.keys(user_address).length > 0 ? user_address.district : "",
-    state: Object.keys(user_address).length > 0 ? user_address.state : "",
-    country: Object.keys(user_address).length > 0 ? user_address.country : "",
-    address_line:
-      Object.keys(user_address).length > 0 ? user_address.address_line : "",
-    phone: Object.keys(user_address).length > 0 ? user_address.phone : "",
-  });
-
-  const dispatch = useDispatch();
-
-  useEffect(()=>{
+  useEffect(() => {
     FetchUserInfo();
     FetchUserPost();
-  },[])
+  }, []);
 
-
-  const FetchUserInfo = async () =>{
-
+  const FetchUserInfo = async () => {
     try {
-    const id = userId
-    const res = await GetUserInfo(id)
-    setUser(res.data)
+      const id = userId;
+      const res = await GetUserInfo(id);
+      setUser(res.data);
 
-    console.log(res.data,"anzilleee");
-    }
-  catch(error){
-    console.log(error);
-    toast.error("something error")  
-  }
-}
-
-  const FetchUserPost = async () => {
-
-    try {
-      const user_id = userId;
-      const res = await GetUserPosts(user_id);
-      setPost(res.data)  
-      console.log(res.data, "Posts");
-
-    }catch (error) {
-
-      console.log(error);
+      const res2 = await FetchProfessionalFirm(id)
+      setFirm(res2.data)
       
+      
+    } catch (error) {
+      console.log(error);
+      toast.error("something error");
     }
   };
 
+  const FetchUserPost = async () => {
+    try {
+      const user_id = userId;
+      const res = await GetUserPosts(user_id);
+      const posts = res.data
+
+      posts.sort((a, b) => {
+        const dateA = new Date(a.created_date);
+        const dateB = new Date(b.created_date);
+        return dateB - dateA;
+      });
+  
+      // Sort comments for each post
+      posts.forEach((post) => {
+        post.comments.sort((commentA, commentB) => {
+          if (commentA.user === userinfo.id) return -1;
+          if (commentB.user === userinfo.id) return 1;
+          return new Date(commentB.created_date) - new Date(commentA.created_date);
+        });
+      });
+
+      setPost(posts);
+      console.log(res.data, "Posts");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -101,10 +92,7 @@ function UserProfile() {
               id="blackOverlay"
               className="w-full h-full absolute opacity-50 bg-black"
             ></span>
-            <div className="flex justify-end p-3">
-              
-            </div>
-            
+            <div className="flex justify-end p-3"></div>
           </div>
 
           <div className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-14">
@@ -137,8 +125,6 @@ function UserProfile() {
                           src={user?.profile_photo}
                           className="w-full h-full shadow-xl  object-center rounded-full border-none "
                         />
-                        
-                        
                       </div>
                     </div>
                   </div>
@@ -176,16 +162,27 @@ function UserProfile() {
                     <h3 className="text-4xl font-semibold leading-normal text-blueGray-700 mb-2 mr-2">
                       {user?.name}
                     </h3>
-                    
                   </div>
 
                   {user?.role === "professional" ? (
-                    <div className="flex justify-center">
-                      <h1 className="font-serif text-xs pr-2 text-indigo-500">
-                        PROFESSIONAL
-                      </h1>
-                      <FaRegCheckCircle color="indigo" size={15} />
-                    </div>
+                    <>
+                     
+                      <div className="flex justify-center">
+                        <h1 className="font-serif text-xs pr-2 text-indigo-500">
+                          PROFESSIONAL
+                        </h1>
+                        <FaRegCheckCircle color="indigo" size={15} />
+                      </div>
+                      <div className="mt-3 flex justify-center mr-5">
+                        Owned Firm -  
+                        {userinfo.role === "professional" ?  <Link to={`/professional/singlefirm/${firm?.id}`}>
+                        <h1 className="ml-1 font-serif text-indigo-800 underline">{firm?.firm_name}</h1>
+                        </Link> :  <Link to={`/homeowner/singlefirm/${firm?.id}`}>
+                        <h1 className="ml-1">{firm?.firm_name}</h1>
+                        </Link>}
+                       
+                      </div>
+                    </>
                   ) : (
                     ""
                   )}
@@ -199,8 +196,7 @@ function UserProfile() {
                         </div>
                       </>
                     ) : (
-                      <>
-                      </>
+                      <></>
                     )}
                   </div>
                   <div className="mb-2 text-blueGray-600 mt-10">
@@ -234,20 +230,24 @@ function UserProfile() {
                 </div>
 
                 <div className="grid grid-cols-3 mt-10 mb-10 gap-10">
-                    {post?.map((posts)=>(
-                        
-                        <div>
-                        <PostModal cardImage = {posts.image}
-                         profile_photo = {posts.user.profile_photo}
-                          name={posts.user.name}
-                          contentImage = {posts.image}
-                          
-                          />
-                      </div>
-                        
-                    ))}
-                  
-                 
+                  {post?.map((posts) => (
+                    <div>
+                      <PostModal
+                        cardImage={posts.image}
+                        profile_photo={posts.user.profile_photo}
+                        name={posts.user.name}
+                        contentImage={posts.image}
+                        like_counts={posts.like_count}
+                        userId={userinfo.id}
+                        postId={posts.id}
+                        caption = {posts.caption}
+                        fetch={FetchUserPost}
+                        like={posts.like}
+                        comment={posts.comments}
+                        sender_profile={userinfo.profile_photo}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

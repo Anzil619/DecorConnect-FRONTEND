@@ -138,14 +138,16 @@ function HomeownersChat() {
 
   return (
     <div className="grid h-screen w-full grid-rows-[5rem,1fr]">
-      <div>
+      <div className="w-full sticky top-0 z-50
+       transition-all duration-300 ease-in-out">
         <NavBar />
       </div>
+      
       <div className="container mx-auto flex justify-center items-center">
         <div className="border rounded-2xl shadow grid grid-cols-[20rem,1fr]  w-full mx-10">
           <div className="border-e grid grid-rows-[5rem,1fr]">
             <div className="flex justify-center items-center">
-              <div className="bg-purple-50 w-full grid grid-cols-[2rem,1fr,2rem] mx-3 rounded-xl py-2">
+              <div className="bg-blue-gray-50 w-full grid grid-cols-[2rem,1fr,2rem] mx-3 rounded-xl py-2">
                 <div className="flex justify-center items-center">
                   {" "}
                   <svg
@@ -203,7 +205,7 @@ function HomeownersChat() {
                 ChatList.map((user, index) => (
                   <div
                     key={index}
-                    className="bg-purple-50 cursor-pointer rounded-xl my-3 grid grid-cols-[3.5rem,1fr,2rem]"
+                    className="bg-blue-gray-50 cursor-pointer rounded-xl my-3 grid grid-cols-[3.5rem,1fr,2rem]"
                     onClick={() =>
                       setRecipientDetails({
                         id: user?.receiver,
@@ -259,7 +261,7 @@ function HomeownersChat() {
                     senderdetails.email === message.sender_username ? (
                       <>
                         <div class="flex justify-end mb-2" key={index}>
-                          <div class="bg-purple-50 shadow border text-gray-800 py-1 px-4 rounded-md max-w-xs">
+                          <div class="bg-blue-gray-50 shadow border text-gray-800 py-1 px-4 rounded-md max-w-xs">
                             {message.message}
                           </div>
                           <div className="rounded-full flex justify-center items-center -me-3 ms-1 w-7 h-7 ">
@@ -323,7 +325,7 @@ function HomeownersChat() {
               </div>
             </div>
           ) : (
-            <div className="bg-purple-50 flex h-[52rem] justify-center items-center rounded-xl">
+            <div className="bg-blue-gray-50 flex h-[52rem] justify-center items-center rounded-xl">
               <p className="font-bold text-xl text-gray-600">Select A Person</p>
             </div>
           )}

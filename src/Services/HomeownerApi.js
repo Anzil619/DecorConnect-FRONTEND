@@ -105,7 +105,39 @@ const GetUserPosts = (user_id) =>{
 const GetChatList = (sender_id , search) =>{
   return HomeownerAxiosInstant.get(`/chat/chatlist/${sender_id}/?search=${search}`, {withCredentials:true})
 }
+
+const DisLike = (user_id,post_id) =>{
+  return HomeownerAxiosInstant.delete(`/homeowners/dislike/${user_id}/${post_id}/`,{withCredentials:true})
+
+}
+
+const Like = (value) =>{
+  return HomeownerAxiosInstant.post("/homeowners/createlike/" , value, {withCredentials:true})
+}
+
+const AddComment = (value) =>{
+  return HomeownerAxiosInstant.post("/homeowners/createcomment/" ,value, {withCredentials:true})
+}
+
+
+const DeleteComment = (id) =>{
+  return HomeownerAxiosInstant.delete("/homeowners/deletecomment/" +id+ "/" , {withCredentials:true})
+}
+
+const DeletePost = (id) =>{
+  return HomeownerAxiosInstant.delete("homeowners/editdelete/" +id+ "/" , {withCredentials:true})
+}
+const EditPost = (id,value) =>{
+  return HomeownerAxiosInstant.patch("/homeowners/editdelete/" +id+ "/",value ,{withCredentials:true})
+}
+
 export {
+  EditPost,
+  DeletePost,
+  DeleteComment,
+  AddComment,
+  DisLike,
+  Like,
   GetChatList,
   GetUserPosts,
   ListPosts,

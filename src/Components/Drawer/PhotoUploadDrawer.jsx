@@ -9,6 +9,8 @@ function PhotoUploadDrawer({ open, onClose, title, onUpload }) {
       const [file,setFile] = useState(null)
       const fileInputRef = useRef(null);
 
+      
+
       const handleButtonClick = () => {
         if (fileInputRef.current) {
           fileInputRef.current.click();

@@ -19,12 +19,10 @@ function CreatePost() {
 
     if (file) {
       setNewImg(file);
-
       const reader = new FileReader();
       reader.onload = (event) => {
         setShowImage(event.target.result);
       };
-
       reader.readAsDataURL(file);
     }
   };
@@ -38,16 +36,20 @@ function CreatePost() {
         formData.append("caption" , form.caption)
         formData.append("image" , newImg)
         const res =  await CreatePosts(formData)
-        navigate("/homeowner/explore/")
-        
+        if (userinfo.role === "professional"){
+          navigate("/professional/explore/")
+        }else{
+          navigate("/homeowner/explore/")
+        }
         console.log(res);
 
     }catch(error){
         console.log(error);
-
     }
   }
 
+
+  
   return (
     <div>
 
@@ -138,10 +140,9 @@ function CreatePost() {
             >Submit</Button>
     </div>
     <div className='mt-10'>
-
     </div>
 
-      </div>
+    </div>
     </div>
   );
 }

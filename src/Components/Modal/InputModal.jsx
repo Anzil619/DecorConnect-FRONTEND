@@ -48,12 +48,12 @@ export function InputModal({ onOkClick, ModalHeader, ModalContent, inputname, bu
           <div className="grid gap-6">
             <Input
             name={inputname}
+            value={value}
             onChange={(e)=>{
                 setValue({...value, [e.target.name] : e.target.value })
                 console.log(value);
             }}
-            label={ModalContent} />
-            
+            label={ModalContent} />           
           </div>
         </DialogBody>
         <DialogFooter className="space-x-2">

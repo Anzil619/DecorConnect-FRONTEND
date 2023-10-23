@@ -16,6 +16,10 @@ import ProfessionalProfile from '../Pages/Professionals/Profile/ProfessionalProf
 import MyFirm from '../Pages/Professionals/MyFirm/MyFirm'
 import MyProject from '../Pages/Professionals/Project/MyProject'
 import HomeownerProfile from '../Pages/Homeowners/Profile/MyUserProfile'
+import Post from '../Pages/Homeowners/Post/Post'
+import UserProfile from '../Pages/Homeowners/Profile/UserProfile'
+import CreatePost from '../Pages/Homeowners/Post/CreatePost'
+import SingleFirm from '../Pages/Homeowners/FindProfessionals/SingleFirm'
 
 
 function ProfessionalRoutes() {
@@ -29,12 +33,15 @@ function ProfessionalRoutes() {
         <Route exact element = {<ProfessionalProtected/>}>
           
             <Route path='/professionalhomepage/' element = {<ProfessionalHomePage/>}/>
-            <Route path='/explore/' element = {<Explore/>}/>
+            <Route path='/explore/' element = {<Post/>}/>
             <Route path='/basicinfo/' element = {<BasicInfo/>}/>
             <Route path='/businessdetails/' element = {<BusinessDetails/>}/>
             <Route path='/firmverification/' element = {<FirmVerification/>}/>
+            <Route path='/singlefirm/:firmId/' element={<SingleFirm />} />
             <Route path='/addproject/' element = {<AddProject/>}/>
+            <Route path='/createpost/' element={<CreatePost/>} />
             <Route path='/professionalprofile/' element = {<HomeownerProfile/>}/>
+            <Route path='/userprofile/:userId/' element={<UserProfile/>} />
             <Route path='/myfirm/' element = {<MyFirm/>}/>
             <Route path='/myproject/:projectId/' element = {<MyProject/>}/>
             

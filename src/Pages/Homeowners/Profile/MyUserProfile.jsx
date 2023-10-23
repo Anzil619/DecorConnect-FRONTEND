@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavBar } from "../../../Components/NavBar/NavBar";
 import Logo from "../../../assets/logos/dc-black-transparent.png";
 import { FaCamera, FaEdit, FaRegCheckCircle } from "react-icons/fa";
@@ -19,6 +19,7 @@ import {
   AddUserAddress,
   UpdateUser,
   EditUserAddress,
+  GetUserPosts,
 } from "../../../Services/HomeownerApi";
 import {
   setUserAddress,
@@ -34,6 +35,9 @@ function MyUserProfile() {
   const [openCoverPhotoDrawer, setOpenCoverPhotoDrawer] = useState(false);
   const { userinfo } = useSelector((state) => state.professional);
   const { user_address } = useSelector((state) => state.professional);
+
+  const [post,setPost] = useState(null) 
+
   const [address, setAddress] = useState({
     user: userinfo.id,
     district: Object.keys(user_address).length > 0 ? user_address.district : "",
@@ -138,14 +142,41 @@ function MyUserProfile() {
     }
   };
 
-  const FetchUserPost = async (token) => {
+  useEffect(()=>{
+
+    FetchUserPost();
+  },[])
+
+  const FetchUserPost = async () => {
+
     try {
-      const user_id = token.id;
+      const user_id = userinfo.id;
       const res = await GetUserPosts(user_id);
 
+      const posts = res.data
+
+      posts.sort((a, b) => {
+        const dateA = new Date(a.created_date);
+        const dateB = new Date(b.created_date);
+        return dateB - dateA;
+      });
+  
+      // Sort comments for each post
+      posts.forEach((post) => {
+        post.comments.sort((commentA, commentB) => {
+          if (commentA.user === userinfo.id) return -1;
+          if (commentB.user === userinfo.id) return 1;
+          return new Date(commentB.created_date) - new Date(commentA.created_date);
+        });
+      });
+
+      setPost(posts)  
       console.log(res.data, "Posts");
-    } catch (error) {
+
+    }catch (error) {
+
       console.log(error);
+      
     }
   };
 
@@ -533,13 +564,31 @@ function MyUserProfile() {
                 </div>
 
                 <div className="grid grid-cols-3 mt-10 mb-10 gap-10">
-                  <div>
-                    <PostModal />
-                  </div>
-                  <div>
-                    <PostModal />
-                  </div>
-                </div>
+
+                  {post?.map((posts)=>(
+                        
+                        <div>
+                        <PostModal cardImage = {posts.image}
+                         profile_photo = {posts.user.profile_photo}
+                          name={posts.user.name}
+                          contentImage = {posts.image}
+                          like_counts = {posts.like_count}
+                          userId = {userinfo.id}
+                          caption = {posts.caption}
+                          postId = {posts.id}
+                          fetch = {FetchUserPost}
+                          like = {posts.like}
+                          comment={posts.comments}
+                          sender_profile={userinfo.profile_photo}
+                          path = "myuserprofile"
+
+                          />
+                      </div>
+                        
+                    ))}
+                  
+                </div> 
+
               </div>
             </div>
           </div>

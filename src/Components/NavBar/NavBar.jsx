@@ -123,11 +123,11 @@ export function NavBar() {
           </a>
         ) : decoded.role === "professional" ? (
           <a
-            onClick={() => navigate("/professional/myfirm/")}
+            onClick={() => navigate("/professional/explore/")}
             href="#"
             className="flex items-center"
           >
-            My Firm
+            Explore
           </a>
         ) : (
           <a
@@ -155,8 +155,8 @@ export function NavBar() {
             Find Professionals
           </a>
         ) : decoded.role === "professional" ? (
-          <a onClick="" href="#" className="flex items-center">
-            Booking
+          <a onClick={() => navigate("/professional/myfirm/")} href="#" className="flex items-center">
+            My Firm
           </a>
         ) : (
           <a

@@ -76,8 +76,12 @@ const EditReview = (id,value) =>{
   return ProfessionalAxiosInstant.patch("/editreview/" +id+ "/" , value, {withCredentials:true}) 
 }
 
+const FetchProfessionalFirm = (userId) =>{
+  return ProfessionalAxiosInstant.get("/fetchUserfirm/" +userId+ "/" , {withCredentials:true})
+}
 
 export {
+  FetchProfessionalFirm,
   DeleteReview,
   EditReview,
   AddReview,
