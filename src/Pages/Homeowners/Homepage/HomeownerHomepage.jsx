@@ -1,6 +1,6 @@
 import React from "react";
-  import { NavBar } from "../../../Components/NavBar/NavBar";
-  import Logo from "../../../assets/logos/dc-black-transparent.png";
+import { NavBar } from "../../../Components/NavBar/NavBar";
+import Logo from "../../../assets/logos/dc-black-transparent.png";
 import { Footer } from "../../../Components/Footer/footer";
 import homepage from "../../../assets/homepage/homepage.jpg";
 import aboutImg from "../../../assets/homepage/image2.jpeg";
@@ -107,9 +107,9 @@ function HomeownerHomepage() {
 
       </div>
 
-      <div className="h-screen pt-5">
+      {/* <div className="h-screen pt-5">
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 }

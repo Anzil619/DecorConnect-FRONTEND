@@ -107,9 +107,9 @@ function ProfessionalHomePage() {
 
       </div>
 
-      <div className="h-screen pt-5">
+      {/* <div className="h-screen pt-5">
         <Footer />
-      </div>
+      </div> */}
     </div>
   )
 }
