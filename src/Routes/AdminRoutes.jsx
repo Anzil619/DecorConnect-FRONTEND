@@ -1,6 +1,3 @@
-
-
-
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AdminProtected from '../ProtectedRoutes/AdminProtected'
@@ -13,6 +10,7 @@ import AdminSingleFirmView from '../Pages/Admin/AdminSingleFirmView'
 
 
 function AdminRoutes() {
+  
   return (
     <Routes>
         <Route element={<PrivateRoute/>}>
