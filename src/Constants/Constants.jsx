@@ -1,8 +1,9 @@
-export const HomeownerUrl = import.meta.env.VITE_HOMEOWNER_URL;
+export const HomeownerUrl = 'https://decor-connect.onrender.com' 
 
-export const ProfessionalUrl = import.meta.env.VITE_PROFESSIONAL_URL;
+export const ProfessionalUrl = 'https://decor-connect.onrender.com/professionals/'
 
-export const AdminUrl = import.meta.env.VITE_ADMIN_URL;
 
-export const wsApiUrl = import.meta.env.VITE_Ws_URL;
+export const AdminUrl = 'https://decor-connect.onrender.com/dashboard/'
+
+export const wsApiUrl =  'wss://decor-connect.onrender.com'
 
