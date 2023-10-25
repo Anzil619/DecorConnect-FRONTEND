@@ -7,7 +7,6 @@ import {
   DialogFooter,
   Input,
   Tooltip,
-  IconButton,
 } from "@material-tailwind/react";
 import { FaEdit } from "react-icons/fa"; 
  
@@ -48,7 +47,6 @@ export function InputModal({ onOkClick, ModalHeader, ModalContent, inputname, bu
           <div className="grid gap-6">
             <Input
             name={inputname}
-            value={value}
             onChange={(e)=>{
                 setValue({...value, [e.target.name] : e.target.value })
                 console.log(value);

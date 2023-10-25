@@ -7,7 +7,7 @@ import { wsApiUrl } from "../../../Constants/Constants";
 import { HomeownerAxiosInstant } from "../../../utils/AxiosUtils";
 import { useLocation } from "react-router-dom";
 import { NavBar } from "../../../Components/NavBar/NavBar";
-import { GetChatList } from "../../../Services/HomeownerApi";
+import { AddtoChatList, GetChatList } from "../../../Services/HomeownerApi";
 function HomeownersChat() {
   const location = useLocation();
   const CompanyData = location.state && location.state.sel;
@@ -34,6 +34,10 @@ function HomeownersChat() {
     if (messageRef.current.value.trim() == "") {
       return;
     }
+
+    
+
+
     clientstate.send(
       JSON.stringify({
         message: messageRef.current.value,
@@ -111,6 +115,7 @@ function HomeownersChat() {
       console.log(error);
     }
   };
+  
   // Data fech in backend
   async function ChatLists() {
     try {

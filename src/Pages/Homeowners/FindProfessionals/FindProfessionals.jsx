@@ -96,11 +96,11 @@ function FindProfessionals() {
       </div>
       <div className=" flex-row container mx-auto">
         <div className="xl:mx-44">
-          <div className="flex justify-end me-10">
+          <div className="flex justify-end me-10 mt-10">
 
-            <button class="flex justify-center items-center  m-4 px-4 h-9 py-2 text-black border border-gray-400 shadow-md search-input">
+            {/* <button class="flex justify-center items-center  m-4 px-4 h-9 py-2 text-black border border-gray-400 shadow-md search-input">
               <p> Filter</p>
-            </button>
+            </button> */}
 
           </div>
           

@@ -20,6 +20,7 @@ import Post from '../Pages/Homeowners/Post/Post'
 import UserProfile from '../Pages/Homeowners/Profile/UserProfile'
 import CreatePost from '../Pages/Homeowners/Post/CreatePost'
 import SingleFirm from '../Pages/Homeowners/FindProfessionals/SingleFirm'
+import HomeownersChat from '../Pages/Homeowners/chat/HomeownersChat'
 
 
 function ProfessionalRoutes() {
@@ -44,6 +45,8 @@ function ProfessionalRoutes() {
             <Route path='/userprofile/:userId/' element={<UserProfile/>} />
             <Route path='/myfirm/' element = {<MyFirm/>}/>
             <Route path='/myproject/:projectId/' element = {<MyProject/>}/>
+            <Route path='/chat/' element={<HomeownersChat/>} />
+
             
         </Route>
     </Routes>

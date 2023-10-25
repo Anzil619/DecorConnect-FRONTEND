@@ -106,6 +106,10 @@ const GetChatList = (sender_id , search) =>{
   return HomeownerAxiosInstant.get(`/chat/chatlist/${sender_id}/?search=${search}`, {withCredentials:true})
 }
 
+const AddtoChatList = (value) =>{
+  return HomeownerAxiosInstant.post("/chat/addtochat/" , value , {withCredentials:true})
+}
+
 const DisLike = (user_id,post_id) =>{
   return HomeownerAxiosInstant.delete(`/homeowners/dislike/${user_id}/${post_id}/`,{withCredentials:true})
 
@@ -132,6 +136,7 @@ const EditPost = (id,value) =>{
 }
 
 export {
+  AddtoChatList,
   EditPost,
   DeletePost,
   DeleteComment,
