@@ -128,7 +128,7 @@ function SignupPage() {
       handleLoading();
       try {
         const response = await axios.post(
-          import.meta.env.VITE_HOMEOWNER_URL + "homeowners/register/",
+          import.meta.env.VITE_HOMEOWNER_URL + "/homeowners/register/",
           homeowner // The data object
         );
 
