@@ -10,6 +10,7 @@ import { AddtoChatList, GetUserInfo, GetUserPosts } from "../../../Services/Home
 import { PostModal } from "../../../Components/Modal/PostModal";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FetchProfessionalFirm } from "../../../Services/ProfessionalApi";
+import { Loader } from "../../../Components/Loading/Loader";
 
 function UserProfile() {
   const { userId } = useParams();
@@ -18,9 +19,11 @@ function UserProfile() {
 
   const { userinfo } = useSelector((state) => state.professional);
   const { user_address } = useSelector((state) => state.professional);
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
 
   const [user, setUser] = useState(null);
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState([]);
   const [firm, setFirm] = useState(null)
 
   useEffect(() => {
@@ -29,6 +32,8 @@ function UserProfile() {
   }, []);
 
   const FetchUserInfo = async () => {
+    handleLoading();
+
     try {
       const id = userId;
       const res = await GetUserInfo(id);
@@ -37,14 +42,19 @@ function UserProfile() {
       const res2 = await FetchProfessionalFirm(id)
       setFirm(res2.data)
       
-      
+      handleLoading();
+
     } catch (error) {
+      handleLoading();
+
       console.log(error);
       
     }
   };
 
   const FetchUserPost = async () => {
+    handleLoading();
+
     try {
       const user_id = userId;
       const res = await GetUserPosts(user_id);
@@ -67,12 +77,17 @@ function UserProfile() {
 
       setPost(posts);
       console.log(res.data, "Posts");
+      handleLoading();
+
     } catch (error) {
+      handleLoading();
       console.log(error);
     }
   };
 
   const AddToChat = async() =>{
+    handleLoading();
+
     try{
 
       const data = {
@@ -89,8 +104,11 @@ function UserProfile() {
       console.log(res2.data);
       console.log(res.data);
       navigate("/homeowner/chat/")
+      handleLoading();
+
       
     }catch(error){
+      handleLoading();
       if (error.response.data.non_field_errors[0] === "The fields sender, receiver must make a unique set."){
         navigate("/homeowner/chat/")
       }
@@ -100,6 +118,7 @@ function UserProfile() {
 
   return (
     <div>
+      {loading && <Loader/>}
       <div className="flex justify-center my-4">
         <img src={Logo} className="w-20" alt="" />
       </div>
@@ -255,7 +274,7 @@ function UserProfile() {
                 <hr />
 
                 <div className="flex justify-center">
-                  <h1 className="font-serif">Posts</h1>
+                  {post.length > 0 ? <h1 className="font-serif">Posts</h1> : <h1 className="font-serif">No post yet</h1> }
                 </div>
 
                 <div className="grid grid-cols-3 mt-10 mb-10 gap-10">

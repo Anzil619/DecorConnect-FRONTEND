@@ -11,10 +11,13 @@ import {
   GetFirmInfo,
   ProfileCompletion,
 } from "../../../Services/ProfessionalApi";
+import { Loader } from "../../../Components/Loading/Loader";
 
 function BasicInfo() {
   const { address } = useSelector((state) => state.professional);
   const { FirmInfo } = useSelector((state) => state.professional);
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
 
   const [form, setForm] = useState({
     state: "",
@@ -33,13 +36,13 @@ function BasicInfo() {
       state: address.state,
       city: address.city,
       country: address.country,
-      address_line: address.address,
+      address_line: address.address_line,
       phone: address.phone,
     });
   }, []);
 
   const validation = () => {
-    if (!form.state ||form.state.trim() === "") {
+    if (!form.state || form.state.trim() === "") {
       toast.error("state should not be empty");
       return false;
     } else if (!form.city || form.city.trim() === "") {
@@ -57,9 +60,11 @@ function BasicInfo() {
     }
     return true;
   };
-  
+
   const FormSubmission = async (e) => {
     e.preventDefault();
+    handleLoading();
+
     if (validation()) {
       dispatch(
         setAddress({
@@ -73,6 +78,7 @@ function BasicInfo() {
         user: FirmInfo.user,
         address: form,
       };
+      handleLoading();
       try {
         const res = await ProfileCompletion(firm_id, data);
         console.log(res, "aaaaa");
@@ -83,7 +89,9 @@ function BasicInfo() {
           })
         );
         navigate("/professional/businessdetails/");
+        handleLoading();
       } catch (error) {
+        handleLoading();
         console.log(error);
       }
     }
@@ -91,6 +99,7 @@ function BasicInfo() {
 
   return (
     <div className="">
+      {loading && <Loader />}
       <ToastContainer />
       <div className="flex justify-center my-12">
         <img src={Logo} className="w-20" alt="" />

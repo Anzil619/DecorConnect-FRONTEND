@@ -10,10 +10,13 @@ import {
 } from "../../../Services/ProfessionalApi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../../../Components/Loading/Loader";
 
 function AddProject() {
   const navigate = useNavigate();
   const { FirmInfo } = useSelector((state) => state.professional);
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
 
   const [form, setForm] = useState({
     project_name: "",
@@ -42,11 +45,7 @@ function AddProject() {
     console.log(imageFormData);
   };
 
-  const handleFileChange = (files) => {
-    const selectedImages = Array.from(files);
-    // Store the selected images in your component's state or a FormData object
-    // Example: setFormData(selectedImages);
-  };
+
 
   const validation = () => {
     if (!form.project_name || form.project_name.trim() === "") {
@@ -77,6 +76,7 @@ function AddProject() {
   const FormSubmission = async (e) => {
     e.preventDefault();
     if (validation()) {
+      handleLoading();
       try {
         const res = await CreateProject(form);
         console.log(res);
@@ -86,7 +86,11 @@ function AddProject() {
         navigate("/professional/professionalhomepage/");
         console.log(res2);
         toast.success("Project added successfully");
+        handleLoading();
+
       } catch (error) {
+        handleLoading();
+
         console.log(error);
         toast.error("Failed to add the project");
       }
@@ -95,6 +99,7 @@ function AddProject() {
 
   return (
     <div className="">
+      {loading && <Loader/>}
       <ToastContainer />
       <div className="flex justify-center my-12">
         <img src={Logo} className="w-20" alt="" />

@@ -6,6 +6,8 @@ import {
   IconButton,
   Button,
 } from "@material-tailwind/react";
+import profile_photoss from "../../../assets/logos/3dprof.jpg"
+
 import Logo from "../../../assets/logos/dc-black-transparent.png";
 import ReadMore from "../../../Components/ReadMore";
 import {
@@ -17,13 +19,15 @@ import {
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { PostModal } from "../../../Components/Modal/PostModal";
+import { Loader } from "../../../Components/Loading/Loader";
 
 function Post() {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = React.useState(false);
   const handleIsFavorite = () => setIsFavorite((cur) => !cur);
-
   const { userinfo } = useSelector((state) => state.professional);
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
 
   const [post, setPost] = useState(null);
   const [firm, setFirm] = useState(null);
@@ -33,6 +37,7 @@ function Post() {
   }, []);
 
   const FetchPostInfo = async () => {
+    handleLoading();
     try {
       // Fetch posts
       const postResponse = await ListPosts();
@@ -64,9 +69,10 @@ function Post() {
       // Update state with sorted posts and approved firms
       setPost(posts);
       setFirm(approvedFirms);
-  
+      handleLoading();
       console.log(posts, "Sorted posts");
     } catch (error) {
+      handleLoading();
       console.log(error);
     }
   };
@@ -103,6 +109,7 @@ function Post() {
 
   return (
     <div>
+      {loading && <Loader/>}
       {" "}
       <div className="flex justify-center my-4">
         <img src={Logo} className="w-20" alt="" />
@@ -137,17 +144,17 @@ function Post() {
                   {userinfo.role === "professional" ? (
                     <Link to={`/professional/userprofile/${feed.user.id}`}>
                       <Avatar
-                        src={feed.user.profile_photo}
+                        src={feed.user.profile_photo ? feed.user.profile_photo : profile_photoss}
                         alt="avatar"
                         variant="rounded"
                       />
                     </Link>
-                          
+
                   ) : (
 
                     <Link to={`/homeowner/userprofile/${feed.user.id}`}>
                       <Avatar
-                        src={feed.user.profile_photo}
+                        src={feed.user.profile_photo ? feed.user.profile_photo : profile_photoss}
                         alt="avatar"
                         variant="rounded"
                       />
@@ -233,6 +240,7 @@ function Post() {
                     like_counts={feed.like_count}
                     userId={userinfo.id}
                     postId={feed.id}
+                    caption = {feed.caption}
                     fetch={FetchPostInfo}
                     like={feed.like}
                     comment={feed.comments}
@@ -255,6 +263,7 @@ function Post() {
                     like_counts={feed.like_count}
                     userId={userinfo.id}
                     postId={feed.id}
+                    caption = {feed.caption}
                     fetch={FetchPostInfo}
                     like={feed.like}
                     comment={feed.comments}
@@ -276,7 +285,7 @@ function Post() {
               <img
                 onClick={() => navigate("/homeowner/homeownerprofile/")}
                 className="rounded-full w-20 cursor-pointer"
-                src={userinfo.profile_photo}
+                src={userinfo.profile_photo ? userinfo.profile_photo : profile_photoss}
                 alt=""
               />
             </div>

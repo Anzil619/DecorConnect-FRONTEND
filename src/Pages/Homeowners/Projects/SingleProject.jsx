@@ -5,10 +5,13 @@ import { ProjectCarousal } from "../../../Components/Carousel/ProjectCarousal";
 import { ImageModal } from "../../../Components/Modal/ImageModal";
 import { useParams } from "react-router-dom";
 import { GetProject } from "../../../Services/HomeownerApi";
+import { Loader } from "../../../Components/Loading/Loader";
 
 function SingleProject() {
   const { projectId } = useParams();
   console.log(projectId, "aju");
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
 
   const [project, setProject] = useState()
 
@@ -18,12 +21,16 @@ function SingleProject() {
   },[])
 
   const FetchProject = async () => {
+    handleLoading();
+
     try {
       const res = await GetProject(projectId);
       console.log(res.data);
       setProject(res.data)
+      handleLoading();
 
     } catch (error) {
+      handleLoading();
       console.log(error);
     }
   };
@@ -32,6 +39,7 @@ function SingleProject() {
 
   return (
     <div>
+      {loading && <Loader/>}
       <div className="flex justify-center my-4">
         <img src={Logo} className="w-20" alt="" />
       </div>

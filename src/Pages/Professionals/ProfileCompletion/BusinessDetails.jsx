@@ -8,19 +8,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFirmInfo } from "../../../Redux/ProfessionalSlice";
 import { useNavigate } from "react-router-dom";
 import { ProfileCompletion } from "../../../Services/ProfessionalApi";
+import { Loader } from "../../../Components/Loading/Loader";
 
 function BusinessDetails() {
   const { FirmInfo } = useSelector((state) => state.professional);
-  
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
 
   const [forms, setForms] = useState({
-    firm_name : "",
+    firm_name: "",
     website: "",
     about: "",
     awards: "",
     firm_description: "",
   });
-  
 
   useEffect(() => {
     setForms({
@@ -32,10 +33,9 @@ function BusinessDetails() {
       awards: FirmInfo.awards,
     });
   }, []);
-  
+
   const [images, setImage] = useState({ coverphoto: null });
 
- 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -53,47 +53,45 @@ function BusinessDetails() {
     return true;
   };
   const hasAtLeast50Words = (text) => {
-
-    const wordPattern = /\w+/g;
-    const words = text.match(wordPattern);
-
-    if (words && words.length >= 50) {
-      return true;
+    const words = text.split(' ');
+    if (words.length < 50){
+      return true
+    }else{
+      return false
     }
-    return false;
   };
-  
 
   const FormSubmission = async (e) => {
     e.preventDefault();
+    handleLoading();
 
     if (validation()) {
+      handleLoading();
       
-      try{
-
+      try {
         const formData = new FormData();
-        formData.append('firm_name', forms.firm_name);
-        formData.append('website', forms.website);
-        formData.append('about', forms.about);
-        formData.append('cover_photo', images.coverphoto);
-        formData.append('firm_description', forms.firm_description);
-        formData.append('awards', forms.awards);
+        formData.append("firm_name", forms.firm_name);
+        formData.append("website", forms.website);
+        formData.append("about", forms.about);
+        formData.append("cover_photo", images.coverphoto);
+        formData.append("firm_description", forms.firm_description);
+        formData.append("awards", forms.awards);
 
-        const firm_id =FirmInfo.id
-        const res = await ProfileCompletion(firm_id,formData )
+        const firm_id = FirmInfo.id;
+        const res = await ProfileCompletion(firm_id, formData);
         console.log(res);
-
-      }catch(error){
+        handleLoading();
+      } catch (error) {
+        handleLoading();
         console.log(error);
       }
       navigate("/professional/firmverification/");
     }
   };
 
-
-
   return (
-    <div className="">
+    <div>
+      {loading && <Loader />}
       <ToastContainer />
       <div className="flex justify-center my-12">
         <img src={Logo} className="w-20" alt="" />
@@ -140,7 +138,6 @@ function BusinessDetails() {
             name="coverphoto"
             onChange={(e) => {
               setImage({ ...images, [e.target.name]: e.target.files[0] });
-              
             }}
             color="teal"
             label="Cover Photo"
@@ -164,7 +161,6 @@ function BusinessDetails() {
             name="about"
             onChange={(e) => {
               setForms({ ...forms, [e.target.name]: e.target.value });
-              
             }}
             color="teal"
             label="About"

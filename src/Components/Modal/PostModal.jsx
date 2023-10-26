@@ -37,8 +37,10 @@ export function PostModal({
   path,
   comment_count,
 }) {
+  console.log(caption,"anzil");
   const [open, setOpen] = React.useState(false);
   const [isFavorite, setIsFavorite] = React.useState(false);
+  
 
   const handleOpen = () => setOpen((cur) => !cur);
   const handleIsFavorite = () => setIsFavorite((cur) => !cur);
@@ -123,6 +125,7 @@ export function PostModal({
 
 
   return (
+
     <>
       {path === "comment_icon" ? (
         <button onClick={handleOpen} className="flex items-center ml-4">
@@ -223,7 +226,6 @@ export function PostModal({
                       inputname="caption"
                       ModalHeader="Update Content"
                       ModalContent="Content"
-            
                       onOkClick={(value)=>{
                         EditPosts(postId,value)
                       }}
@@ -254,7 +256,7 @@ export function PostModal({
           <div className="w-1/2 p-0">
             <div className="h-[37rem] p-4 border-t border-gray-200 overflow-y-auto">
               {/* Multiple Comments */}
-              <div className="flex justify-between">
+              <div className="flex justify-between mb-4">
                         <div className="flex space-x-2 ">
                           <Avatar
                             src={
@@ -272,12 +274,8 @@ export function PostModal({
                             <p className="text-xs">{caption}</p>
                           </div>
                         </div>
-                        
                       </div>
-                      
-
-
-              
+                                    
               { comment.length > 0 ? (
               comment?.map((comments) => (
                 <>

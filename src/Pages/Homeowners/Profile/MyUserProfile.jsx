@@ -13,6 +13,7 @@ import {
   Input,
   Textarea,
 } from "@material-tailwind/react";
+import profile_photoss from "../../../assets/logos/3dprof.jpg";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -27,16 +28,21 @@ import {
 } from "../../../Redux/ProfessionalSlice";
 import { InputModal } from "../../../Components/Modal/InputModal";
 import { PostModal } from "../../../Components/Modal/PostModal";
+import { useNavigate } from "react-router-dom";
+import { Loader } from "../../../Components/Loading/Loader";
 
 function MyUserProfile() {
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const handleLoading = () => setLoading((cur) => !cur);
+  const navigate = useNavigate();
   const handleOpen = () => setOpen(!open);
   const [openProfilePhotoDrawer, setOpenProfilePhotoDrawer] = useState(false);
   const [openCoverPhotoDrawer, setOpenCoverPhotoDrawer] = useState(false);
   const { userinfo } = useSelector((state) => state.professional);
   const { user_address } = useSelector((state) => state.professional);
 
-  const [post,setPost] = useState(null) 
+  const [post, setPost] = useState([]);
 
   const [address, setAddress] = useState({
     user: userinfo.id,
@@ -50,6 +56,8 @@ function MyUserProfile() {
 
   const dispatch = useDispatch();
   const handleProfilePhotoUpload = async (file) => {
+    handleLoading();
+
     try {
       const id = userinfo.id;
       const formData = new FormData();
@@ -66,12 +74,16 @@ function MyUserProfile() {
       );
 
       console.log(res.data);
+      handleLoading();
+
     } catch (error) {
+      handleLoading();
       console.log(error);
     }
   };
 
   const handleCoverPhotoUpload = async (file) => {
+    handleLoading();
     try {
       const id = userinfo.id;
       const formData = new FormData();
@@ -88,12 +100,18 @@ function MyUserProfile() {
       );
 
       console.log(res.data);
+      handleLoading();
+
     } catch (error) {
+      handleLoading();
+
       console.log(error);
     }
   };
 
   const handleProfilEdit = async (data) => {
+    handleLoading();
+
     try {
       const id = userinfo.id;
       console.log(data, "hajara");
@@ -108,12 +126,18 @@ function MyUserProfile() {
       );
 
       console.log(res.data);
+      handleLoading();
+
     } catch (error) {
+      handleLoading();
+
       console.log(error);
     }
   };
 
   const AddAddress = async () => {
+    handleLoading();
+
     try {
       const res = await AddUserAddress(address);
       console.log(res, "anzil");
@@ -122,12 +146,17 @@ function MyUserProfile() {
           user_address: res.data,
         })
       );
+      handleLoading();
+
     } catch (error) {
+      handleLoading();
       console.log(error);
     }
   };
 
   const EditAddress = async () => {
+    handleLoading();
+
     try {
       const id = userinfo.id;
       const res = await EditUserAddress(id, address);
@@ -137,51 +166,60 @@ function MyUserProfile() {
         })
       );
       console.log(res.data);
+      handleLoading();
+
     } catch (error) {
+      handleLoading();
       console.log(error);
     }
   };
 
-  useEffect(()=>{
-
+  useEffect(() => {
     FetchUserPost();
-  },[])
+  }, []);
 
   const FetchUserPost = async () => {
+    handleLoading();
 
     try {
       const user_id = userinfo.id;
       const res = await GetUserPosts(user_id);
 
-      const posts = res.data
+      const posts = res.data;
 
       posts.sort((a, b) => {
         const dateA = new Date(a.created_date);
         const dateB = new Date(b.created_date);
         return dateB - dateA;
       });
-  
+
       // Sort comments for each post
       posts.forEach((post) => {
         post.comments.sort((commentA, commentB) => {
           if (commentA.user === userinfo.id) return -1;
           if (commentB.user === userinfo.id) return 1;
-          return new Date(commentB.created_date) - new Date(commentA.created_date);
+          return (
+            new Date(commentB.created_date) - new Date(commentA.created_date)
+          );
         });
       });
 
-      setPost(posts)  
+      setPost(posts);
       console.log(res.data, "Posts");
+      handleLoading();
 
-    }catch (error) {
+    } catch (error) {
+      handleLoading();
 
       console.log(error);
-      
     }
   };
 
+  console.log(post, "anzil");
+
   return (
     <div>
+      {loading && <Loader />}
       <div className="flex justify-center my-4">
         <img src={Logo} className="w-20" alt="" />
       </div>
@@ -246,7 +284,11 @@ function MyUserProfile() {
                       <div className="group relative h-44 w-44">
                         <img
                           alt="..."
-                          src={userinfo.profile_photo}
+                          src={
+                            userinfo.profile_photo
+                              ? userinfo.profile_photo
+                              : profile_photoss
+                          }
                           className="w-full h-full shadow-xl  object-center rounded-full border-none transition-opacity duration-300 group-hover:opacity-70"
                         />
                         <div
@@ -560,35 +602,46 @@ function MyUserProfile() {
                 <hr />
 
                 <div className="flex justify-center">
-                  <h1 className="font-serif">Posts</h1>
+                  {post.length > 0 ? (
+                    <h1 className="font-serif">Posts</h1>
+                  ) : userinfo.role === "professional" ? (
+                    <Button
+                      className="mt-5"
+                      onClick={() => navigate("/professional/createpost/")}
+                    >
+                      Share your Post
+                    </Button>
+                  ) : (
+                    <Button
+                      className="mt-5"
+                      onClick={() => navigate("/homeowner/createpost/")}
+                    >
+                      Share your Post
+                    </Button>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-3 mt-10 mb-10 gap-10">
-
-                  {post?.map((posts)=>(
-                        
-                        <div>
-                        <PostModal cardImage = {posts.image}
-                         profile_photo = {posts.user.profile_photo}
-                          name={posts.user.name}
-                          contentImage = {posts.image}
-                          like_counts = {posts.like_count}
-                          userId = {userinfo.id}
-                          caption = {posts.caption}
-                          postId = {posts.id}
-                          fetch = {FetchUserPost}
-                          like = {posts.like}
-                          comment={posts.comments}
-                          sender_profile={userinfo.profile_photo}
-                          path = "myuserprofile"
-
-                          />
-                      </div>
-                        
-                    ))}
-                  
-                </div> 
-
+                  {post?.map((posts) => (
+                    <div>
+                      <PostModal
+                        cardImage={posts.image}
+                        profile_photo={posts.user.profile_photo}
+                        name={posts.user.name}
+                        contentImage={posts.image}
+                        like_counts={posts.like_count}
+                        userId={userinfo.id}
+                        caption={posts.caption}
+                        postId={posts.id}
+                        fetch={FetchUserPost}
+                        like={posts.like}
+                        comment={posts.comments}
+                        sender_profile={userinfo.profile_photo}
+                        path="myuserprofile"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
