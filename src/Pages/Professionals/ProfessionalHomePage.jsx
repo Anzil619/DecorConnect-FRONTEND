@@ -88,7 +88,6 @@ function ProfessionalHomePage() {
     alt=""
   />
   <h1 className="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold">
-    
   </h1>
 </div>
 

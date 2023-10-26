@@ -8,6 +8,7 @@ import { HomeownerAxiosInstant } from "../../../utils/AxiosUtils";
 import { useLocation } from "react-router-dom";
 import { NavBar } from "../../../Components/NavBar/NavBar";
 import { AddtoChatList, GetChatList } from "../../../Services/HomeownerApi";
+import Timestamp from "./Timestamp";
 function HomeownersChat() {
   const location = useLocation();
   const CompanyData = location.state && location.state.sel;
@@ -34,9 +35,6 @@ function HomeownersChat() {
     if (messageRef.current.value.trim() == "") {
       return;
     }
-
-    
-
 
     clientstate.send(
       JSON.stringify({
@@ -67,6 +65,7 @@ function HomeownersChat() {
     };
     client.onmessage = (message) => {
       const dataFromServer = JSON.parse(message.data);
+      console.log(dataFromServer,"anzil");
       if (dataFromServer) {
         setMessages((prevMessages) => [
           ...prevMessages,
@@ -95,6 +94,8 @@ function HomeownersChat() {
     }
   }, [senderdetails, recipientdetails]);
 
+
+
   //  For Searching
   const HandleSearch = async (e) => {
     setSearch(e.target.value);
@@ -115,7 +116,7 @@ function HomeownersChat() {
       console.log(error);
     }
   };
-  
+
   // Data fech in backend
   async function ChatLists() {
     try {
@@ -236,8 +237,8 @@ function HomeownersChat() {
                   </div>
                 ))
               ) : (
-                <p className="text-center font-bold text-gray-600">
-                  No companies found
+                <p className="text-center font-serif text-gray-600">
+                  No Users found
                 </p>
               )}
             </div>
@@ -280,7 +281,13 @@ function HomeownersChat() {
                               className="rounded-full w-5 h-5"
                             />
                           </div>
+        
                         </div>
+
+                        <div className="flex justify-end mr-6 mb-2">
+                          <h1 className="text-xs font-serif text-gray-500">{message.timestamp}</h1>
+                        </div>
+
                       </>
                     ) : (
                       <>
@@ -300,13 +307,18 @@ function HomeownersChat() {
                             {message.message}
                           </div>
                         </div>
+                        
+                        <div className="ml-5 mb-2">
+                          <h1 className="text-xs font-serif text-gray-500">{message.timestamp}</h1>
+                        </div>
+                        
                       </>
                     )
                   )}
                 </div>
                 <div className="border-t flex justify-center items-center">
                   <div className="w-full mx-5 grid grid-cols-[1fr,2rem]">
-                    <div className="bg-purple-100 py-2 rounded-full w-full px-4">
+                    <div className="bg-gray-200 py-2 rounded-full w-full px-4">
                       <input
                         placeholder="Message"
                         type="text"
@@ -331,7 +343,7 @@ function HomeownersChat() {
             </div>
           ) : (
             <div className="bg-blue-gray-50 flex h-[52rem] justify-center items-center rounded-xl">
-              <p className="font-bold text-xl text-gray-600">Select A Person</p>
+              <p className="font-serif text-xl text-gray-600">Select A Person</p>
             </div>
           )}
         </div>

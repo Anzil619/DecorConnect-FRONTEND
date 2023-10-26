@@ -33,7 +33,6 @@ function App() {
             <Route path="/resetpassword/" exact element={<ResetPassword/>} />
             
           </Route>
-
           <Route path="/homeowner/*" element={<HomeownerRoutes/>}/>
           <Route path="/professional/*" element={<ProfessionalRoutes/>}/>
           <Route path="/admin/*" element={<AdminRoutes/>}/>

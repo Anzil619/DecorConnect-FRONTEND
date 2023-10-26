@@ -5,7 +5,7 @@ import studio from "../../../assets/logos/studio3am.jpg";
 import { Rating } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { FaEdit,FaTrash } from "react-icons/fa";
+import { FaEdit,FaTrash,FaArrowRight } from "react-icons/fa";
 import {
   Card,
   CardHeader,
@@ -147,6 +147,21 @@ function SingleFirm() {
       </div>
 
       <div className="flex flex-col items-center m-5">
+        <div className="flex justify-end w-full mr-48">
+        {userinfo.role === "professional" ? (
+                      <Link to={`/professional/userprofile/${firminfo?.user}`}>
+                      <button class="m-4 w-44 h-10 px-4 py-2 text-black border border-gray-400 shadow-md search-input">
+                        View Owner Profile <FaArrowRight/>
+                      </button>
+                      </Link>
+                    ) : (
+                      <Link to={`/homeowner/userprofile/${firminfo?.user}`}>
+                      <button class="m-4 w-40h-10 px-4 py-2 text-black border border-gray-400 shadow-md search-input flex">
+                        Owner Profile<FaArrowRight className="ml-4 mt-1"/>
+                      </button>
+                      </Link>
+                    )}
+        </div>
         <img className="w-36 m-5" src={studio} alt="" />
         <h1 className="text-xl font-bold m-2">{firminfo?.firm_name}</h1>
 

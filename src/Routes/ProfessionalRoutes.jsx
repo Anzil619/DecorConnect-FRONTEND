@@ -21,6 +21,7 @@ import UserProfile from '../Pages/Homeowners/Profile/UserProfile'
 import CreatePost from '../Pages/Homeowners/Post/CreatePost'
 import SingleFirm from '../Pages/Homeowners/FindProfessionals/SingleFirm'
 import HomeownersChat from '../Pages/Homeowners/chat/HomeownersChat'
+import About from '../Pages/About'
 
 
 function ProfessionalRoutes() {
@@ -38,6 +39,8 @@ function ProfessionalRoutes() {
             <Route path='/basicinfo/' element = {<BasicInfo/>}/>
             <Route path='/businessdetails/' element = {<BusinessDetails/>}/>
             <Route path='/firmverification/' element = {<FirmVerification/>}/>
+            <Route path='/about/' element = {<About/>}/>
+
             <Route path='/singlefirm/:firmId/' element={<SingleFirm />} />
             <Route path='/addproject/' element = {<AddProject/>}/>
             <Route path='/createpost/' element={<CreatePost/>} />

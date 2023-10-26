@@ -97,11 +97,11 @@ export function NavBar() {
             Users
           </a>
         ) : decoded.role === "professional" ? (
-          <a href="#" className="flex items-center" onClick="">
+          <a onClick={() => navigate("/professional/about/")}  href="#" className="flex items-center">
             About
           </a>
         ) : (
-          <a href="#" className="flex items-center" onClick="">
+          <a href="#" className="flex items-center"  onClick={() => navigate("/homeowner/about/")} >
             About
           </a>
         )}
@@ -194,8 +194,15 @@ export function NavBar() {
             </Button>
           </MenuHandler>
           <MenuList>
-            {}
-            <MenuItem onClick={()=>{decoded.role === "professional" ? navigate("/professional/professionalprofile/") : navigate("/homeowner/homeownerprofile/")}}>Profile</MenuItem>
+           
+           <div className="flex justify-between">  
+          <MenuItem onClick={()=>{decoded.role === "professional" ? navigate("/professional/professionalprofile/") : navigate("/homeowner/homeownerprofile/")}}>Profile</MenuItem>
+
+           </div>
+           <div>
+            <MenuItem onClick={SignOut}>Chats</MenuItem>
+            </div>
+
             <hr className="my-3" />
             <MenuItem onClick={SignOut}>Sign Out</MenuItem>
           </MenuList>

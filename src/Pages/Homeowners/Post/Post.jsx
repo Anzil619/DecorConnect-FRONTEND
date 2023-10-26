@@ -142,7 +142,9 @@ function Post() {
                         variant="rounded"
                       />
                     </Link>
+                          
                   ) : (
+
                     <Link to={`/homeowner/userprofile/${feed.user.id}`}>
                       <Avatar
                         src={feed.user.profile_photo}
@@ -150,6 +152,7 @@ function Post() {
                         variant="rounded"
                       />
                     </Link>
+
                   )}
 
                   <div>

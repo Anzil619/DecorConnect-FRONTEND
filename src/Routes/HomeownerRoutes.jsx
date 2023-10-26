@@ -17,6 +17,7 @@ import Post from '../Pages/Homeowners/Post/Post'
 import CreatePost from '../Pages/Homeowners/Post/CreatePost'
 import HomeownersChat from '../Pages/Homeowners/chat/HomeownersChat'
 import UserProfile from '../Pages/Homeowners/Profile/UserProfile'
+import About from '../Pages/About'
 
 
 export default function HomeownerRoutes() {
@@ -33,6 +34,7 @@ export default function HomeownerRoutes() {
             <Route path='/homeownerhomepage/' element = {<HomeownerHomepage/>}/>
             <Route path='/findprofessionals/' element = {<FindProfessionals/>}/>
             <Route path='/explore/' element = {<Post/>}/>
+            <Route path='/about/' element = {<About/>}/>
             <Route path='/singlefirm/:firmId/' element={<SingleFirm />} />
             <Route path='/homeownerprofile/' element={<HomeownerProfile />} />
             <Route path='/createpost/' element={<CreatePost/>} />

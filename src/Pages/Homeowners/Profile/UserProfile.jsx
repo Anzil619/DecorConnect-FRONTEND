@@ -80,6 +80,13 @@ function UserProfile() {
         "receiver" : userId
       }
       const res = await AddtoChatList(data)
+
+      const data2 = {
+        "sender" : res.data.receiver,
+        "receiver" : res.data.sender
+      }
+      const res2 = await AddtoChatList(data2)
+      console.log(res2.data);
       console.log(res.data);
       navigate("/homeowner/chat/")
       
@@ -153,7 +160,7 @@ function UserProfile() {
                     <div className="py-6 px-3 mt-32 sm:mt-0">
                       <button
                       onClick={AddToChat}
-                        className="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                        className="bg-blue-gray-700 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
                         Message
