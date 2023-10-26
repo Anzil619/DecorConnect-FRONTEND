@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavBar } from '../../Components/NavBar/NavBar'
-// import { Footer } from '../../Components/Footer/footer'
 import Logo from "../../assets/logos/dc-black-transparent.png"
 import homepage from "../../assets/homepage/homepage.jpg";
 import aboutImg from "../../assets/homepage/image2.jpeg";
@@ -9,7 +8,6 @@ import testImg from "../../assets/homepage/image5.jpg";
 import proImage from "../../assets/homepage/image6.jpg";
 import contImg from "../../assets/homepage/image7.jpg";
 import "../../Components/NavBar/NavBar.css";
-import { Footer } from '../../Components/Footer/Footer';
 
 
 function ProfessionalHomePage() {
@@ -107,9 +105,9 @@ function ProfessionalHomePage() {
 
       </div>
 
-      <div className="mt-10 mb-10">
+      {/* <div className="mt-10 mb-10">
         <Footer />
-      </div>
+      </div> */}
     </div>
   )
 }

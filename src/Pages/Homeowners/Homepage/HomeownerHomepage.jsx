@@ -1,7 +1,6 @@
 import React from "react";
 import { NavBar } from "../../../Components/NavBar/NavBar";
 import Logo from "../../../assets/logos/dc-black-transparent.png";
-// import { Footer } from "../../../Components/Footer/footer";
 import homepage from "../../../assets/homepage/homepage.jpg";
 import aboutImg from "../../../assets/homepage/image2.jpeg";
 import homeImg from "../../../assets/homepage/image 3.jpg";
@@ -10,7 +9,6 @@ import proImage from "../../../assets/homepage/image6.jpg";
 import contImg from "../../../assets/homepage/image7.jpg";
 import "../../../Components/NavBar/NavBar.css";
 import { HomepageCarousel } from "../../../Components/Carousel/HomepageCarousel";
-import { Footer } from "../../../Components/Footer/Footer";
 
 function HomeownerHomepage() {
   return (
@@ -110,9 +108,9 @@ function HomeownerHomepage() {
 
     
       <hr />
-      <div className="mt-10 mb-10">
+      {/* <div className="mt-10 mb-10">
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 }
