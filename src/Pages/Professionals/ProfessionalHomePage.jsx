@@ -9,6 +9,7 @@ import testImg from "../../assets/homepage/image5.jpg";
 import proImage from "../../assets/homepage/image6.jpg";
 import contImg from "../../assets/homepage/image7.jpg";
 import "../../Components/NavBar/NavBar.css";
+import { Footer } from '../../Components/Footer/Footer';
 
 
 function ProfessionalHomePage() {
@@ -106,9 +107,9 @@ function ProfessionalHomePage() {
 
       </div>
 
-      {/* <div className="h-screen pt-5">
+      <div className="mt-10 mb-10">
         <Footer />
-      </div> */}
+      </div>
     </div>
   )
 }

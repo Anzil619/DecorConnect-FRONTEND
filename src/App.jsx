@@ -24,14 +24,12 @@ function App() {
 
           
           <Route element={<PrivateRoute />}>
-            
-            <Route path="/" exact element={<UnknownUser/>} />
+            <Route path="/" exact element={<LoginPage/>} />
             <Route path="/login/" exact element={<LoginPage />} />
             <Route path="/signup/" exact element={<Signup/>} />
             <Route path="/roleselection/" exact element={<RoleSelection/>} />
             <Route path="/forgotpassword/" exact element={<ForgotPassword/>} />
             <Route path="/resetpassword/" exact element={<ResetPassword/>} />
-            
           </Route>
           <Route path="/homeowner/*" element={<HomeownerRoutes/>}/>
           <Route path="/professional/*" element={<ProfessionalRoutes/>}/>

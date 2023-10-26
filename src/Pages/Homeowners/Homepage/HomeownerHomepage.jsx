@@ -10,6 +10,7 @@ import proImage from "../../../assets/homepage/image6.jpg";
 import contImg from "../../../assets/homepage/image7.jpg";
 import "../../../Components/NavBar/NavBar.css";
 import { HomepageCarousel } from "../../../Components/Carousel/HomepageCarousel";
+import { Footer } from "../../../Components/Footer/Footer";
 
 function HomeownerHomepage() {
   return (
@@ -62,7 +63,7 @@ function HomeownerHomepage() {
             style={{ filter: "brightness(90%)" }}
           />
           <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
-            HOME
+            FIND PROFESSIONAL
           </h1>
         </div>
 
@@ -81,19 +82,19 @@ function HomeownerHomepage() {
       </div>
 
       <div className=" bg-white grid grid-cols-2 gap-4 pl-4 pr-4 pb-4 ">
-      <div className="grid-cols-1 flex justify-center items-center relative group">
+      <div className="grid-cols-1 flex justify-center items-center relative group mb-10">
   <img
     className="w-full h-full object-cover object-center transition-opacity duration-300 ease-in-out group-hover:opacity-80"
     src={proImage}
     alt=""
   />
   <h1 className="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold">
-    
+    FEED
   </h1>
 </div>
 
 
-<div className="grid-cols-2 relative group">
+<div className="grid-cols-2 relative group mb-10">
   <img
     className="w-full h-full object-cover object-center transition-opacity duration-300 ease-in-out group-hover:opacity-80"
     src={contImg}
@@ -107,9 +108,11 @@ function HomeownerHomepage() {
 
       </div>
 
-      {/* <div className="h-screen pt-5">
+    
+      <hr />
+      <div className="mt-10 mb-10">
         <Footer />
-      </div> */}
+      </div>
     </div>
   );
 }
