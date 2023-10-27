@@ -63,9 +63,12 @@ function BasicInfo() {
 
   const FormSubmission = async (e) => {
     e.preventDefault();
-    handleLoading();
+    
 
     if (validation()) {
+      handleLoading();
+
+
       dispatch(
         setAddress({
           address: form,
@@ -78,7 +81,6 @@ function BasicInfo() {
         user: FirmInfo.user,
         address: form,
       };
-      handleLoading();
       try {
         const res = await ProfileCompletion(firm_id, data);
         console.log(res, "aaaaa");

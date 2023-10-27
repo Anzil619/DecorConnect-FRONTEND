@@ -55,6 +55,7 @@ function FirmVerification() {
     e.preventDefault();
 
     if (validation()) {
+      handleLoading();
       const formData = new FormData();
       formData.append("owner_pan_card", form.owner_pan);
       formData.append("firm_liscense", form.firm_liscense);
@@ -62,7 +63,7 @@ function FirmVerification() {
       formData.append("insurance", form.insurance);
       formData.append("owner_name", name.owner_name);
 
-      handleLoading();
+     
       try {
         const data = {
           owner_name1: name.owner_name,

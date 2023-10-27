@@ -20,7 +20,6 @@ import jwtDecode from "jwt-decode";
 export function NavBar() {
   const token = localStorage.getItem("token");
   const decoded = jwtDecode(token);
-  
 
   const [openNav, setOpenNav] = React.useState(false);
   const [show, setShow] = React.useState(false);
@@ -97,11 +96,19 @@ export function NavBar() {
             Users
           </a>
         ) : decoded.role === "professional" ? (
-          <a onClick={() => navigate("/professional/about/")}  href="#" className="flex items-center">
+          <a
+            onClick={() => navigate("/professional/about/")}
+            href="#"
+            className="flex items-center"
+          >
             About
           </a>
         ) : (
-          <a href="#" className="flex items-center"  onClick={() => navigate("/homeowner/about/")} >
+          <a
+            href="#"
+            className="flex items-center"
+            onClick={() => navigate("/homeowner/about/")}
+          >
             About
           </a>
         )}
@@ -155,7 +162,11 @@ export function NavBar() {
             Find Professionals
           </a>
         ) : decoded.role === "professional" ? (
-          <a onClick={() => navigate("/professional/myfirm/")} href="#" className="flex items-center">
+          <a
+            onClick={() => navigate("/professional/myfirm/")}
+            href="#"
+            className="flex items-center"
+          >
             My Firm
           </a>
         ) : (
@@ -168,7 +179,6 @@ export function NavBar() {
           </a>
         )}
       </Typography>
-      
 
       <Typography as="div" className="relative group">
         <Menu>
@@ -181,12 +191,27 @@ export function NavBar() {
             </Button>
           </MenuHandler>
           <MenuList>
-
-           <div className="flex justify-between">  
-          <MenuItem onClick={()=>{decoded.role === "professional" ? navigate("/professional/professionalprofile/") : navigate("/homeowner/homeownerprofile/")}}>Profile</MenuItem>
-           </div>
-           <div>
-            <MenuItem onClick={()=>{decoded.role === "professional" ? navigate("/professional/chat/") : navigate("/homeowner/chat/")}}>Chats</MenuItem>
+            <div className="flex justify-between">
+              <MenuItem
+                onClick={() => {
+                  decoded.role === "professional"
+                    ? navigate("/professional/professionalprofile/")
+                    : navigate("/homeowner/homeownerprofile/");
+                }}
+              >
+                Profile
+              </MenuItem>
+            </div>
+            <div>
+              <MenuItem
+                onClick={() => {
+                  decoded.role === "professional"
+                    ? navigate("/professional/chat/")
+                    : navigate("/homeowner/chat/");
+                }}
+              >
+                Chats
+              </MenuItem>
             </div>
 
             <hr className="my-3" />
@@ -202,12 +227,14 @@ export function NavBar() {
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
+
           href="#"
           className="mr-4 cursor-pointer py-1.5 font-medium  -me-11"
         >
           {show ? (
             <img src={Logo} className="w-12" alt="" />
           ) : (
+
             <img src={Logo} className="w-12 invisible" alt="" />
           )}
         </Typography>
@@ -217,6 +244,7 @@ export function NavBar() {
             {React.createElement(UserCircleIcon, { className: "w-7 h-7" })}
           </span>
         </button>
+        
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

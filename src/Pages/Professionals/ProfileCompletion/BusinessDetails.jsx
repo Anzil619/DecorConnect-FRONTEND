@@ -63,11 +63,10 @@ function BusinessDetails() {
 
   const FormSubmission = async (e) => {
     e.preventDefault();
-    handleLoading();
 
     if (validation()) {
       handleLoading();
-      
+
       try {
         const formData = new FormData();
         formData.append("firm_name", forms.firm_name);
