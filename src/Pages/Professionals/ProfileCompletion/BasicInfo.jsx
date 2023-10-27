@@ -63,11 +63,9 @@ function BasicInfo() {
 
   const FormSubmission = async (e) => {
     e.preventDefault();
-    
 
     if (validation()) {
       handleLoading();
-
 
       dispatch(
         setAddress({

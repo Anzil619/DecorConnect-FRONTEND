@@ -1,0 +1,179 @@
+[33mcommit 20295d57e6591cb8940136c1cd715724a3672a5e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Fri Oct 27 11:49:25 2023 +0530
+
+    modification on loading side
+
+[33mcommit 5000b608325ed41106790bbcaa956b9c237ee003[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Fri Oct 27 10:42:12 2023 +0530
+
+    removed contact us
+
+[33mcommit 297e79590d6a4d481c03d01e970b1589d86caf90[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Fri Oct 27 03:24:33 2023 +0530
+
+    ssssssssssdss
+
+[33mcommit 6581704e3b96ddd78026b03bdcc29cd50ac577e8[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Fri Oct 27 03:16:59 2023 +0530
+
+    ssssss
+
+[33mcommit d7eb7fad4976dc509278d22451f1c95604515668[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Thu Oct 26 23:47:57 2023 +0530
+
+    added loading to the remaining components,added default profile,little change in styles of post profile and comment components , edited myfirm of the professional
+
+[33mcommit b608d5b4715df66dc23e24f66c646ccde2144778[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Thu Oct 26 15:51:04 2023 +0530
+
+    bea
+
+[33mcommit ff6ff035ab8478802bfdd7c57db06d21ecab3c79[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 25 16:45:17 2023 +0530
+
+    shhj
+
+[33mcommit 46d1e5fdcbbcf6b1e9daaea583eec87355152d8c[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 25 16:42:14 2023 +0530
+
+    final host
+
+[33mcommit 2271ade6d68fbe9019a1177d3c22384dad58f6db[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 25 16:37:01 2023 +0530
+
+    s
+
+[33mcommit 3ea0af7958e43067ddeb03413bd2b2bdd89c67a6[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 25 16:26:17 2023 +0530
+
+    a
+
+[33mcommit a6521cf6de5789278acd0392b9c0f75589d76ef3[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 25 16:18:58 2023 +0530
+
+    u
+
+[33mcommit 1bce54ce7a7af9278dc72105c63b59df5b0b6496[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 25 15:04:47 2023 +0530
+
+    base url updation
+
+[33mcommit 16a822c59ce0aee61784854ef49789a89dfce0c9[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 25 12:07:40 2023 +0530
+
+    upadted requirment.txt added dj_database_url
+
+[33mcommit 98a7e203bd37ca8965efab5f0cc5529bb9088fe3[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Oct 23 15:49:44 2023 +0530
+
+    resolved issue of hostingss
+
+[33mcommit 83119f2a5df6ef47da4681001e23c42c014f0711[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Oct 23 15:43:08 2023 +0530
+
+    resolved issue of hosting
+
+[33mcommit 794ad1c7d5633cbc8117c51036aed21ec89e96ff[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Oct 23 15:03:03 2023 +0530
+
+    resolved issue of hosting in vercel
+
+[33mcommit 8363b1054944e1627037487f1342f48ec588c23f[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Oct 23 14:56:06 2023 +0530
+
+    resolved issue of page anzil which was for testing
+
+[33mcommit cf3dc6be4a2ab76a79f8bee89ce9b06603197c6b[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Oct 23 14:47:54 2023 +0530
+
+    resolved issue of page anzil which was for testing
+
+[33mcommit c92fbfe9505f334b7cdf5bd30be2f3a20ba8fb68[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Oct 23 14:45:05 2023 +0530
+
+    resolved footer issues
+
+[33mcommit e4a002f98a55535c38dbec59f1ecef25b800f1ae[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Oct 23 14:25:30 2023 +0530
+
+    resolved issue of page anzil which was for testing
+
+[33mcommit fd67825c0a01e4a0ec86726237c47c4e8348579b[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Oct 23 14:08:56 2023 +0530
+
+    post crud operaation and comment delete option enabled chat
+
+[33mcommit 8ffcb9bb72a08c9729a38ee06fdd46f3974c60c0[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Thu Oct 19 00:39:27 2023 +0530
+
+    implemented chat system with a little more bugs to fix, using websocket, channels , daphne and redis
+
+[33mcommit 6c89cb553304f118becdb4d6c916cfef45a7ff08[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 18 09:52:31 2023 +0530
+
+    completed post creation for the user profile bugs fixed
+
+[33mcommit 28066ad407972fa347362115dc668c02a24737ae[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Wed Oct 11 02:44:32 2023 +0530
+
+    single project view crud operations for professionals,
+
+[33mcommit 3e582074e5d0f6ca4dc3e2e8e2457a382b9f3e80[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Tue Oct 10 11:30:23 2023 +0530
+
+    Added Project adding for professionals,crud operation of firm ,included profile photo,coverphoto for users and professionals
+
+[33mcommit cd5b01fba9836a409d2fd9d300443f599605a04e[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Thu Oct 5 14:48:30 2023 +0530
+
+    approval of professional verification by admin
+
+[33mcommit e063f2b2970ee2c4f1819e6fe1db1f8cde4aa040[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Tue Oct 3 19:34:23 2023 +0530
+
+    project adding , project listing, singlefirm view done
+
+[33mcommit f491b3b86dc480c1533982cdc4238880e30c4b93[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Tue Sep 19 12:59:35 2023 +0530
+
+    changes in the profile completion page
+
+[33mcommit 765f3aa6922e2bc7375cf4cd99095c5b5c6e98bf[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Sep 18 03:55:25 2023 +0530
+
+    profile completion of professionals and admin page user listing
+
+[33mcommit 636aa6ca9d7f7a6dc4203d13a899715d10b90533[m
+Author: Anzil619 <anzilaz24@gmail.com>
+Date:   Mon Sep 4 13:42:08 2023 +0530
+
+    Authentication of homeowner , professional and admin

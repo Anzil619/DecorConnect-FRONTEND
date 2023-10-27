@@ -156,10 +156,11 @@ function AddProject() {
             }}
             color="teal"
             label="Project Address"
+            
           />
 
           <Textarea
-            name="project_description"
+            name = "project_description"
             value={form.project_description}
             onChange={(e) => {
               console.log(form);
