@@ -42,32 +42,36 @@ function ProfessionalHomePage() {
         <div className="relative bg-white col-span-2 row-span-2">
           {/* Content for Grid Group 1 */}
           <img
+            onClick={()=>navigate("/professional/explore/")}
             src={testImg}
             className="w-full h-full object-cover object-center transition-opacity duration-300 ease-in-out transform hover:opacity-80"
             alt=""
             style={{ filter: "brightness(90%)" }}
           />
           <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
-            PROJECTS
+            Explore
           </h1>
         </div>
 
         {/* Grid Cell 3 */}
         <div className="relative bg-white">
           <img
+          onClick={()=>navigate("/professional/myfirm/")}
+
             src={aboutImg}
             className="w-full h-full object-cover object-center transition-opacity duration-300 ease-in-out transform hover:opacity-80"
             alt=""
             style={{ filter: "brightness(90%)" }}
           />
           <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
-            HOME
+            MY FIRM
           </h1>
         </div>
 
         {/* Grid Cell 6 */}
         <div className="bg-white relative">
           <img
+          onClick={()=>navigate("/professional/about/")}
             src={homeImg}
             className="w-full h-full object-cover object-center transition-opacity duration-300 ease-in-out transform hover:opacity-80"
             alt=""

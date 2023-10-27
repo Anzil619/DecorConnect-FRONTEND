@@ -9,8 +9,11 @@ import proImage from "../../../assets/homepage/image6.jpg";
 import contImg from "../../../assets/homepage/image7.jpg";
 import "../../../Components/NavBar/NavBar.css";
 import { HomepageCarousel } from "../../../Components/Carousel/HomepageCarousel";
+import { useNavigate } from "react-router-dom";
 
 function HomeownerHomepage() {
+  const navigate = useNavigate()
+
   return (
     
     <div>
@@ -42,19 +45,21 @@ function HomeownerHomepage() {
         <div className="relative bg-white col-span-2 row-span-2">
           {/* Content for Grid Group 1 */}
           <img
+            onClick={()=>navigate("/homeowner/explore/")}
             src={testImg}
             className="w-full h-full object-cover object-center transition-opacity duration-300 ease-in-out transform hover:opacity-80"
             alt=""
             style={{ filter: "brightness(90%)" }}
           />
           <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
-            PROJECTS
+            Explore
           </h1>
         </div>
 
         {/* Grid Cell 3 */}
         <div className="relative bg-white">
           <img
+          onClick={()=>navigate("/homeowner/findprofessionals/")}
             src={aboutImg}
             className="w-full h-full object-cover object-center transition-opacity duration-300 ease-in-out transform hover:opacity-80"
             alt=""
@@ -68,6 +73,7 @@ function HomeownerHomepage() {
         {/* Grid Cell 6 */}
         <div className="bg-white relative">
           <img
+          onClick={()=>navigate("/homeowner/about/")}
             src={homeImg}
             className="w-full h-full object-cover object-center transition-opacity duration-300 ease-in-out transform hover:opacity-80"
             alt=""
