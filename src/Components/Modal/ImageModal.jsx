@@ -62,7 +62,7 @@ export function ImageModal({image, imageId,fetch}) {
         <img
           alt="nature"
           className="h-full w-full object-cover object-center"
-          src={`${import.meta.env.VITE_HOMEOWNER_URL}${image}`}
+          src={image}
         />
       </Card>
       <Dialog size="xl" open={open} handler={handleOpen}>
@@ -107,7 +107,7 @@ export function ImageModal({image, imageId,fetch}) {
           <img
             alt="nature"
             className="h-[48rem] w-full object-cover object-center"
-            src={`${import.meta.env.VITE_HOMEOWNER_URL}${image}`}
+            src={image}
           />
         </DialogBody>
         <DialogFooter className="justify-between">

@@ -196,9 +196,9 @@ function SingleFirm() {
                 <Link to={`/homeowner/singleproject/${project.id}`}>
                   <img
                     className="w-full object-cover object-center h-full"
-                    src={`${import.meta.env.VITE_HOMEOWNER_URL}${
+                    src={
                       project.images[0]?.image
-                    }`}
+                    }
                     alt="profile-picture"
                   />
                 </Link>
@@ -290,9 +290,9 @@ function SingleFirm() {
                 <Avatar
                   size="lg"
                   variant="circular"
-                  src={`${import.meta.env.VITE_HOMEOWNER_URL}${
+                  src={
                     review.user.profile_photo
-                  }`}
+                  }
                   alt="Unavailable"
                 />
                 <div className="flex w-full flex-col gap-0.5">

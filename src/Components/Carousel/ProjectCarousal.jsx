@@ -67,7 +67,7 @@ export function ProjectCarousal({ projectName, address, images, fetch ,project_i
       {images.map((image, index) => (
         <div key={index} className="relative h-full w-full">
           <img
-            src={`${import.meta.env.VITE_HOMEOWNER_URL}${image.image}`} // Assuming you have a field called "imageSrc" in your image object
+            src={image.image} // Assuming you have a field called "imageSrc" in your image object
             alt={`image ${index + 1}`}
             style={{ width: imageWidth, height: imageHeight,filter: "brightness(90%)" }} // Set fixed width and height here
             className="object-cover"

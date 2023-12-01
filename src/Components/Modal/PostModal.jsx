@@ -284,9 +284,9 @@ export function PostModal({
                       <div className="flex justify-between">
                         <div className="flex space-x-2 ">
                           <Avatar
-                            src={`${import.meta.env.VITE_HOMEOWNER_URL}${
+                            src={
                               comments.user_profile_photo
-                            }`}
+                            }
                             alt="User Avatar"
                             variant="circular"
                             size="sm"
@@ -314,9 +314,9 @@ export function PostModal({
                     <>
                       <div className="flex space-x-2">
                         <Avatar
-                          src={`${import.meta.env.VITE_HOMEOWNER_URL}${
+                          src={
                             comments.user_profile_photo
-                          }`}
+                          }
                           alt="User Avatar"
                           variant="circular"
                           size="sm"

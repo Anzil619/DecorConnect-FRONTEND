@@ -20,9 +20,7 @@ function MyProject() {
   const { projectId } = useParams();
   const [loading, setLoading] = useState(false);
   const handleLoading = () => setLoading((cur) => !cur);
-
   console.log(projectId, "aju");
-
   const [project, setProject] = useState(null);
 
   useEffect(() => {
@@ -80,6 +78,7 @@ function MyProject() {
 
       {project && (
         <div>
+
           <ProjectCarousal
             project_id={projectId}
             fetch={FetchProject}
@@ -87,6 +86,7 @@ function MyProject() {
             address={project.project_address}
             images={project.images}
           />
+
         </div>
       )}
 
